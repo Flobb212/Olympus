@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : MonoBehaviour {
+public class Room : MonoBehaviour
+{
+    //Assigns the location of the room
+    public Vector2 roomPos;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //Defines the shape of room and it's contents
+    public string roomType;
+
+    //Where the doors are in the room shape
+    public bool doorTop, doorBottom, doorLeft, doorRight;
+
+    //Constructor to palce correct room in right place
+    public Room(Vector2 pos, string type)
+    {
+        roomPos = pos;
+        roomType = type;
+    }	
 }
