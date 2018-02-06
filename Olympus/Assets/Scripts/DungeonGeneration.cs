@@ -9,20 +9,27 @@ public class DungeonGeneration : MonoBehaviour
 
     //Dynamically change the size of the floor and how many rooms it has
     public Vector2 floorSize;
-    int gridX, gridY, numberOfRooms = 20;
-    
+    public int numberOfRooms;
+    int gridX, gridY;
+
     //Keep the rooms in an array to easily monitor their position
     //Also keep a list of occupied spaces to avoid building over rooms
     Room[,] rooms;
     List<Vector2> occupied = new List<Vector2>();
     
-    //public GameObject thisRoom;
+    public GameObject thisRoom;
 
     private void Start()
     {
+        if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
+        {
+            numberOfRooms = Mathf.RoundToInt((floorSize.x * 2) * (floorSize.y * 2));
+        }
         gridX = Mathf.RoundToInt(floorSize.x);
         gridY = Mathf.RoundToInt(floorSize.y);
         Generate();
+        AttachDoors();
+        DrawDungeon();
     }
 
     void Generate()
@@ -36,11 +43,7 @@ public class DungeonGeneration : MonoBehaviour
         // Unsure
         Vector2 checkPos = Vector2.zero;
 
-
-
-
-
-        // Code at 4:00, writing first then learning later
+        
         // "Magic numbers"
         float randomCompare = 0.2f, randomCompareStart = 0.2f, randomCompareEnd = 0.01f;
 
@@ -54,7 +57,7 @@ public class DungeonGeneration : MonoBehaviour
             // Grab new position
             checkPos = NewPosition();
 
-            // Test new position
+            // Helps control branching as dungeon grows
             if(NumberOfNeighbours(checkPos, occupied) > 1 && Random.value > randomCompare)
             {
                 int iterations = 0;
@@ -64,13 +67,23 @@ public class DungeonGeneration : MonoBehaviour
                     iterations++;
                 }
                 while (NumberOfNeighbours(checkPos, occupied) > 1 && iterations < 100);
+
+                if(iterations >= 50)
+                {
+                    print("error: couldn't create with fewer neighbours than: " + NumberOfNeighbours(checkPos, occupied));
+                }
             }
 
             // Finalise position
             rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new Room(checkPos, "1");
+            occupied.Insert(0, checkPos);
         }
     }
 
+
+
+    // Takes a random placed room, randomly decides which side 
+    // to place a new one on, then checks if that's available
     Vector2 NewPosition()
     {
         Vector2 checkingPos = Vector2.zero;
@@ -114,10 +127,13 @@ public class DungeonGeneration : MonoBehaviour
         return checkingPos;
     }
 
+
+
+    // Finds room with only one neighbour, to helps restrict branching
     Vector2 SelectiveNewPosition()
     {
         Vector2 checkingPos = Vector2.zero;
-        int x, y, index, inc = 0;
+        int x = 0, y = 0, index = 0, inc = 0;
 
         do
         {
@@ -125,6 +141,7 @@ public class DungeonGeneration : MonoBehaviour
             do
             {
                 index = Mathf.RoundToInt(Random.value * (occupied.Count - 1));
+                inc++;
             }
             while (NumberOfNeighbours(occupied[index], occupied) > 1 && inc < 100);
             
@@ -160,18 +177,117 @@ public class DungeonGeneration : MonoBehaviour
         }
         while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < gridY);
 
+        if(inc >= 100)
+        {
+            print("error: couldn't ind position with just one neighbour");
+        }
+
         return checkingPos;
     }
 
+
+
+    // Used to restrict branching when a room has more than one neighbour
     int NumberOfNeighbours(Vector2 checkingPos, List<Vector2> usedPositions)
     {
         int ret = 0;
 
-        // 6:30
+        if(usedPositions.Contains(checkingPos + Vector2.up))
+        {
+            ret++;
+        }
+        if (usedPositions.Contains(checkingPos + Vector2.down))
+        {
+            ret++;
+        }
+        if (usedPositions.Contains(checkingPos + Vector2.left))
+        {
+            ret++;
+        }
+        if (usedPositions.Contains(checkingPos + Vector2.right))
+        {
+            ret++;
+        }
 
         return ret;
     }
 
 
 
+    // Checks through the entire room array, checking every point to see if it contains a room
+    // If so, check if there is a room in each 4 directions and set that door true/false
+    void AttachDoors()
+    {
+        for(int x = 0; x < (gridX * 2); x++)
+        {
+            for (int y = 0; y < (gridX * 2); y++)
+            {
+                // If there's no room at this location, move onto the next
+                if(rooms[x, y] == null)
+                {
+                    continue;
+                }
+
+                if(y - 1 < 0) // Then current room is at top of array
+                {
+                    rooms[x, y].doorTop = false;
+                }
+                else // There is space above this room, so check if there is actually a room there
+                {
+                    rooms[x, y].doorTop = (rooms[x, y - 1] != null);
+                }
+
+                if (y + 1 >= gridY * 2) // Then current room is at bottom of array
+                {
+                    rooms[x, y].doorBottom = false;
+                }
+                else // There is space below this room, so check if there is actually a room there
+                {
+                    rooms[x, y].doorBottom = (rooms[x, y + 1] != null);
+                }
+
+                if (x - 1 < 0) // Then current room is at left of array
+                {
+                    rooms[x, y].doorLeft = false;
+                }
+                else // There is space left of this room, so check if there is actually a room there
+                {
+                    rooms[x, y].doorLeft = (rooms[x - 1, y] != null);
+                }
+
+                if (x + 1 >= gridX * 2) // Then current room is at right of array
+                {
+                    rooms[x, y].doorRight = false;
+                }
+                else // There is space right of this room, so check if there is actually a room there
+                {
+                    rooms[x, y].doorRight = (rooms[x + 1, y] != null);
+                }
+            }
+        }
+    }
+
+
+
+    void DrawDungeon()
+    {
+        foreach(Room room in rooms)
+        {
+            if(room == null)
+            {
+                continue;
+            }
+
+            Vector2 pos = room.roomPos;
+            pos.x *= 50;
+            pos.y *= 50;
+
+            SelectRoomSprites builder = Object.Instantiate(thisRoom, pos, Quaternion.identity).GetComponent<SelectRoomSprites>();
+            builder.type    = room.roomType;
+            builder.up      = room.doorTop;
+            builder.right   = room.doorRight;
+            builder.down    = room.doorBottom;
+            builder.left    = room.doorLeft;
+        }
+    }
 }
