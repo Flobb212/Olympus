@@ -76,10 +76,9 @@ public class DungeonGeneration : MonoBehaviour
                 }
             }
 
-            // Finalise position
+            // Finalise position            
             rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new Room(checkPos, "1");
             occupied.Insert(0, checkPos);
-            print("Added room at" + checkPos);
         }
     }
 
@@ -233,20 +232,20 @@ public class DungeonGeneration : MonoBehaviour
 
                 if(y - 1 < 0) // Then current room is at top of array
                 {
-                    rooms[x, y].doorTop = false;
+                    rooms[x, y].doorBottom = false;
                 }
                 else // There is space above this room, so check if there is actually a room there
                 {
-                    rooms[x, y].doorTop = (rooms[x, y - 1] != null);
+                    rooms[x, y].doorBottom = (rooms[x, y - 1] != null);
                 }
 
                 if (y + 1 >= gridY * 2) // Then current room is at bottom of array
                 {
-                    rooms[x, y].doorBottom = false;
+                    rooms[x, y].doorTop = false;
                 }
                 else // There is space below this room, so check if there is actually a room there
                 {
-                    rooms[x, y].doorBottom = (rooms[x, y + 1] != null);
+                    rooms[x, y].doorTop = (rooms[x, y + 1] != null);
                 }
 
                 if (x - 1 < 0) // Then current room is at left of array
@@ -283,10 +282,11 @@ public class DungeonGeneration : MonoBehaviour
             }
 
             print("Going to draw room");
+            print(room.roomType);
 
             Vector2 pos = room.roomPos;
-            pos.x *= 100;
-            pos.y *= 100;
+            pos.x *= 6;
+            pos.y *= 5;
 
             SelectRoomSprites builder = Object.Instantiate(thisRoom, pos, Quaternion.identity).GetComponent<SelectRoomSprites>();
             builder.type    = room.roomType;

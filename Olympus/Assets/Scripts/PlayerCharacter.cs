@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class PlayerCharacter : MonoBehaviour
 {
     public float speed = 0.0f;
-	
-	// Update is called once per frame
-	void FixedUpdate ()
+
+    // Update is called once per frame
+    void FixedUpdate()
     {
         //Gets input from keyboard to move in axis
         float x = Input.GetAxis("Horizontal");
@@ -18,3 +18,4 @@ public class CharacterController : MonoBehaviour
         GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
     }
 }
+
