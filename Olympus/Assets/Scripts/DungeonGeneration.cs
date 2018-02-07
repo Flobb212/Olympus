@@ -34,6 +34,8 @@ public class DungeonGeneration : MonoBehaviour
 
     void Generate()
     {
+        print("Room gen started");
+
         // Double grid size, may change to half bigger value here later
         rooms = new Room[gridX * 2, gridY * 2];
         // Set start room to center of grid but at 0,0
@@ -58,7 +60,7 @@ public class DungeonGeneration : MonoBehaviour
             checkPos = NewPosition();
 
             // Helps control branching as dungeon grows
-            if(NumberOfNeighbours(checkPos, occupied) > 1 && Random.value > randomCompare)
+            if (NumberOfNeighbours(checkPos, occupied) > 1 && Random.value > randomCompare)
             {
                 int iterations = 0;
                 do
@@ -68,7 +70,7 @@ public class DungeonGeneration : MonoBehaviour
                 }
                 while (NumberOfNeighbours(checkPos, occupied) > 1 && iterations < 100);
 
-                if(iterations >= 50)
+                if (iterations >= 50)
                 {
                     print("error: couldn't create with fewer neighbours than: " + NumberOfNeighbours(checkPos, occupied));
                 }
@@ -77,6 +79,7 @@ public class DungeonGeneration : MonoBehaviour
             // Finalise position
             rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new Room(checkPos, "1");
             occupied.Insert(0, checkPos);
+            print("Added room at" + checkPos);
         }
     }
 
@@ -122,7 +125,7 @@ public class DungeonGeneration : MonoBehaviour
 
             checkingPos = new Vector2(x, y);
         }
-        while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < gridY);
+        while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
 
         return checkingPos;
     }
@@ -175,7 +178,7 @@ public class DungeonGeneration : MonoBehaviour
 
             checkingPos = new Vector2(x, y);
         }
-        while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < gridY);
+        while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
 
         if(inc >= 100)
         {
@@ -273,14 +276,17 @@ public class DungeonGeneration : MonoBehaviour
     {
         foreach(Room room in rooms)
         {
-            if(room == null)
+            if (room == null)
             {
+                print("Room is null");
                 continue;
             }
 
+            print("Going to draw room");
+
             Vector2 pos = room.roomPos;
-            pos.x *= 50;
-            pos.y *= 50;
+            pos.x *= 100;
+            pos.y *= 100;
 
             SelectRoomSprites builder = Object.Instantiate(thisRoom, pos, Quaternion.identity).GetComponent<SelectRoomSprites>();
             builder.type    = room.roomType;

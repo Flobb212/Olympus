@@ -13,7 +13,7 @@ public class Room : MonoBehaviour
     //Where the doors are in the room shape
     public bool doorTop, doorBottom, doorLeft, doorRight;
 
-    //Constructor to palce correct room in right place
+    //Constructor to place correct room in right place
     public Room(Vector2 pos, string type)
     {
         roomPos = pos;

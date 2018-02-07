@@ -23,56 +23,98 @@ public class SelectRoomSprites : MonoBehaviour
 
     void PickSprite()
     {
-        if(up){
-            if(right){
-                if(down){
-                    if(left){
+        print("Picking sprite");
+        if (up)
+        {
+            if(right)
+            {
+                if(down)
+                {
+                    if(left)
+                    {
                         room.sprite = URDL;
-                    }else{
+                    }
+                    else
+                    {
                         room.sprite = URD;
                     }
-                }else if(left){
+                }
+                else if(left)
+                {
                         room.sprite = URL;
-                }else{
+                }
+                else
+                {
                     room.sprite = UR;
                 }                
-            }else{
-                if (down){
-                    if (left){
+            }
+            else // No right point
+            {
+                if (down)
+                {
+                    if (left)
+                    {
                         room.sprite = UDL;
-                    }else{
+                    }
+                    else
+                    {
                         room.sprite = UD;
                     }
-                }else if (left){
+                }
+                else if (left)
+                {
                         room.sprite = UL;
-                }else{
+                }
+                else
+                {
                     room.sprite = U;
                 }                
             }
             return;
-        }        
-        if(right){
-            if(down){
-                if(left){
-                    room.sprite = RDL;
-                }else{
-                    room.sprite = RD;
+        }
+        else // No up point
+        {
+            if (right)
+            {
+                if (down)
+                {
+                    if (left)
+                    {
+                        room.sprite = RDL;
+                    }
+                    else
+                    {
+                        room.sprite = RD;
+                    }
                 }
-            }else if (left) {
-                room.sprite = RL;
-            }else{
-                room.sprite = R;
+                else if (left)
+                {
+                    room.sprite = RL;
+                }
+                else
+                {
+                    room.sprite = R;
+                }
+                return;
             }
-            return;
-        }        
-        if (down){
-            if (left){
-                room.sprite = DL;
-            }else{
-                room.sprite = D;
-            }
-        }else{                    
-            room.sprite = L;                    
-        }        
+            else // No right point
+            {
+                if (down)
+                {
+                    if (left)
+                    {
+                        room.sprite = DL;
+                    }
+                    else
+                    {
+                        room.sprite = D;
+                    }
+                }
+                else
+                {
+                    room.sprite = L;
+                }
+            }            
+        }               
     }
 }
