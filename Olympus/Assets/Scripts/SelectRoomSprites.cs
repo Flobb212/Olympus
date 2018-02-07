@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectRoomSprites : MonoBehaviour
 {
-    public Sprite   URDL, RDL, UDL, URL,
+    public GameObject   URDL, RDL, UDL, URL,
                     URD, UR, UD, UL, RD,
                     RL, DL, U, R, D, L;
 
@@ -12,18 +12,15 @@ public class SelectRoomSprites : MonoBehaviour
 
     public string type;
 
-    SpriteRenderer room;
+    GameObject room;
 
-	// Use this for initialization
-	void Start ()
+	public void PickRoom(ref Room roomData)
     {
-        room = GetComponent<SpriteRenderer>();
-        PickSprite();
-	}
-
-    void PickSprite()
-    {
-        print("Picking sprite");
+        type = roomData.roomType;
+        up = roomData.doorTop;
+        right = roomData.doorRight;
+        down = roomData.doorBottom;
+        left = roomData.doorLeft;  
         if (up)
         {
             if(right)
@@ -32,20 +29,20 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if(left)
                     {
-                        room.sprite = URDL;
+                        room = URDL;
                     }
                     else
                     {
-                        room.sprite = URD;
+                        room = URD;
                     }
                 }
                 else if(left)
                 {
-                        room.sprite = URL;
+                        room = URL;
                 }
                 else
                 {
-                    room.sprite = UR;
+                    room = UR;
                 }                
             }
             else // No right point
@@ -54,23 +51,22 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if (left)
                     {
-                        room.sprite = UDL;
+                        room = UDL;
                     }
                     else
                     {
-                        room.sprite = UD;
+                        room = UD;
                     }
                 }
                 else if (left)
                 {
-                        room.sprite = UL;
+                        room = UL;
                 }
                 else
                 {
-                    room.sprite = U;
+                    room = U;
                 }                
             }
-            return;
         }
         else // No up point
         {
@@ -80,22 +76,21 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if (left)
                     {
-                        room.sprite = RDL;
+                        room = RDL;
                     }
                     else
                     {
-                        room.sprite = RD;
+                        room = RD;
                     }
                 }
                 else if (left)
                 {
-                    room.sprite = RL;
+                    room = RL;
                 }
                 else
                 {
-                    room.sprite = R;
+                    room = R;
                 }
-                return;
             }
             else // No right point
             {
@@ -103,18 +98,26 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if (left)
                     {
-                        room.sprite = DL;
+                        room = DL;
                     }
                     else
                     {
-                        room.sprite = D;
+                        room = D;
                     }
                 }
                 else
                 {
-                    room.sprite = L;
+                    room = L;
                 }
             }            
-        }               
+        }
+
+        Vector2 pos = roomData.roomPos;
+        pos.x *= 6 * room.transform.localScale.x;
+        pos.y *= 5 * room.transform.localScale.y;
+                
+        roomData.roomObject = Object.Instantiate(room, pos, room.transform.rotation);
+
     }
+
 }

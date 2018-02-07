@@ -18,6 +18,7 @@ public class DungeonGeneration : MonoBehaviour
     List<Vector2> occupied = new List<Vector2>();
     
     public GameObject thisRoom;
+    public SelectRoomSprites roomCreator;
 
     private void Start()
     {
@@ -34,8 +35,6 @@ public class DungeonGeneration : MonoBehaviour
 
     void Generate()
     {
-        print("Room gen started");
-
         // Double grid size, may change to half bigger value here later
         rooms = new Room[gridX * 2, gridY * 2];
         // Set start room to center of grid but at 0,0
@@ -273,27 +272,17 @@ public class DungeonGeneration : MonoBehaviour
 
     void DrawDungeon()
     {
-        foreach(Room room in rooms)
+        for (int x = 0; x < gridX * 2; x++)
         {
-            if (room == null)
+            for (int y = 0; y < gridY * 2; y++)
             {
-                print("Room is null");
-                continue;
+                if (rooms[x, y] == null)
+                {
+                    continue;
+                }
+
+                roomCreator.PickRoom(ref rooms[x, y]);
             }
-
-            print("Going to draw room");
-            print(room.roomType);
-
-            Vector2 pos = room.roomPos;
-            pos.x *= 6;
-            pos.y *= 5;
-
-            SelectRoomSprites builder = Object.Instantiate(thisRoom, pos, Quaternion.identity).GetComponent<SelectRoomSprites>();
-            builder.type    = room.roomType;
-            builder.up      = room.doorTop;
-            builder.right   = room.doorRight;
-            builder.down    = room.doorBottom;
-            builder.left    = room.doorLeft;
         }
     }
 }

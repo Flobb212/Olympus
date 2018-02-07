@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Room
 {
+    public GameObject roomObject;
+
     //Assigns the location of the room
     public Vector2 roomPos;
 
