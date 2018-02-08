@@ -20,7 +20,8 @@ public class SelectRoomSprites : MonoBehaviour
         up = roomData.doorTop;
         right = roomData.doorRight;
         down = roomData.doorBottom;
-        left = roomData.doorLeft;  
+        left = roomData.doorLeft;
+
         if (up)
         {
             if(right)
