@@ -16,12 +16,14 @@ public class DungeonGeneration : MonoBehaviour
     //Also keep a list of occupied spaces to avoid building over rooms
     Room[,] rooms;
     List<Vector2> occupied = new List<Vector2>();
-    
+
+    public GameObject player;
     public GameObject thisRoom;
     public SelectRoomSprites roomCreator;
 
     private void Start()
     {
+        GameObject.Instantiate(player);
         if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
         {
             numberOfRooms = Mathf.RoundToInt((floorSize.x * 2) * (floorSize.y * 2));
