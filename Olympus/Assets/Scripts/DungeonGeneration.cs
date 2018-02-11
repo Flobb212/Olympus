@@ -17,11 +17,11 @@ public class DungeonGeneration : MonoBehaviour
     Room[,] rooms;
     List<Vector2> occupied = new List<Vector2>();
 
-    public GameObject player;
-    public GameObject thisRoom;
+    public GameObject player;    
     public SelectRoomSprites roomCreator;
 
-    private void Start()
+    // Public so if certain conditions aren't met, dungeon can be rebuilt
+    public void Start()
     {
         GameObject.Instantiate(player);
         if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
@@ -39,12 +39,11 @@ public class DungeonGeneration : MonoBehaviour
     {
         // Double grid size, may change to half bigger value here later
         rooms = new Room[gridX * 2, gridY * 2];
-        // Set start room to center of grid but at 0,0
-        rooms[gridX, gridY] = new Room(Vector2.zero, "1");
+        rooms[gridX, gridY] = new GameObject().AddComponent<Room>();
+        rooms[gridX, gridY].roomPos = Vector2.zero;
         // Mark this position as occupied
         occupied.Insert(0, Vector2.zero);
-        // Unsure
-        Vector2 checkPos = Vector2.zero;
+        Vector2 checkPos;
 
         
         // "Magic numbers"
@@ -78,7 +77,8 @@ public class DungeonGeneration : MonoBehaviour
             }
 
             // Finalise position            
-            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new Room(checkPos, "1");
+            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new GameObject().AddComponent<Room>();
+            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomPos = checkPos;
             occupied.Insert(0, checkPos);
         }
     }
@@ -283,7 +283,21 @@ public class DungeonGeneration : MonoBehaviour
                     continue;
                 }
 
+                // Call a rooms 'fillRoom()' method if not a dead end
                 roomCreator.PickRoom(ref rooms[x, y]);
+            }
+        }        
+
+        roomCreator.AssignSpecialRooms();
+    }
+
+    public void Regenerate()
+    {
+        for (int x = 0; x < gridX * 2; x++)
+        {
+            for (int y = 0; y < gridY * 2; y++)
+            {
+                Destroy(rooms[x, y].gameObject);
             }
         }
     }
