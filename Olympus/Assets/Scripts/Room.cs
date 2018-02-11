@@ -15,8 +15,7 @@ public class Room : MonoBehaviour
 
     // Defines the shape of room and it's contents
     // Can be: start, norm, boss, treasure or shop
-    public string roomType = "start";
-    bool isBoss = false;
+    public string roomType = "norm";
 
     //Where the doors are in the room shape
     public bool doorTop, doorBottom, doorLeft, doorRight;
@@ -27,19 +26,37 @@ public class Room : MonoBehaviour
         Vector2 pos = roomPos;
         pos.x *= 6 * roomShape.transform.localScale.x;
         pos.y *= 5 * roomShape.transform.localScale.y;
+
         roomObject = Object.Instantiate(roomShape, pos, roomShape.transform.rotation);
-
-        if (roomType == "boss")
-        {
-            isBoss = true;
-            roomObject.transform.GetChild(0).gameObject.SetActive(true);
-        }
-
-                
-        
-        roomObject.transform.parent = transform.parent;        
+        roomObject.transform.parent = transform.parent;
         gameObject.name = roomObject.name;
 
-        //checked type and then send to method based on that
+        if (roomType == "start")
+        {
+            roomObject.GetComponent<SpriteRenderer>().color = Color.blue;
+        }
+        else if (roomType == "boss")
+        {
+            //roomObject.transform.GetChild(0).gameObject.SetActive(true);
+            roomObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else if (roomType == "shop")
+        {
+            roomObject.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else if (roomType == "treasure")
+        {
+            roomObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+        }
+        else
+        {
+            // Room is a normal type room
+        }
+
+        
+
+
+
+        
     }
 }

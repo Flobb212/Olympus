@@ -117,13 +117,21 @@ public class SelectRoomSprites : MonoBehaviour
 
         roomData.roomShape = room;
 
+        // Add all dead ends into an array for special room assignment
         if(room == U || room == R || room == D || room == L)
         {
-            deadEnd.Insert(0, roomData);
+            // We don't want the start room to be special if it's a dead end
+            if(roomData.roomPos == Vector2.zero)
+            {
+                roomData.fillRoom();
+            }
+            else
+            {
+                deadEnd.Insert(0, roomData);
+            }
         }
         else
         {
-            roomData.roomType = "norm";
             roomData.fillRoom();
         }
     }
@@ -148,19 +156,19 @@ public class SelectRoomSprites : MonoBehaviour
                 if (i == 0) // Make boss room
                 {
                     deadEnd[randRoom].roomType = "boss";
-                    //deadEnd[randRoom].roomShape.transform.GetChild(0).gameObject.SetActive(true);
-
                     deadEnd[randRoom].fillRoom();                    
                 }
-                else if (i == 1)
+                else if (i == 1) // Make shop room
                 {
+                    deadEnd[randRoom].roomType = "shop";
                     deadEnd[randRoom].fillRoom();                    
                 }
-                else if(i == 2)
+                else if(i == 2) // Make treasure room
                 {
+                    deadEnd[randRoom].roomType = "treasure";
                     deadEnd[randRoom].fillRoom();                    
                 }
-                else
+                else // Make normal room
                 {
                     deadEnd[randRoom].fillRoom();
                 }

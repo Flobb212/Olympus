@@ -41,6 +41,7 @@ public class DungeonGeneration : MonoBehaviour
         rooms = new Room[gridX * 2, gridY * 2];
         rooms[gridX, gridY] = new GameObject().AddComponent<Room>();
         rooms[gridX, gridY].roomPos = Vector2.zero;
+        rooms[gridX, gridY].roomType = "start";
         // Mark this position as occupied
         occupied.Insert(0, Vector2.zero);
         Vector2 checkPos;
@@ -79,6 +80,7 @@ public class DungeonGeneration : MonoBehaviour
             // Finalise position            
             rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new GameObject().AddComponent<Room>();
             rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomPos = checkPos;
+            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomType = "norm";
             occupied.Insert(0, checkPos);
         }
     }
@@ -179,12 +181,7 @@ public class DungeonGeneration : MonoBehaviour
             checkingPos = new Vector2(x, y);
         }
         while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
-
-        if(inc >= 100)
-        {
-            print("error: couldn't ind position with just one neighbour");
-        }
-
+        
         return checkingPos;
     }
 
@@ -282,8 +279,7 @@ public class DungeonGeneration : MonoBehaviour
                 {
                     continue;
                 }
-
-                // Call a rooms 'fillRoom()' method if not a dead end
+                
                 roomCreator.PickRoom(ref rooms[x, y]);
             }
         }        
