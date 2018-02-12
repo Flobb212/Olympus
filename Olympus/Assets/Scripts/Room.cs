@@ -6,12 +6,10 @@ public class Room : MonoBehaviour
 {
     // Actual room
     public GameObject roomObject;
-
     // Attached prefab
     public GameObject roomShape;
-
     //Assigns the location of the room
-    public Vector2 roomPos;
+    public Vector2 roomPos;    
 
     // Defines the shape of room and it's contents
     // Can be: start, norm, boss, treasure or shop
@@ -19,7 +17,8 @@ public class Room : MonoBehaviour
 
     //Where the doors are in the room shape
     public bool doorTop, doorBottom, doorLeft, doorRight;
-       
+
+    
 
     public void fillRoom()
     {
