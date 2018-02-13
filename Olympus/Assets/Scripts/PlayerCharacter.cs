@@ -18,4 +18,3 @@ public class PlayerCharacter : MonoBehaviour
         GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
     }
 }
-
