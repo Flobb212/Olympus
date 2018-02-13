@@ -36,27 +36,25 @@ public class Room : MonoBehaviour
         gameObject.name = roomObject.name;
 
         if (roomType == "start")
-        {
-            roomObject.GetComponent<SpriteRenderer>().color = Color.blue;
+        {            
             // pull x-0
         }
         else if (roomType == "boss")
         {
             // Activate this line on boss defeat, swap for open trapdoor
-            //roomObject.transform.GetChild(0).gameObject.SetActive(true);
-            roomObject.GetComponent<SpriteRenderer>().color = Color.red;
+            roomObject.transform.GetChild(0).gameObject.SetActive(true);            
         }
         else if (roomType == "shop")
         {
-            roomObject.GetComponent<SpriteRenderer>().color = Color.green;
             // pull x-0
             // spawn 3 podiums/items with price
+            roomObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else if (roomType == "treasure")
         {
-            roomObject.GetComponent<SpriteRenderer>().color = Color.yellow;
             // pull x-0
             // spawn single podium
+            roomObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else
         {
