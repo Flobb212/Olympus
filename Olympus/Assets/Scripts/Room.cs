@@ -19,10 +19,33 @@ public class Room : MonoBehaviour
     public bool doorTop, doorBottom, doorLeft, doorRight;
 
     // Check if player enters the room
-    void OnTriggerEnter2D()
+    void OnTriggerEnter2D(Collider2D other)
     {
         print("Triggered");
-        Camera.main.transform.position = this.transform.position;
+        PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
+        Vector2 oldRoomPos = tempPlay.thisRoom.position;
+
+        tempPlay.transform.parent = tempPlay.thisRoom;
+        Vector2 offset = other.transform.localPosition;
+        tempPlay.transform.parent = null;
+
+        if(Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
+        {
+            offset.x *= -1f;
+            offset.x *= 0.7f;
+        }
+        else
+        {
+            offset.y *= -1f;
+            offset.y *= 0.7f;
+        }
+
+        tempPlay.thisRoom = this.transform;
+        tempPlay.transform.parent = this.transform;
+        tempPlay.transform.localPosition = offset;
+        tempPlay.transform.parent = null;        
+        
+        Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
     }
 
     public void FillRoom()

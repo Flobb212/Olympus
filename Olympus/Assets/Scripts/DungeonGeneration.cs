@@ -42,6 +42,9 @@ public class DungeonGeneration : MonoBehaviour
         rooms[gridX, gridY] = new GameObject().AddComponent<Room>();
         rooms[gridX, gridY].roomPos = Vector2.zero;
         rooms[gridX, gridY].roomType = "start";
+
+        // Pass player starting room
+        player.GetComponent<PlayerCharacter>().thisRoom = rooms[gridX, gridY].transform;
         // Mark this position as occupied
         occupied.Insert(0, Vector2.zero);
         Vector2 checkPos;
@@ -294,6 +297,7 @@ public class DungeonGeneration : MonoBehaviour
             for (int y = 0; y < gridY * 2; y++)
             {
                 Destroy(rooms[x, y].gameObject);
+                this.Start();
             }
         }
     }

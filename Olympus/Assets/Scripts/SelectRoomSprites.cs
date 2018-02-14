@@ -15,7 +15,7 @@ public class SelectRoomSprites : MonoBehaviour
 
     public List<Room> deadEnd = new List<Room>();
 
-    public DungeonGeneration retry;
+    public DungeonGeneration rebuild;
 
     public void PickRoom(ref Room roomData)
     {        
@@ -143,7 +143,7 @@ public class SelectRoomSprites : MonoBehaviour
         // If there isn't 3 dead ends, recreate the dungeon
         if(deadEnd.Count < 3)
         {
-            retry.Regenerate();
+            rebuild.Regenerate();
         }
         else
         {
