@@ -19,14 +19,14 @@ public class Room : MonoBehaviour
     public bool doorTop, doorBottom, doorLeft, doorRight;
 
     // Check if player enters the room
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D()
     {
         print("Triggered");
         Camera.main.transform.position = this.transform.position;
     }
 
-    public void fillRoom()
-    {
+    public void FillRoom()
+    {        
         Vector2 pos = roomPos;
         pos.x *= 18 * roomShape.transform.localScale.x;
         pos.y *= 12* roomShape.transform.localScale.y;
