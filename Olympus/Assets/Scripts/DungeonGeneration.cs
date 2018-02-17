@@ -43,8 +43,6 @@ public class DungeonGeneration : MonoBehaviour
         rooms[gridX, gridY].roomPos = Vector2.zero;
         rooms[gridX, gridY].roomType = "start";
 
-        // Pass player starting room
-        player.GetComponent<PlayerCharacter>().thisRoom = rooms[gridX, gridY].transform;
         // Mark this position as occupied
         occupied.Insert(0, Vector2.zero);
         Vector2 checkPos;

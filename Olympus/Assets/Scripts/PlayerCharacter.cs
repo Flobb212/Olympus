@@ -6,7 +6,7 @@ public class PlayerCharacter : MonoBehaviour
 {
     public float speed = 0.0f;
 
-    public Transform thisRoom;
+    public Transform curRoomPos;
 
     // Update is called once per frame
     void FixedUpdate()

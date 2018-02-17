@@ -21,18 +21,24 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
-        print("Triggered");
         PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
-        Vector2 oldRoomPos = tempPlay.thisRoom.position;
+        
+        if(tempPlay.curRoomPos == null)
+        {
+            tempPlay.curRoomPos = this.transform;
+            return;
+        }
 
-        tempPlay.transform.parent = tempPlay.thisRoom;
+        Vector2 oldRoomPos = tempPlay.curRoomPos.position;
+
+        tempPlay.transform.parent = tempPlay.curRoomPos;
         Vector2 offset = other.transform.localPosition;
         tempPlay.transform.parent = null;
 
         if(Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
         {
             offset.x *= -1f;
-            offset.x *= 0.7f;
+            offset.x *= 0.8f;
         }
         else
         {
@@ -40,7 +46,7 @@ public class Room : MonoBehaviour
             offset.y *= 0.7f;
         }
 
-        tempPlay.thisRoom = this.transform;
+        tempPlay.curRoomPos = this.transform;
         tempPlay.transform.parent = this.transform;
         tempPlay.transform.localPosition = offset;
         tempPlay.transform.parent = null;        
