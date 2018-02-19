@@ -38,12 +38,21 @@ public class Room : MonoBehaviour
         if(Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
         {
             offset.x *= -1f;
-            offset.x *= 0.8f;
+            offset.x *= 0.75f;
         }
         else
         {
             offset.y *= -1f;
-            offset.y *= 0.7f;
+
+            // if needed because check is done on player body centre, so feet location are different
+            if(offset.y > 0)
+            {
+                offset.y *= 0.75f;
+            }
+            else
+            {
+                offset.y *= 0.55f;
+            }
         }
 
         tempPlay.curRoomPos = this.transform;
