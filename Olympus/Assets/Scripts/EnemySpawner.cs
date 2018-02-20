@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    // Get floor number from a game manager
+    public int floorNum = 0;
+
     public List<GameObject> floor1Enemies;
     public List<GameObject> floor2Enemies;
     public List<GameObject> floor3Enemies;
-
-    // Get floor number from a game manager
-    private int floorNum = 0;
-
+        
     public void Spawn()
     {
         int rand = 0;

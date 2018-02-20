@@ -14,12 +14,16 @@ public class DungeonGeneration : MonoBehaviour
 
     //Keep the rooms in an array to easily monitor their position
     //Also keep a list of occupied spaces to avoid building over rooms
-    Room[,] rooms;
-    List<Vector2> occupied = new List<Vector2>();
+    Room[,] roomsList;
+    List<Vector2> occupiedPos = new List<Vector2>();
 
     public GameObject player;    
     public SelectRoomSprites roomCreator;
 
+    //Testing Scriptable Rooms
+    public ScriptableRoom newRoom;
+    
+    
     // Public so if certain conditions aren't met, dungeon can be rebuilt
     public void Start()
     {
@@ -35,16 +39,17 @@ public class DungeonGeneration : MonoBehaviour
         DrawDungeon();
     }
 
+
     void Generate()
     {
         // Double grid size, may change to half bigger value here later
-        rooms = new Room[gridX * 2, gridY * 2];
-        rooms[gridX, gridY] = new GameObject().AddComponent<Room>();
-        rooms[gridX, gridY].roomPos = Vector2.zero;
-        rooms[gridX, gridY].roomType = "start";
+        roomsList = new Room[gridX * 2, gridY * 2];
+        roomsList[gridX, gridY] = new GameObject().AddComponent<Room>();
+        roomsList[gridX, gridY].roomPos = Vector2.zero;
+        roomsList[gridX, gridY].roomType = "start";
 
         // Mark this position as occupied
-        occupied.Insert(0, Vector2.zero);
+        occupiedPos.Insert(0, Vector2.zero);
         Vector2 checkPos;
 
         
@@ -62,7 +67,7 @@ public class DungeonGeneration : MonoBehaviour
             checkPos = NewPosition();
 
             // Helps control branching as dungeon grows
-            if (NumberOfNeighbours(checkPos, occupied) > 1 && Random.value > randomCompare)
+            if (NumberOfNeighbours(checkPos, occupiedPos) > 1 && Random.value > randomCompare)
             {
                 int iterations = 0;
                 do
@@ -70,22 +75,21 @@ public class DungeonGeneration : MonoBehaviour
                     checkPos = SelectiveNewPosition();
                     iterations++;
                 }
-                while (NumberOfNeighbours(checkPos, occupied) > 1 && iterations < 100);
+                while (NumberOfNeighbours(checkPos, occupiedPos) > 1 && iterations < 100);
 
                 if (iterations >= 50)
                 {
-                    print("error: couldn't create with fewer neighbours than: " + NumberOfNeighbours(checkPos, occupied));
+                    print("error: couldn't create with fewer neighbours than: " + NumberOfNeighbours(checkPos, occupiedPos));
                 }
             }
 
             // Finalise position            
-            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new GameObject().AddComponent<Room>();
-            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomPos = checkPos;
-            rooms[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomType = "norm";
-            occupied.Insert(0, checkPos);
+            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new GameObject().AddComponent<Room>();
+            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomPos = checkPos;
+            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomType = "norm";
+            occupiedPos.Insert(0, checkPos);
         }
     }
-
 
 
     // Takes a random placed room, randomly decides which side 
@@ -97,9 +101,9 @@ public class DungeonGeneration : MonoBehaviour
 
         do
         {
-            int index = Mathf.RoundToInt(Random.value * (occupied.Count - 1));
-            x = (int)occupied[index].x;
-            y = (int)occupied[index].y;
+            int index = Mathf.RoundToInt(Random.value * (occupiedPos.Count - 1));
+            x = (int)occupiedPos[index].x;
+            y = (int)occupiedPos[index].y;
             bool UpDown = (Random.value < 0.5f);
             bool positive = (Random.value < 0.5f);
 
@@ -128,11 +132,10 @@ public class DungeonGeneration : MonoBehaviour
 
             checkingPos = new Vector2(x, y);
         }
-        while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
+        while (occupiedPos.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
 
         return checkingPos;
     }
-
 
 
     // Finds room with only one neighbour, to helps restrict branching
@@ -146,13 +149,13 @@ public class DungeonGeneration : MonoBehaviour
             inc = 0;
             do
             {
-                index = Mathf.RoundToInt(Random.value * (occupied.Count - 1));
+                index = Mathf.RoundToInt(Random.value * (occupiedPos.Count - 1));
                 inc++;
             }
-            while (NumberOfNeighbours(occupied[index], occupied) > 1 && inc < 100);
+            while (NumberOfNeighbours(occupiedPos[index], occupiedPos) > 1 && inc < 100);
             
-            x = (int)occupied[index].x;
-            y = (int)occupied[index].y;
+            x = (int)occupiedPos[index].x;
+            y = (int)occupiedPos[index].y;
             bool UpDown = (Random.value < 0.5f);
             bool positive = (Random.value < 0.5f);
 
@@ -181,11 +184,10 @@ public class DungeonGeneration : MonoBehaviour
 
             checkingPos = new Vector2(x, y);
         }
-        while (occupied.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
+        while (occupiedPos.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
         
         return checkingPos;
     }
-
 
 
     // Used to restrict branching when a room has more than one neighbour
@@ -214,7 +216,6 @@ public class DungeonGeneration : MonoBehaviour
     }
 
 
-
     // Checks through the entire room array, checking every point to see if it contains a room
     // If so, check if there is a room in each 4 directions and set that door true/false
     void AttachDoors()
@@ -224,51 +225,50 @@ public class DungeonGeneration : MonoBehaviour
             for (int y = 0; y < (gridX * 2); y++)
             {
                 // If there's no room at this location, move onto the next
-                if(rooms[x, y] == null)
+                if(roomsList[x, y] == null)
                 {
                     continue;
                 }
 
                 if(y - 1 < 0) // Then current room is at top of array
                 {
-                    rooms[x, y].doorBottom = false;
+                    roomsList[x, y].doorBottom = false;
                 }
                 else // There is space above this room, so check if there is actually a room there
                 {
-                    rooms[x, y].doorBottom = (rooms[x, y - 1] != null);
+                    roomsList[x, y].doorBottom = (roomsList[x, y - 1] != null);
                 }
 
                 if (y + 1 >= gridY * 2) // Then current room is at bottom of array
                 {
-                    rooms[x, y].doorTop = false;
+                    roomsList[x, y].doorTop = false;
                 }
                 else // There is space below this room, so check if there is actually a room there
                 {
-                    rooms[x, y].doorTop = (rooms[x, y + 1] != null);
+                    roomsList[x, y].doorTop = (roomsList[x, y + 1] != null);
                 }
 
                 if (x - 1 < 0) // Then current room is at left of array
                 {
-                    rooms[x, y].doorLeft = false;
+                    roomsList[x, y].doorLeft = false;
                 }
                 else // There is space left of this room, so check if there is actually a room there
                 {
-                    rooms[x, y].doorLeft = (rooms[x - 1, y] != null);
+                    roomsList[x, y].doorLeft = (roomsList[x - 1, y] != null);
                 }
 
                 if (x + 1 >= gridX * 2) // Then current room is at right of array
                 {
-                    rooms[x, y].doorRight = false;
+                    roomsList[x, y].doorRight = false;
                 }
                 else // There is space right of this room, so check if there is actually a room there
                 {
-                    rooms[x, y].doorRight = (rooms[x + 1, y] != null);
+                    roomsList[x, y].doorRight = (roomsList[x + 1, y] != null);
                 }
             }
         }
     }
-
-
+    
 
     void DrawDungeon()
     {
@@ -276,17 +276,18 @@ public class DungeonGeneration : MonoBehaviour
         {
             for (int y = 0; y < gridY * 2; y++)
             {
-                if (rooms[x, y] == null)
+                if (roomsList[x, y] == null)
                 {
                     continue;
                 }
                 
-                roomCreator.PickRoom(ref rooms[x, y]);
+                roomCreator.PickRoom(ref roomsList[x, y]);
             }
         }        
 
         roomCreator.AssignSpecialRooms();
     }
+
 
     public void Regenerate()
     {
@@ -294,7 +295,7 @@ public class DungeonGeneration : MonoBehaviour
         {
             for (int y = 0; y < gridY * 2; y++)
             {
-                Destroy(rooms[x, y].gameObject);
+                Destroy(roomsList[x, y].gameObject);
                 this.Start();
             }
         }

@@ -18,6 +18,8 @@ public class Room : MonoBehaviour
     //Where the doors are in the room shape
     public bool doorTop, doorBottom, doorLeft, doorRight;
 
+    public List<GameObject> spawners;
+
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -61,6 +63,12 @@ public class Room : MonoBehaviour
         tempPlay.transform.parent = null;        
         
         Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
+
+        // Activate spawners
+        foreach(GameObject spawner in spawners)
+        {
+            spawner.GetComponent<EnemySpawner>().Spawn();
+        }
     }
 
     public void FillRoom()
@@ -98,11 +106,5 @@ public class Room : MonoBehaviour
         {
             // spawn room from random list
         }
-
-        
-
-
-
-        
     }
 }
