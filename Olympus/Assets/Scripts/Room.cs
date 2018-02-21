@@ -18,14 +18,16 @@ public class Room : MonoBehaviour
     //Where the doors are in the room shape
     public bool doorTop, doorBottom, doorLeft, doorRight;
 
-    public List<GameObject> spawners;
+    private bool isPopulated = false;
+    public GameObject spawners;
 
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
+        print("shift");
         PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
-        
-        if(tempPlay.curRoomPos == null)
+
+        if (tempPlay.curRoomPos == null)
         {
             tempPlay.curRoomPos = this.transform;
             return;
@@ -37,7 +39,7 @@ public class Room : MonoBehaviour
         Vector2 offset = other.transform.localPosition;
         tempPlay.transform.parent = null;
 
-        if(Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
+        if (Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
         {
             offset.x *= -1f;
             offset.x *= 0.75f;
@@ -47,7 +49,7 @@ public class Room : MonoBehaviour
             offset.y *= -1f;
 
             // if needed because check is done on player body centre, so feet location are different
-            if(offset.y > 0)
+            if (offset.y > 0)
             {
                 offset.y *= 0.75f;
             }
@@ -60,14 +62,30 @@ public class Room : MonoBehaviour
         tempPlay.curRoomPos = this.transform;
         tempPlay.transform.parent = this.transform;
         tempPlay.transform.localPosition = offset;
-        tempPlay.transform.parent = null;        
-        
+        tempPlay.transform.parent = null;
+
         Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
 
-        // Activate spawners
-        foreach(GameObject spawner in spawners)
+        // If the room hasn't been entered before, we need to fill it
+        if (isPopulated == false)
         {
-            spawner.GetComponent<EnemySpawner>().Spawn();
+            // Activate spawners if any
+            if (spawners != null)
+            {
+                foreach (Transform child in spawners.transform)
+                {
+                    if (child.tag == "EnemySpawn")
+                    {
+                        child.GetComponent<EnemySpawner>().Spawn();
+                    }
+                    else if (child.tag == "ObstacleSpawn")
+                    {
+                        child.GetComponent<ObstacleSpawner>().Spawn();
+                    }
+                }
+            }            
+            
+            isPopulated = true;
         }
     }
 

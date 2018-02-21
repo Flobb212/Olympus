@@ -44,7 +44,7 @@ public class DungeonGeneration : MonoBehaviour
     {
         // Double grid size, may change to half bigger value here later
         roomsList = new Room[gridX * 2, gridY * 2];
-        roomsList[gridX, gridY] = new GameObject().AddComponent<Room>();
+        roomsList[gridX, gridY] = new GameObject().AddComponent<Room>();        // INSTANTIATE
         roomsList[gridX, gridY].roomPos = Vector2.zero;
         roomsList[gridX, gridY].roomType = "start";
 

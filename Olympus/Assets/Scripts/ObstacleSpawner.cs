@@ -12,5 +12,4 @@ public class ObstacleSpawner : MonoBehaviour
 
         Instantiate(spawnObj[rand], this.transform.position, this.transform.rotation);
     }
-
 }
