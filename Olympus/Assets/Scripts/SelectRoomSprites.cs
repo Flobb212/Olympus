@@ -5,13 +5,11 @@ using System.Linq;
 
 public class SelectRoomSprites : MonoBehaviour
 {
-    public GameObject   URDL, RDL, UDL, URL,
-                    URD, UR, UD, UL, RD,
-                    RL, DL, U, R, D, L;
+    public ScriptableRoom   URDL, RDL, UDL, URL,
+                            URD, UR, UD, UL, RD,
+                            RL, DL, U, R, D, L;
 
-    public bool up, right, down, left;    
-
-    GameObject room;
+    public bool up, right, down, left;
 
     public List<Room> deadEnd = new List<Room>();
 
@@ -32,20 +30,20 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if(left)
                     {
-                        room = URDL;
+                        roomData.roomShape = URDL;
                     }
                     else
                     {
-                        room = URD;
+                        roomData.roomShape = URD;
                     }
                 }
                 else if(left)
                 {
-                        room = URL;
+                        roomData.roomShape = URL;
                 }
                 else
                 {
-                    room = UR;
+                    roomData.roomShape = UR;
                 }                
             }
             else // No right point
@@ -54,20 +52,20 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if (left)
                     {
-                        room = UDL;
+                        roomData.roomShape = UDL;
                     }
                     else
                     {
-                        room = UD;
+                        roomData.roomShape = UD;
                     }
                 }
                 else if (left)
                 {
-                        room = UL;
+                        roomData.roomShape = UL;
                 }
                 else
                 {
-                    room = U;
+                    roomData.roomShape = U;
                 }                
             }
         }
@@ -79,20 +77,20 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if (left)
                     {
-                        room = RDL;
+                        roomData.roomShape = RDL;
                     }
                     else
                     {
-                        room = RD;
+                        roomData.roomShape = RD;
                     }
                 }
                 else if (left)
                 {
-                    room = RL;
+                    roomData.roomShape = RL;
                 }
                 else
                 {
-                    room = R;
+                    roomData.roomShape = R;
                 }
             }
             else // No right point
@@ -101,28 +99,28 @@ public class SelectRoomSprites : MonoBehaviour
                 {
                     if (left)
                     {
-                        room = DL;
+                        roomData.roomShape = DL;
                     }
                     else
                     {
-                        room = D;
+                        roomData.roomShape = D;
                     }
                 }
                 else
                 {
-                    room = L;
+                    roomData.roomShape = L;
                 }
-            }            
+            }
         }
 
-        roomData.roomShape = room;
-
         // Add all dead ends into an array for special room assignment
-        if(room == U || room == R || room == D || room == L)
+        if(roomData.roomShape == U || roomData.roomShape == R || roomData.roomShape == D || roomData.roomShape == L)
         {
             // We don't want the start room to be special if it's a dead end
             if(roomData.roomPos == Vector2.zero)
             {
+                // pass -0 room
+                roomData.roomObject = roomData.roomShape.roomPrefabs[0];
                 roomData.FillRoom();
             }
             else
@@ -132,6 +130,7 @@ public class SelectRoomSprites : MonoBehaviour
         }
         else
         {
+            roomData.roomObject = RandomiseRoomPrefab(roomData);
             roomData.FillRoom();
         }
     }
@@ -153,6 +152,9 @@ public class SelectRoomSprites : MonoBehaviour
             {
                 int randRoom = Random.Range(0, deadEnd.Count - 1);
 
+                // Sets room to -0 default
+                deadEnd[randRoom].roomObject = deadEnd[randRoom].roomShape.roomPrefabs[0];
+
                 if (i == 0) // Make boss room
                 {
                     deadEnd[randRoom].roomType = "boss";
@@ -170,12 +172,19 @@ public class SelectRoomSprites : MonoBehaviour
                 }
                 else // Make normal room
                 {
+                    deadEnd[randRoom].roomObject = RandomiseRoomPrefab(deadEnd[randRoom]);
                     deadEnd[randRoom].FillRoom();
                 }
 
                 deadEnd.RemoveAt(randRoom);
             }
-
         }
+    }
+
+
+    private GameObject RandomiseRoomPrefab(Room roomData)
+    {
+        int chosen = Random.Range(1, roomData.roomShape.roomPrefabs.Count);
+        return roomData.roomShape.roomPrefabs[chosen];
     }
 }

@@ -3,8 +3,25 @@ guid: 9e232fb32c189e04a95edd48f683a1f2
 timeCreated: 1517929915
 licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - URDL: {fileID: 11400000, guid: 049db299ed11d9841ae60ba5dd25b8fd, type: 2}
+  - RDL: {fileID: 11400000, guid: 6180381e890bebb4d842716149185e33, type: 2}
+  - UDL: {fileID: 11400000, guid: bba53153407dd104a90643478b4efcba, type: 2}
+  - URL: {fileID: 11400000, guid: 8c7c484c1080f9f458ca5d0b38530831, type: 2}
+  - URD: {fileID: 11400000, guid: cb0c8286048815d4a90cd3cffec71eb2, type: 2}
+  - UR: {fileID: 11400000, guid: 557d86de2d2706142b4649cfb922440c, type: 2}
+  - UD: {fileID: 11400000, guid: 71f304a0e77eef94f8486efc12766cf8, type: 2}
+  - UL: {fileID: 11400000, guid: c1273d77e75d2154ea335b8a867a26e0, type: 2}
+  - RD: {fileID: 11400000, guid: 7918f9db4dc7ad9449fde810f9fcd3a2, type: 2}
+  - RL: {fileID: 11400000, guid: 602f0b353f278f141b2da382c88b6581, type: 2}
+  - DL: {fileID: 11400000, guid: 3c9aad60e52accf4ea305eb3babef741, type: 2}
+  - U: {fileID: 11400000, guid: 1ece06fc98bedee4f8dbae62562fbede, type: 2}
+  - R: {fileID: 11400000, guid: 795bdc58f515e0a43a3ec709a33f03c0, type: 2}
+  - D: {fileID: 11400000, guid: 029c738c94968cd41b694daddc61daea, type: 2}
+  - L: {fileID: 11400000, guid: 9b2fc29124a78984ea12b8267488ff98, type: 2}
+  - rebuild: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

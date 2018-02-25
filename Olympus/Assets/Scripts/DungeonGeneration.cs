@@ -14,14 +14,17 @@ public class DungeonGeneration : MonoBehaviour
 
     //Keep the rooms in an array to easily monitor their position
     //Also keep a list of occupied spaces to avoid building over rooms
+    public Room newRoom;
     Room[,] roomsList;
     List<Vector2> occupiedPos = new List<Vector2>();
+
+    public GameObject testHolder;
 
     public GameObject player;    
     public SelectRoomSprites roomCreator;
 
     //Testing Scriptable Rooms
-    public ScriptableRoom newRoom;
+    //public ScriptableRoom newRoom;
     
     
     // Public so if certain conditions aren't met, dungeon can be rebuilt
@@ -44,7 +47,7 @@ public class DungeonGeneration : MonoBehaviour
     {
         // Double grid size, may change to half bigger value here later
         roomsList = new Room[gridX * 2, gridY * 2];
-        roomsList[gridX, gridY] = new GameObject().AddComponent<Room>();        // INSTANTIATE
+        roomsList[gridX, gridY] = Instantiate(newRoom, newRoom.transform.position, newRoom.transform.rotation);
         roomsList[gridX, gridY].roomPos = Vector2.zero;
         roomsList[gridX, gridY].roomType = "start";
 
@@ -84,7 +87,7 @@ public class DungeonGeneration : MonoBehaviour
             }
 
             // Finalise position            
-            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = new GameObject().AddComponent<Room>();
+            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = Instantiate(newRoom, newRoom.transform.position, newRoom.transform.rotation);
             roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomPos = checkPos;
             roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomType = "norm";
             occupiedPos.Insert(0, checkPos);
@@ -295,7 +298,7 @@ public class DungeonGeneration : MonoBehaviour
         {
             for (int y = 0; y < gridY * 2; y++)
             {
-                Destroy(roomsList[x, y].gameObject);
+                Destroy(roomsList[x, y]);
                 this.Start();
             }
         }

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    // Actual room
-    public GameObject roomObject;
     // Attached prefab
-    public GameObject roomShape;
+    public GameObject roomObject;
+    public ScriptableRoom roomShape;
     //Assigns the location of the room
     public Vector2 roomPos;    
 
@@ -24,7 +23,6 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
-        print("shift");
         PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
 
         if (tempPlay.curRoomPos == null)
@@ -92,20 +90,16 @@ public class Room : MonoBehaviour
     }
 
     public void FillRoom()
-    {        
+    {
         Vector2 pos = roomPos;
-        pos.x *= 18 * roomShape.transform.localScale.x;
-        pos.y *= 12* roomShape.transform.localScale.y;
+        pos.x *= 18;
+        pos.y *= 12;
 
-        roomObject = Object.Instantiate(roomShape, pos, roomShape.transform.rotation);
-        roomObject.transform.parent = transform.parent;
-        gameObject.name = roomObject.name;
+        Object.Instantiate(roomObject, pos, roomObject.transform.rotation);
 
-        if (roomType == "start")
-        {            
-            // pull x-0
-        }
-        else if (roomType == "boss")
+        // Got bug where prefab trapdoors stay activated even after play has ended
+
+        if (roomType == "boss")
         {
             // Activate this line on boss defeat, swap for open trapdoor
             roomObject.transform.GetChild(0).gameObject.SetActive(true);            
