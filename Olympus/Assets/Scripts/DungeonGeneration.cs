@@ -18,8 +18,6 @@ public class DungeonGeneration : MonoBehaviour
     Room[,] roomsList;
     List<Vector2> occupiedPos = new List<Vector2>();
 
-    public GameObject testHolder;
-
     public GameObject player;    
     public SelectRoomSprites roomCreator;
 
@@ -79,11 +77,6 @@ public class DungeonGeneration : MonoBehaviour
                     iterations++;
                 }
                 while (NumberOfNeighbours(checkPos, occupiedPos) > 1 && iterations < 100);
-
-                if (iterations >= 50)
-                {
-                    print("error: couldn't create with fewer neighbours than: " + NumberOfNeighbours(checkPos, occupiedPos));
-                }
             }
 
             // Finalise position            
@@ -285,6 +278,7 @@ public class DungeonGeneration : MonoBehaviour
                 }
                 
                 roomCreator.PickRoom(ref roomsList[x, y]);
+                Destroy(roomsList[x, y].gameObject);
             }
         }        
 

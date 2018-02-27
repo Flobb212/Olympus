@@ -122,6 +122,7 @@ public class SelectRoomSprites : MonoBehaviour
                 // pass -0 room
                 roomData.roomObject = roomData.roomShape.roomPrefabs[0];
                 roomData.FillRoom();
+                Destroy(roomData);
             }
             else
             {
@@ -132,6 +133,7 @@ public class SelectRoomSprites : MonoBehaviour
         {
             roomData.roomObject = RandomiseRoomPrefab(roomData);
             roomData.FillRoom();
+            Destroy(roomData);
         }
     }
 
@@ -176,6 +178,7 @@ public class SelectRoomSprites : MonoBehaviour
                     deadEnd[randRoom].FillRoom();
                 }
 
+                Destroy(deadEnd[randRoom]);
                 deadEnd.RemoveAt(randRoom);
             }
         }
