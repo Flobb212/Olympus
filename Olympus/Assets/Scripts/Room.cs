@@ -74,13 +74,18 @@ public class Room : MonoBehaviour
                 {
                     if (child.tag == "EnemySpawn")
                     {
-                        print("enemy");
+                        //print("enemy");
                         child.GetComponent<EnemySpawner>().Spawn();
                     }
                     else if (child.tag == "ObstacleSpawn")
                     {
-                        print("obstacle");
+                        //print("obstacle");
                         child.GetComponent<ObstacleSpawner>().Spawn();
+                    }
+                    else if (child.tag == "PickupSpawn")
+                    {
+                        //print("pickup");
+                        child.GetComponent<PickupSpawner>().Spawn();
                     }
                 }
             }            
