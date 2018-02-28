@@ -127,9 +127,11 @@ public class SelectRoomSprites : MonoBehaviour
                 roomData.roomObject = roomData.roomShape.roomPrefabs[0];
                 roomData.FillRoom();
             }
-
-            roomData.roomObject = RandomiseRoomPrefab(roomData);
-            roomData.FillRoom();            
+            else
+            {
+                roomData.roomObject = RandomiseRoomPrefab(roomData);
+                roomData.FillRoom();
+            }
         }
     }
 
