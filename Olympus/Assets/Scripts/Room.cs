@@ -23,6 +23,11 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.tag != "Player")
+        {
+            return;
+        }
+
         PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
 
         if (tempPlay.curRoomPos == null)
