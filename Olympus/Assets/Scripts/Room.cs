@@ -107,19 +107,19 @@ public class Room : MonoBehaviour
         if (roomType == "boss")
         {
             // Activate this line on boss defeat, swap for open trapdoor
-            roomObject.transform.GetChild(0).gameObject.SetActive(true);            
+            //roomObject.transform.GetChild(0).gameObject.SetActive(true);            
         }
         else if (roomType == "shop")
         {
             // pull x-0
             // spawn 3 podiums/items with price
-            roomObject.transform.GetChild(0).gameObject.SetActive(true);
+            //roomObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else if (roomType == "treasure")
         {
             // pull x-0
             // spawn single podium
-            roomObject.transform.GetChild(0).gameObject.SetActive(true);
+            //roomObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else
         {
