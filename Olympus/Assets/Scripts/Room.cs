@@ -20,11 +20,19 @@ public class Room : MonoBehaviour
     private bool isPopulated = false;
     public GameObject spawners;
 
-    private List<GameObject> lockDown;
+    public List<GameObject> lockDown;
 
     void Update()
     {
-        //while (this.transform. == "EnemySpawn")
+        if(lockDown.Count != 0)
+        {
+            print(lockDown.Count);
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
 
@@ -51,22 +59,19 @@ public class Room : MonoBehaviour
         tempPlay.transform.parent = null;
 
         if (Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
-        {
-            offset.x *= -1f;
-            offset.x *= 0.75f;
+        {            
+            offset.x *= -0.75f;
         }
         else
         {
-            offset.y *= -1f;
-
             // if needed because check is done on player body centre, so feet location are different
             if (offset.y > 0)
             {
-                offset.y *= 0.75f;
+                offset.y *= -0.75f;
             }
             else
             {
-                offset.y *= 0.55f;
+                offset.y *= -0.55f;
             }
         }
 

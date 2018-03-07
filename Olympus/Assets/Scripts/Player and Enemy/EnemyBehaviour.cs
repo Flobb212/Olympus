@@ -6,6 +6,8 @@ public class EnemyBehaviour : MonoBehaviour
 {
     private Transform player;
     //public ScriptableObject data;
+    public Room spawnLocation;
+
     public enum MoveSpeed { Stationary, Slow, Normal, Fast };
     public MoveSpeed moveType;
     public float speed = 0.0f;
@@ -20,6 +22,7 @@ public class EnemyBehaviour : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
+        spawnLocation.lockDown.Add(gameObject);
         SpeedSelect();
 	}
 	
@@ -55,6 +58,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         if(health <= 0)
         {
+            spawnLocation.lockDown.Remove(gameObject);
             Destroy(gameObject);
         }
     }

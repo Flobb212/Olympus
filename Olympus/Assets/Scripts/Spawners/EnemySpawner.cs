@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
         if (floorNum == 1)
         {
             rand = Random.Range(0, floor1Enemies.Capacity);
-            floor1Enemies[rand].transform.SetParent(newParent.transform);
+            floor1Enemies[rand].GetComponent<EnemyBehaviour>().spawnLocation = newParent;
             Instantiate(floor1Enemies[rand], this.transform.position, this.transform.rotation);
         }
         else if (floorNum == 2)
