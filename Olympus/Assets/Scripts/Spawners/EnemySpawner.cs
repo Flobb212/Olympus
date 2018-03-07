@@ -11,14 +11,14 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> floor2Enemies;
     public List<GameObject> floor3Enemies;
         
-    public void Spawn()
+    public void Spawn(Room newParent)
     {
         int rand = 0;
 
         if (floorNum == 1)
         {
             rand = Random.Range(0, floor1Enemies.Capacity);
-
+            floor1Enemies[rand].transform.SetParent(newParent.transform);
             Instantiate(floor1Enemies[rand], this.transform.position, this.transform.rotation);
         }
         else if (floorNum == 2)

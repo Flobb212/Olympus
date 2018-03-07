@@ -20,6 +20,14 @@ public class Room : MonoBehaviour
     private bool isPopulated = false;
     public GameObject spawners;
 
+    private List<GameObject> lockDown;
+
+    void Update()
+    {
+        //while (this.transform. == "EnemySpawn")
+    }
+
+
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -80,7 +88,7 @@ public class Room : MonoBehaviour
                     if (child.tag == "EnemySpawn")
                     {
                         //print("enemy");
-                        child.GetComponent<EnemySpawner>().Spawn();
+                        child.GetComponent<EnemySpawner>().Spawn(this);
                     }
                     else if (child.tag == "ObstacleSpawn")
                     {
