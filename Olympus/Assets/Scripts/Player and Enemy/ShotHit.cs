@@ -14,7 +14,7 @@ public class ShotHit : MonoBehaviour
             collision.SendMessage("TakeDamage", damage);
             Destroy(gameObject);
         }
-        else if(collision.CompareTag("Obstacle"))
+        else if(collision.CompareTag("Obstacle") || collision.CompareTag("Room"))
         {
             Destroy(gameObject);
         }
