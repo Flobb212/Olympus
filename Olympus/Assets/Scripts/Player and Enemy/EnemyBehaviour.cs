@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    private Transform player;    
+    private Transform player;
     public Room spawnLocation;
 
     public enum MoveSpeed { Stationary, Slow, Normal, Fast };

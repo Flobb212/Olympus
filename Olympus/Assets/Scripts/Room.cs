@@ -22,11 +22,15 @@ public class Room : MonoBehaviour
 
     public List<GameObject> lockDown;
 
+    // For boss rooms
+    public int bossNum = 3;
+
     void Update()
     {
-        if(lockDown.Count != 0)
+        print("update boss index of " + bossNum);
+
+        if (lockDown.Count != 0)
         {
-            print(lockDown.Count);
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
         }
         else
@@ -39,10 +43,12 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag != "Player")
+        if (other.tag != "Player")
         {
             return;
         }
+
+        print("I got a boss index of " + bossNum);
 
         PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
 
@@ -90,17 +96,22 @@ public class Room : MonoBehaviour
             {
                 foreach (Transform child in spawners.transform)
                 {
-                    if (child.tag == "EnemySpawn")
+                    if(child.tag == "EnemySpawn")
                     {
                         //print("enemy");
                         child.GetComponent<EnemySpawner>().Spawn(this);
                     }
-                    else if (child.tag == "ObstacleSpawn")
+                    else if(child.tag == "BossSpawn")
+                    {
+                        //print("enemy");
+                        child.GetComponent<BossSpawner>().Spawn(this);
+                    }
+                    else if(child.tag == "ObstacleSpawn")
                     {
                         //print("obstacle");
                         child.GetComponent<ObstacleSpawner>().Spawn();
                     }
-                    else if (child.tag == "PickupSpawn")
+                    else if(child.tag == "PickupSpawn")
                     {
                         //print("pickup");
                         child.GetComponent<PickupSpawner>().Spawn();
@@ -119,29 +130,5 @@ public class Room : MonoBehaviour
         pos.y *= 12;
 
         Object.Instantiate(roomObject, pos, roomObject.transform.rotation);
-
-        // Got bug where prefab trapdoors stay activated even after play has ended
-
-        if (roomType == "boss")
-        {
-            // Activate this line on boss defeat, swap for open trapdoor
-            //roomObject.transform.GetChild(0).gameObject.SetActive(true);            
-        }
-        else if (roomType == "shop")
-        {
-            // pull x-0
-            // spawn 3 podiums/items with price
-            //roomObject.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        else if (roomType == "treasure")
-        {
-            // pull x-0
-            // spawn single podium
-            //roomObject.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        else
-        {
-            // spawn room from random list
-        }
     }
 }
