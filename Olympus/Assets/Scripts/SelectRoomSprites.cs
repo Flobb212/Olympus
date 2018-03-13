@@ -155,20 +155,24 @@ public class SelectRoomSprites : MonoBehaviour
 
                 if (i == 0) // Make boss room
                 {
+                    print("Made boss");
                     HandleBossRoom(deadEnd[randRoom]);
                 }
                 else if (i == 1) // Make shop room
                 {
+                    print("Made shop");
                     deadEnd[randRoom].roomType = "shop";
                     deadEnd[randRoom].FillRoom();                    
                 }
                 else if(i == 2) // Make treasure room
                 {
+                    print("Made treasure");
                     deadEnd[randRoom].roomType = "treasure";
                     deadEnd[randRoom].FillRoom();                    
                 }
                 else // Make normal room
                 {
+                    print("Made normal");
                     deadEnd[randRoom].roomObject = RandomiseRoomPrefab(deadEnd[randRoom]);
                     deadEnd[randRoom].FillRoom();
                 }
