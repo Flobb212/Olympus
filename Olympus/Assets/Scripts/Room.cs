@@ -23,7 +23,7 @@ public class Room : MonoBehaviour
     public List<GameObject> lockDown;
 
     // For boss rooms
-    public int bossNum = 2;
+    public int bossNum = 0;
 
     void Update()
     {

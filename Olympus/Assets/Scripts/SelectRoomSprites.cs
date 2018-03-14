@@ -146,7 +146,9 @@ public class SelectRoomSprites : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < deadEnd.Count; i++)
+            int roomsLeft = deadEnd.Count;
+
+            for (int i = 0; i < roomsLeft; i++)
             {
                 int randRoom = Random.Range(0, deadEnd.Count - 1);
 
@@ -176,8 +178,9 @@ public class SelectRoomSprites : MonoBehaviour
                     deadEnd[randRoom].roomObject = RandomiseRoomPrefab(deadEnd[randRoom]);
                     deadEnd[randRoom].FillRoom();
                 }
-                
+                                
                 deadEnd.RemoveAt(randRoom);
+                print(deadEnd.Count + "rooms left");
             }
         }
     }
