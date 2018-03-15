@@ -26,22 +26,26 @@ namespace Pathfinding {
 		IAstarAI agent;
 		float switchTime = float.PositiveInfinity;
 
-		protected override void Awake () {
+		protected override void Awake ()
+        {
 			base.Awake();
 			agent = GetComponent<IAstarAI>();
 		}
 
 		/** Update is called once per frame */
-		void Update () {
+		void Update ()
+        {
 			if (targets.Length == 0) return;
 
 			bool search = false;
 
-			if (agent.reachedEndOfPath && !agent.pathPending && float.IsPositiveInfinity(switchTime)) {
+			if (agent.reachedEndOfPath && !agent.pathPending && float.IsPositiveInfinity(switchTime))
+            {
 				switchTime = Time.time + delay;
 			}
 
-			if (Time.time >= switchTime) {
+			if (Time.time >= switchTime)
+            {
 				index = index + 1;
 				search = true;
 				switchTime = float.PositiveInfinity;

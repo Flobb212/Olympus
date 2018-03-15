@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.Profiling;
 #endif
 
-namespace Pathfinding {
+namespace Pathfinding
+{
 	/** Handles path calls for a single unit.
 	 * \ingroup relevant
 	 * This is a component which is meant to be attached to a single unit (AI, Robot, Player, whatever) to handle its pathfinding calls.
@@ -17,7 +18,8 @@ namespace Pathfinding {
 	 */
 	[AddComponentMenu("Pathfinding/Seeker")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_seeker.php")]
-	public class Seeker : VersionedMonoBehaviour {
+	public class Seeker : VersionedMonoBehaviour
+    {
 		/** Enables drawing of the last calculated path using Gizmos.
 		 * The path will show up in green.
 		 *
