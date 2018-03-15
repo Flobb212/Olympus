@@ -34,41 +34,17 @@ namespace Pathfinding {
 			ais = FindObjectsOfType<MonoBehaviour>().OfType<IAstarAI>().ToArray();
 			useGUILayout = false;
 		}
-
-		public void OnGUI ()
-        {
-			if (onlyOnDoubleClick && cam != null && Event.current.type == EventType.MouseDown && Event.current.clickCount == 2)
-            {
-				UpdateTargetPosition();
-			}
-		}
+        
 
 		/** Update is called once per frame */
-		void Update () {
-			
-			UpdateTargetPosition();	
-		}
-
-		public void UpdateTargetPosition ()
+		void Update ()
         {
-			Vector3 newPosition = Vector3.zero;
-			bool positionFound = false;
+            target.position = thisTarget.transform.position;
 
-
-            newPosition = thisTarget.transform.position;
-			newPosition.z = 0;				
-
-			if (positionFound && newPosition != target.position)
+            for (int i = 0; i < ais.Length; i++)
             {
-				target.position = newPosition;
-
-				
-					for (int i = 0; i < ais.Length; i++)
-                    {
-						if (ais[i] != null) ais[i].SearchPath();
-					}
-				
-			}
+                if (ais[i] != null) ais[i].SearchPath();
+            }
 		}
 	}
 }
