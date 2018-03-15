@@ -123,12 +123,12 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void FillRoom()
+    public GameObject BuildRoom()
     {
         Vector2 pos = roomPos;
         pos.x *= 18;
         pos.y *= 12;
 
-        Object.Instantiate(roomObject, pos, roomObject.transform.rotation);
+        return Instantiate(roomObject, pos, roomObject.transform.rotation);        
     }
 }

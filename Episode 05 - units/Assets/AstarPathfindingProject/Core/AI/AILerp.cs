@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Pathfinding {
+namespace Pathfinding
+{
 	using Pathfinding.Util;
 
 	/** Linearly interpolating movement script.
@@ -53,7 +54,7 @@ namespace Pathfinding {
 		public float speed = 3;
 
 		/** If true, the AI will rotate to face the movement direction */
-		public bool enableRotation = true;
+		public bool enableRotation = false;
 
 		/** If true, rotation will only be done along the Z axis so that the Y axis is the forward direction of the character.
 		 * This is useful for 2D games in which one often want to have the Y axis as the forward direction to get sprites and 2D colliders to work properly.

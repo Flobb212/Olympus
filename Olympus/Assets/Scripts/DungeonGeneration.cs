@@ -19,7 +19,7 @@ public class DungeonGeneration : MonoBehaviour
     List<Vector2> occupiedPos = new List<Vector2>();
 
     public GameObject player;    
-    public SelectRoomSprites roomCreator;
+    public SelectRoomPrefab roomCreator;
 
     //Testing Scriptable Rooms
     //public ScriptableRoom newRoom;

@@ -128,18 +128,21 @@ namespace Pathfinding
 		/** Internal list of all modifiers */
 		readonly List<IPathModifier> modifiers = new List<IPathModifier>();
 
-		public enum ModifierPass {
+		public enum ModifierPass
+        {
 			PreProcess,
 			// An obsolete item occupied index 1 previously
 			PostProcess = 2,
 		}
 
-		public Seeker () {
+		public Seeker ()
+        {
 			onPathDelegate = OnPathComplete;
 		}
 
 		/** Initializes a few variables */
-		protected override void Awake () {
+		protected override void Awake ()
+        {
 			base.Awake();
 			startEndModifier.Awake(this);
 		}
@@ -149,7 +152,8 @@ namespace Pathfinding
 		 *
 		 * \see pathCallback
 		 */
-		public Path GetCurrentPath () {
+		public Path GetCurrentPath()
+        {
 			return path;
 		}
 
@@ -224,17 +228,22 @@ namespace Pathfinding
 		 * \see RunModifiers
 		 * \since Added in 3.2
 		 */
-		public void PostProcess (Path path) {
+		public void PostProcess (Path path)
+        {
 			RunModifiers(ModifierPass.PostProcess, path);
 		}
 
 		/** Runs modifiers on a path */
-		public void RunModifiers (ModifierPass pass, Path path) {
-			if (pass == ModifierPass.PreProcess) {
+		public void RunModifiers (ModifierPass pass, Path path)
+        {
+			if (pass == ModifierPass.PreProcess)
+            {
 				if (preProcessPath != null) preProcessPath(path);
 
 				for (int i = 0; i < modifiers.Count; i++) modifiers[i].PreProcess(path);
-			} else if (pass == ModifierPass.PostProcess) {
+			}
+            else if (pass == ModifierPass.PostProcess)
+            {
 				Profiler.BeginSample("Running Path Modifiers");
 				// Call delegates if they exist
 				if (postProcessPath != null) postProcessPath(path);
