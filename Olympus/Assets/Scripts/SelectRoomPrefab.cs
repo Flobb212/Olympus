@@ -157,30 +157,25 @@ public class SelectRoomPrefab : MonoBehaviour
 
                 if (i == 0) // Make boss room
                 {
-                    print("Made boss");
                     HandleBossRoom(deadEnd[randRoom]);
                 }
                 else if (i == 1) // Make shop room
-                {
-                    print("Made shop");
+                {                    
                     deadEnd[randRoom].roomType = "shop";
                     deadEnd[randRoom].BuildRoom();                    
                 }
                 else if(i == 2) // Make treasure room
                 {
-                    print("Made treasure");
                     deadEnd[randRoom].roomType = "treasure";
                     deadEnd[randRoom].BuildRoom();                    
                 }
                 else // Make normal room
                 {
-                    print("Made normal");
                     deadEnd[randRoom].roomObject = RandomiseRoomPrefab(deadEnd[randRoom]);
                     deadEnd[randRoom].BuildRoom();
                 }
-                                
+                
                 deadEnd.RemoveAt(randRoom);
-                print(deadEnd.Count + "rooms left");
             }
         }
     }
@@ -295,9 +290,7 @@ public class SelectRoomPrefab : MonoBehaviour
                 bossRoom.roomObject = boss.roomPrefabs[randRoom];
             }
         }
-
         
-        print("pass boss index of " + bossIndex);        
         GameObject newObject = bossRoom.BuildRoom();
         newObject.GetComponent<Room>().bossNum = bossIndex;
     }

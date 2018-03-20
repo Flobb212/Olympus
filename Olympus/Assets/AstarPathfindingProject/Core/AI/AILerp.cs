@@ -165,23 +165,30 @@ namespace Pathfinding {
 		}
 		#endregion
 
-		public float remainingDistance {
-			get {
+		public float remainingDistance
+        {
+			get
+            {
 				return Mathf.Max(interpolator.remainingDistance, 0);
 			}
-			set {
+			set
+            {
 				interpolator.remainingDistance = Mathf.Max(value, 0);
 			}
 		}
 
-		public bool hasPath {
-			get {
+		public bool hasPath
+        {
+			get
+            {
 				return interpolator.valid;
 			}
 		}
 
-		public bool pathPending {
-			get {
+		public bool pathPending
+        {
+			get
+            {
 				return !canSearchAgain;
 			}
 		}
@@ -238,7 +245,8 @@ namespace Pathfinding {
 		/** Initializes reference variables.
 		 * If you override this function you should in most cases call base.Awake () at the start of it.
 		 * */
-		protected override void Awake () {
+		protected override void Awake ()
+        {
 			base.Awake();
 			//This is a simple optimization, cache the transform component lookup
 			tr = transform;
@@ -258,13 +266,15 @@ namespace Pathfinding {
 		 * \see #Init
 		 * \see #RepeatTrySearchPath
 		 */
-		protected virtual void Start () {
+		protected virtual void Start ()
+        {
 			startHasRun = true;
 			Init();
 		}
 
 		/** Called when the component is enabled */
-		protected virtual void OnEnable () {
+		protected virtual void OnEnable ()
+        {
 			// Make sure we receive callbacks when paths complete
 			seeker.pathCallback += OnPathComplete;
 			Init();

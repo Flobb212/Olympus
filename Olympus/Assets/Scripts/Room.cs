@@ -27,8 +27,6 @@ public class Room : MonoBehaviour
 
     void Update()
     {
-        print("update boss index of " + bossNum);
-
         if (lockDown.Count != 0)
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -47,8 +45,6 @@ public class Room : MonoBehaviour
         {
             return;
         }
-
-        print("I got a boss index of " + bossNum);
 
         PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
 
@@ -115,6 +111,11 @@ public class Room : MonoBehaviour
                     {
                         //print("pickup");
                         child.GetComponent<PickupSpawner>().Spawn();
+                    }
+                    else if (child.tag == "ItemSpawn")
+                    {
+                        //print("item");
+                        child.GetComponent<ItemSpawner>().Spawn();
                     }
                 }
             }            
