@@ -28,6 +28,8 @@ public class DungeonGeneration : MonoBehaviour
     // Public so if certain conditions aren't met, dungeon can be rebuilt
     public void Start()
     {
+        //Random.InitState(5);
+
         GameObject.Instantiate(player);
         if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
         {

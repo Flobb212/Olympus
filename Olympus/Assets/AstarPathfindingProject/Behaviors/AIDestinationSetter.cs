@@ -32,7 +32,10 @@ namespace Pathfinding {
 
 		/** Updates the AI's destination every frame */
 		void Update () {
-			if (target != null && ai != null) ai.destination = target.position;
+            if (target != null && ai != null)
+            {
+                ai.destination = target.position;
+            }
 		}
 	}
 }

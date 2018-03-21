@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickupSpawner : MonoBehaviour
+public class PickupSpawner : Spawner
 {
     public List<GameObject> spawnObj;
     private GameObject chosen;
 
-    public void Spawn()
+    public override void Spawn(Room parentRoom)
     {
         int rand = Random.Range(0, 100);
 

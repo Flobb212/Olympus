@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawner : Spawner
 {
     public ItemList items;
     private GameObject spawnedItem;
     private int rand = 0;
 
-    public void Spawn()
+    public override void Spawn(Room parentRoom)
     {
-        // Would be good to have a chaeck for previously used numbers,
+        // Would be good to have a check for previously used numbers,
         // However each spawner is unique and this value would need to 
         // Be passed to a global overseer.
 

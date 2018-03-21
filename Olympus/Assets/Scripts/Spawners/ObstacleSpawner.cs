@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleSpawner : MonoBehaviour
+public class ObstacleSpawner : Spawner
 {
     public List<GameObject> spawnObj;
 
-    public void Spawn()
+    public override void Spawn(Room parentRoom)
     {
         int rand = Random.Range(0, spawnObj.Capacity);
 

@@ -161,7 +161,7 @@ public class SelectRoomPrefab : MonoBehaviour
                 }
                 else if (i == 1) // Make shop room
                 {                    
-                    deadEnd[randRoom].roomType = "shop";
+                    deadEnd[randRoom].roomType = "shop";                    
                     deadEnd[randRoom].BuildRoom();                    
                 }
                 else if(i == 2) // Make treasure room

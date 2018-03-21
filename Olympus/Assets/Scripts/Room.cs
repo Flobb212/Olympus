@@ -69,11 +69,11 @@ public class Room : MonoBehaviour
             // if needed because check is done on player body centre, so feet location are different
             if (offset.y > 0)
             {
-                offset.y *= -0.75f;
+                offset.y *= -0.55f;
             }
             else
             {
-                offset.y *= -0.55f;
+                offset.y *= -0.75f;
             }
         }
 
@@ -92,31 +92,7 @@ public class Room : MonoBehaviour
             {
                 foreach (Transform child in spawners.transform)
                 {
-                    if(child.tag == "EnemySpawn")
-                    {
-                        //print("enemy");
-                        child.GetComponent<EnemySpawner>().Spawn(this);
-                    }
-                    else if(child.tag == "BossSpawn")
-                    {
-                        //print("enemy");
-                        child.GetComponent<BossSpawner>().Spawn(this);
-                    }
-                    else if(child.tag == "ObstacleSpawn")
-                    {
-                        //print("obstacle");
-                        child.GetComponent<ObstacleSpawner>().Spawn();
-                    }
-                    else if(child.tag == "PickupSpawn")
-                    {
-                        //print("pickup");
-                        child.GetComponent<PickupSpawner>().Spawn();
-                    }
-                    else if (child.tag == "ItemSpawn")
-                    {
-                        //print("item");
-                        child.GetComponent<ItemSpawner>().Spawn();
-                    }
+                    child.GetComponent<Spawner>().Spawn(this);
                 }
             }            
             
@@ -130,6 +106,11 @@ public class Room : MonoBehaviour
         pos.x *= 18;
         pos.y *= 12;
 
-        return Instantiate(roomObject, pos, roomObject.transform.rotation);        
+        GameObject newRoom = Instantiate(roomObject, pos, roomObject.transform.rotation);
+        Room room = newRoom.GetComponent<Room>();
+        room.bossNum = this.bossNum;
+        room.roomType = this.roomType;
+
+        return newRoom;
     }
 }
