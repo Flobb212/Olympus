@@ -8,7 +8,7 @@ public class SelectRoomPrefab : MonoBehaviour
     public ScriptableRoom   URDL, RDL, UDL, URL,
                             URD, UR, UD, UL, RD,
                             RL, DL, U, R, D, L,
-                            boss;
+                            boss, treasure, shop;
 
     public bool up, right, down, left;
     public List<Room> deadEnd = new List<Room>();
@@ -160,14 +160,12 @@ public class SelectRoomPrefab : MonoBehaviour
                     HandleBossRoom(deadEnd[randRoom]);
                 }
                 else if (i == 1) // Make shop room
-                {                    
-                    deadEnd[randRoom].roomType = "shop";                    
-                    deadEnd[randRoom].BuildRoom();                    
+                {
+                    HandleShopRoom(deadEnd[randRoom]);
                 }
                 else if(i == 2) // Make treasure room
                 {
-                    deadEnd[randRoom].roomType = "treasure";
-                    deadEnd[randRoom].BuildRoom();                    
+                    HandleTreasureRoom(deadEnd[randRoom]);
                 }
                 else // Make normal room
                 {
@@ -224,7 +222,6 @@ public class SelectRoomPrefab : MonoBehaviour
                 bossIndex = 8;
             }
         }
-
         
         int randRoom;
 
@@ -293,5 +290,63 @@ public class SelectRoomPrefab : MonoBehaviour
         
         GameObject newObject = bossRoom.BuildRoom();
         newObject.GetComponent<Room>().bossNum = bossIndex;
+    }
+
+
+    private void HandleTreasureRoom(Room treasureRoom)
+    {
+        ScriptableRoom baseShape = treasureRoom.roomShape;
+        treasureRoom.roomShape = treasure;
+        treasureRoom.roomType = "treasure";
+
+        //Need to make and add door locks on floors >1
+
+        if(baseShape == U)
+        {
+            treasureRoom.roomObject = treasure.roomPrefabs[0];
+        }
+        else if (baseShape == R)
+        {
+            treasureRoom.roomObject = treasure.roomPrefabs[1];
+        }
+        else if (baseShape == D)
+        {
+            treasureRoom.roomObject = treasure.roomPrefabs[2];
+        }
+        else
+        {
+            treasureRoom.roomObject = treasure.roomPrefabs[3];
+        }
+
+        treasureRoom.BuildRoom();
+    }
+
+
+    private void HandleShopRoom(Room shopRoom)
+    {
+        ScriptableRoom baseShape = shopRoom.roomShape;
+        shopRoom.roomShape = shop;
+        shopRoom.roomType = "shop";
+
+        //Need to make and add door locks
+
+        if (baseShape == U)
+        {
+            shopRoom.roomObject = shop.roomPrefabs[0];
+        }
+        else if (baseShape == R)
+        {
+            shopRoom.roomObject = shop.roomPrefabs[1];
+        }
+        else if (baseShape == D)
+        {
+            shopRoom.roomObject = shop.roomPrefabs[2];
+        }
+        else
+        {
+            shopRoom.roomObject = shop.roomPrefabs[3];
+        }
+
+        shopRoom.BuildRoom();
     }
 }
