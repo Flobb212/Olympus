@@ -114,24 +114,21 @@ public class SelectRoomPrefab : MonoBehaviour
             }
         }
 
+        // We don't want the start room to be filled with anything
+        if (roomData.roomPos == Vector2.zero)
+        {
+            roomData.roomObject = roomData.roomShape.roomPrefabs[0];
+            roomData.BuildRoom();
+        }
         // Add all dead ends into an array for special room assignment
-        if(roomData.roomShape == U || roomData.roomShape == R || roomData.roomShape == D || roomData.roomShape == L)
+        else if (roomData.roomShape == U || roomData.roomShape == R || roomData.roomShape == D || roomData.roomShape == L)
         {
             deadEnd.Insert(0, roomData);
         }
         else
         {
-            // We don't want the start room to be filled with anything
-            if (roomData.roomPos == Vector2.zero)
-            {
-                roomData.roomObject = roomData.roomShape.roomPrefabs[0];
-                roomData.BuildRoom();
-            }
-            else
-            {
-                roomData.roomObject = RandomiseRoomPrefab(roomData);
-                roomData.BuildRoom();
-            }
+            roomData.roomObject = RandomiseRoomPrefab(roomData);
+            roomData.BuildRoom();
         }
     }
 

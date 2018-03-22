@@ -5,8 +5,69 @@ using UnityEngine;
 public class PlayerCharacter : MonoBehaviour
 {
     public float speed = 0.0f;
+    public int maxHealth = 6;
+    public int currenthealth = 4;
+
+    public int coins = 0;
+    public int bombs = 0;
+    public int keys = 0;
+
+    public GameObject activeItem;
+    public bool hasActive = false;
 
     public Transform curRoomPos;
+    
+    public int Coins
+    {
+        get
+        {
+            return coins;
+        }
+
+        set
+        {
+            coins = value;
+            if(coins > 99)
+            {
+                coins = 99;
+            }
+        }
+    }
+
+    public int Bombs
+    {
+        get
+        {
+            return bombs;
+        }
+
+        set
+        {
+            bombs = value;
+            if (bombs > 99)
+            {
+                bombs = 99;
+            }
+        }
+    }
+
+    public int Keys
+    {
+        get
+        {
+            return keys;
+        }
+
+        set
+        {
+            keys = value;
+            if (keys > 99)
+            {
+                keys = 99;
+            }
+        }
+    }
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -19,4 +80,17 @@ public class PlayerCharacter : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = new Vector2(x, y) * speed;
         GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
     }
+
+    public void TakeDamage(int damage)
+    {
+        currenthealth -= damage;
+
+        if (currenthealth <= 0)
+        {
+            // Also needs Game Over scenario
+            Destroy(this.gameObject);
+        }
+    }
+
+
 }

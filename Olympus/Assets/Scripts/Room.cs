@@ -41,12 +41,11 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag != "Player")
+        RoomMoving tempPlay = other.GetComponent<RoomMoving>();
+        if(tempPlay == null)
         {
             return;
         }
-
-        PlayerCharacter tempPlay = other.GetComponent<PlayerCharacter>();
 
         if (tempPlay.curRoomPos == null)
         {
@@ -82,21 +81,24 @@ public class Room : MonoBehaviour
         tempPlay.transform.localPosition = offset;
         tempPlay.transform.parent = null;
 
-        Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
-
-        // If the room hasn't been entered before, we need to fill it
-        if (isPopulated == false)
+        if (other.tag == "Player")
         {
-            // Activate spawners if any
-            if (spawners != null)
+            Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
+
+            // If the room hasn't been entered before, we need to fill it
+            if (isPopulated == false)
             {
-                foreach (Transform child in spawners.transform)
+                // Activate spawners if any
+                if (spawners != null)
                 {
-                    child.GetComponent<Spawner>().Spawn(this);
+                    foreach (Transform child in spawners.transform)
+                    {
+                        child.GetComponent<Spawner>().Spawn(this);
+                    }
                 }
-            }            
-            
-            isPopulated = true;
+
+                isPopulated = true;
+            }
         }
     }
 

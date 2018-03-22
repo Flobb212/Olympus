@@ -7,6 +7,8 @@ public class ShootShots : MonoBehaviour
     public GameObject shotType;
     public Transform spawn;
     public float fireRate = 0.5f;
+    public float range = 6.0f;
+    public float shotSpeed = 5.0f;
     private bool isShooting = false;
 	
 	void Shoot()
