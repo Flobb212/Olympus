@@ -92,6 +92,4 @@ public class PlayerCharacter : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-
 }

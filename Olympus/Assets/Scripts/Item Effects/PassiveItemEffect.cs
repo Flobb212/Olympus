@@ -19,6 +19,7 @@ public class PassiveItemEffect : MonoBehaviour, IPassiveBuff
             return;
         }
 
+        player.maxHealth += Health;
         player.currenthealth += Health;
         player.damage += Damage;
         player.speed += Speed;

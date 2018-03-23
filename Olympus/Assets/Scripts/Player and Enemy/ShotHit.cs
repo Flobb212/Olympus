@@ -9,8 +9,7 @@ public class ShotHit : MonoBehaviour
 
     void Start()
     {
-        damage = player.GetComponent<PlayerCharacter>().damage;
-        
+        damage = FindObjectOfType<PlayerCharacter>().damage;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -14,8 +14,8 @@ public class Shots : MonoBehaviour
     void Start ()
     {        
         startpos = transform.position;
-        range = player.GetComponent<ShootShots>().range;
-        speed = player.GetComponent<ShootShots>().shotSpeed;
+        range = FindObjectOfType<ShootShots>().range;
+        speed = FindObjectOfType<ShootShots>().shotSpeed;
         //print("Shot fired. Range: " + range + ". Speed: " + speed);
     }    
 	
