@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class PassiveItemEffect : MonoBehaviour, IPassiveBuff
 {
-    [SerializeField]
     public int Health;
     public float Damage;
     public float Speed;
