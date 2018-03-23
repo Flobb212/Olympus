@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
-{
-    public float speed = 0.0f;
+{    
     public int maxHealth = 6;
     public int currenthealth = 4;
+    public float speed = 1.0f;
+    public float damage = 1.0f;
 
     public int coins = 0;
     public int bombs = 0;

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
+using UnityEditor;
 
 [System.Serializable]
 public class PedestalItem

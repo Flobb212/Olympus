@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class ShotHit : MonoBehaviour
 {
-    public int damage = 1;
+    public GameObject player;    
+    public float damage = 1.0f;
+
+    void Start()
+    {
+        damage = player.GetComponent<PlayerCharacter>().damage;
+        
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,5 +26,4 @@ public class ShotHit : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }

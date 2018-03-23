@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class ItemEditor : EditorWindow
 {
@@ -117,6 +118,8 @@ public class ItemEditor : EditorWindow
                 {
                     thisItemList.itemList[viewIndex - 1].tagLine = EditorGUILayout.TextField("Tag Line", thisItemList.itemList[viewIndex - 1].tagLine as string);
                 }
+
+                GUILayout.Space(10);
             }
             else
             {

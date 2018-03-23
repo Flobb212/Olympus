@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: 240030fcfea49184f89eb9f9b033f69b
-timeCreated: 1521819127
+guid: 7c7de6f53e2a6e2489b4ca0866df99f4
+timeCreated: 1521812171
 licenseType: Pro
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - player: {fileID: 1831979801714232, guid: 8e83c8690cbda7b498031ecd33412391, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

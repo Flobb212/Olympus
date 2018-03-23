@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using System.Reflection;
 
 public class ItemSpawner : Spawner
 {
     public ItemList items;
     private GameObject spawnedItem;
     private int rand = 0;
+
+    private bool itemCollected = false;
 
     public override void Spawn(Room parentRoom)
     {
@@ -16,6 +20,17 @@ public class ItemSpawner : Spawner
 
         rand = Random.Range(0, items.itemList.Capacity);
         spawnedItem = items.itemList[rand].itemObject;
-        Instantiate(spawnedItem, this.transform.position + new Vector3(0, 1, 0), this.transform.rotation);
+        spawnedItem = Instantiate(spawnedItem, this.transform.position + new Vector3(0, 1, 0), this.transform.rotation);
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(!itemCollected)
+        {
+            itemCollected = true;
+
+            spawnedItem.GetComponent<PassiveItemEffect>().Activate(collision.gameObject.GetComponent<PlayerCharacter>());
+            Destroy(spawnedItem);
+        }
     }
 }
