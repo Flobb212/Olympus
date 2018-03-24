@@ -34,6 +34,7 @@ namespace Pathfinding {
 		void Update () {
             if (target != null && ai != null)
             {
+                Debug.LogWarning("");
                 ai.destination = target.position;
             }
 		}

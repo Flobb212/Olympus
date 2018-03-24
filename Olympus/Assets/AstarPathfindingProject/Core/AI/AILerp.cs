@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Pathfinding {
+namespace Pathfinding
+{
 	using Pathfinding.Util;
 
 	/** Linearly interpolating movement script.
@@ -36,7 +37,8 @@ namespace Pathfinding {
 	[RequireComponent(typeof(Seeker))]
 	[AddComponentMenu("Pathfinding/AI/AILerp (2D,3D)")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_a_i_lerp.php")]
-	public class AILerp : VersionedMonoBehaviour, IAstarAI {
+	public class AILerp : VersionedMonoBehaviour, IAstarAI
+    {
 		/** Determines how often it will search for new paths.
 		 * If you have fast moving targets or AIs, you might want to set it to a lower value.
 		 * The value is in seconds between path requests.
@@ -105,12 +107,15 @@ namespace Pathfinding {
 		 * the AIDestinationSetter component directly.
 		 */
 		[System.Obsolete("Use the destination property or the AIDestinationSetter component instead")]
-		public Transform target {
-			get {
+		public Transform target
+        {
+			get
+            {
 				var setter = GetComponent<AIDestinationSetter>();
 				return setter != null ? setter.target : null;
 			}
-			set {
+			set
+            {
 				targetCompatibility = null;
 				var setter = GetComponent<AIDestinationSetter>();
 				if (setter == null) setter = gameObject.AddComponent<AIDestinationSetter>();
