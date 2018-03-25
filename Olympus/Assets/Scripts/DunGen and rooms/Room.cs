@@ -83,6 +83,12 @@ public class Room : MonoBehaviour
 
         if (other.tag == "Player")
         {
+            if(other.GetComponent<PlayerCharacter>().moly == true)
+            {
+                print("Moly buff reactive");
+                other.GetComponent<PlayerCharacter>().molyBuff = true;
+            }
+            
             Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
 
             // If the room hasn't been entered before, we need to fill it

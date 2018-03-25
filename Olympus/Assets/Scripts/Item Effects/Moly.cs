@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Moly : MonoBehaviour
+public class Moly : PassiveItemEffect
 {
+    public override void Activate(PlayerCharacter player)
+    {
+        print("Got Moly");
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        base.Activate(player);
+        
+        player.moly = true;
+        player.molyBuff = true;
+    }
 }

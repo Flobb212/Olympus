@@ -27,6 +27,4 @@ public class PassiveItemEffect : MonoBehaviour, IPassiveBuff
         player.GetComponent<ShootShots>().shotSpeed += ShotSpeed;
         player.GetComponent<ShootShots>().fireRate += FireRate;
     }
-
-
 }
