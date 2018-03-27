@@ -103,32 +103,27 @@ public class PlayerCharacter : MonoBehaviour
         //Change the character location based on the speed
         GetComponent<Rigidbody2D>().velocity = new Vector2(x, y) * speed;
         GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
-        print(molyBuff);
-        print(iFrames);
     }
 
     IEnumerator Invincible()
     {
-        yield return new WaitForSeconds(3);
-        print("IFrames");
+        yield return new WaitForSeconds(2);
         iFrames = false;
     }
 
 
     public void TakeDamage(int damage)
-    {
-        print("Hit");
+    {        
         if (molyBuff == true)
         {
-            print("Protection used");
             molyBuff = false;
+            StartCoroutine("Invincible");
             iFrames = true;
             return;
         }
 
         if (iFrames == false)
         {
-            print("Taken damage");
             iFrames = true;
             currenthealth -= damage;
 
