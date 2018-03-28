@@ -47,6 +47,13 @@ public class Room : MonoBehaviour
             return;
         }
 
+        if (other.gameObject.GetComponent<PlayerCharacter>().respawning == true)
+        {
+            return;
+        }
+
+        print("swap");
+
         if (tempPlay.curRoomPos == null)
         {
             tempPlay.curRoomPos = this.transform;
@@ -54,6 +61,8 @@ public class Room : MonoBehaviour
         }
 
         Vector2 oldRoomPos = tempPlay.curRoomPos.position;
+        print(oldRoomPos);
+        other.gameObject.GetComponent<PlayerCharacter>().lastRoomPos = oldRoomPos;        
 
         tempPlay.transform.parent = tempPlay.curRoomPos;
         Vector2 offset = other.transform.localPosition;

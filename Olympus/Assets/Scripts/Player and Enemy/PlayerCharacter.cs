@@ -15,6 +15,7 @@ public class PlayerCharacter : MonoBehaviour
     public int keys = 0;
 
     public Transform curRoomPos;
+    public Vector2 lastRoomPos;
 
     // Active item related variables
     public GameObject activeItem;
@@ -24,7 +25,11 @@ public class PlayerCharacter : MonoBehaviour
     public bool scalesOfJustice = false;
     private bool scalesBuff = false;
     public bool moly = false;
-    public bool molyBuff = false;    
+    public bool molyBuff = false;
+    public bool rodOfAsclepius = false;
+    public int kills = 0;
+    public bool ambrosia = false;
+    public bool respawning = false;
     
     public int Coins
     {
@@ -113,7 +118,7 @@ public class PlayerCharacter : MonoBehaviour
 
 
     public void TakeDamage(int damage)
-    {        
+    {
         if (molyBuff == true)
         {
             molyBuff = false;
@@ -129,8 +134,20 @@ public class PlayerCharacter : MonoBehaviour
 
             if (currenthealth <= 0)
             {
-                // Also needs Game Over scenario
-                Destroy(this.gameObject);
+                if(ambrosia == true)
+                {
+                    print("respawn at " + lastRoomPos);
+                    respawning = true;
+                    //transform.position = lastRoomPos;
+                    transform.position = new Vector3(0,0,0);
+                    Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);                    
+                    respawning = false;
+                }
+                else
+                {
+                    // Also needs Game Over scenario
+                    Destroy(this.gameObject);
+                }
             }
 
             StartCoroutine("Invincible");
@@ -159,6 +176,19 @@ public class PlayerCharacter : MonoBehaviour
             GetComponent<ShootShots>().range--;
             GetComponent<ShootShots>().shotSpeed--;
             GetComponent<ShootShots>().fireRate += 0.1f;
+        }
+    }
+
+    public void AsclepiusEffect()
+    {
+        if (rodOfAsclepius == true)
+        {
+            kills++;
+            if(kills >= 15)
+            {
+                currenthealth++;
+                kills = 0;
+            }
         }
     }
 

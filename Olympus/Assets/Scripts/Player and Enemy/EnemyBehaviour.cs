@@ -5,10 +5,13 @@ using UnityEngine;
 public class EnemyBehaviour : MonoBehaviour
 {
     public Room spawnLocation;
+    public Sprite changedSprite;
     public float health = 5.0f;
     public enum MoveSpeed { Stationary, Slow, Normal, Fast };
     public MoveSpeed moveType;
     public float speed = 0.0f;
+
+    private bool isChanged = false;
 
     // Use this for initialization
     void Start ()
@@ -36,6 +39,11 @@ public class EnemyBehaviour : MonoBehaviour
             speed = 6.0f;
         }
 
+        AdjustSpeed();
+    }
+
+    public void AdjustSpeed()
+    {
         this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
     }
 
@@ -47,11 +55,11 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (shot.thisShot == ShotHit.ShotType.Fire)
         {
-            StartCoroutine(DoT());
+            StartCoroutine(DoT(shot.damage));
         }
         else if (shot.thisShot == ShotHit.ShotType.Poison)
         {
-            StartCoroutine(DoT());
+            StartCoroutine(DoT(shot.damage));
         }
         else if (shot.thisShot == ShotHit.ShotType.Slow)
         {
@@ -64,8 +72,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (shot.thisShot == ShotHit.ShotType.Change)
         {
-            print("change hit");
-            //enemy becomes motionless and can't attack
+            StartCoroutine(Changed());
         }
         else if (shot.thisShot == ShotHit.ShotType.Betray)
         {
@@ -74,24 +81,25 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (shot.thisShot == ShotHit.ShotType.Death)
         {
-            print("death hit");
             spawnLocation.lockDown.Remove(gameObject);
+            FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
             Destroy(gameObject);
         }                
 
         if(health <= 0)
         {
             //spawnLocation.lockDown.Remove(gameObject);
+            FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
             Destroy(gameObject);
         }
     }
 
     // Deals damage over time from fire and poison, will pass in diff effects later
-    IEnumerator DoT()
+    IEnumerator DoT(float damage)
     {
         for(int i = 0; i <= 3; i++)
         {
-            health--;
+            health -= damage;
             yield return new WaitForSeconds(1);
         }
     }
@@ -100,10 +108,31 @@ public class EnemyBehaviour : MonoBehaviour
     IEnumerator Slowed()        
     {
         speed /= 2;
-        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+        AdjustSpeed();
         yield return new WaitForSeconds(5);
         speed *= 2;
-        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+        AdjustSpeed();
+    }
+
+    IEnumerator Changed()
+    {
+        if(isChanged == false)
+        {
+            isChanged = true;
+            Sprite OG = gameObject.GetComponent<SpriteRenderer>().sprite;
+            gameObject.GetComponent<SpriteRenderer>().sprite = changedSprite;
+
+            float tempSpeed = speed;
+            speed = 0;
+            AdjustSpeed();
+
+            // Stop attack when attack is programmed
+
+            yield return new WaitForSeconds(5);
+            gameObject.GetComponent<SpriteRenderer>().sprite = OG;
+            speed = tempSpeed;
+            isChanged = false;
+        }
     }
 
 

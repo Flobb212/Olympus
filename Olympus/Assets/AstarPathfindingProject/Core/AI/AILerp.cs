@@ -55,7 +55,6 @@ namespace Pathfinding
         public float speed = 3;
         public void SettingSpeed(float setSpeed)
         {
-            print("speed enabled");
             speed = setSpeed;
         }
 		/** If true, the AI will rotate to face the movement direction */
