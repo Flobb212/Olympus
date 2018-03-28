@@ -21,7 +21,7 @@ namespace Pathfinding {
 		void OnEnable ()
         {
             target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
-			ai = GetComponent<IAstarAI>();
+            ai = GetComponent<IAstarAI>();
 			// Update the destination right before searching for a path as well.
 			// This is enough in theory, but this script will also update the destination every
 			// frame as the destination is used for debugging and may be used for other things by other
@@ -33,14 +33,14 @@ namespace Pathfinding {
 			if (ai != null) ai.onSearchPath -= Update;
 		}
 
-		/** Updates the AI's destination every frame */
-		void Update ()
+        /** Updates the AI's destination every frame */
+        void Update()
         {
             if (target != null && ai != null)
             {
                 Debug.LogWarning("");
                 ai.destination = target.position;
             }
-		}
+        }
 	}
 }

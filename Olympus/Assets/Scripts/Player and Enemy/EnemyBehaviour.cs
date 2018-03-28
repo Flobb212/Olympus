@@ -5,22 +5,19 @@ using UnityEngine;
 public class EnemyBehaviour : MonoBehaviour
 {
     public Room spawnLocation;
-
+    public float health = 5.0f;
     public enum MoveSpeed { Stationary, Slow, Normal, Fast };
     public MoveSpeed moveType;
     public float speed = 0.0f;
 
-    public int health = 5;
-
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
-        spawnLocation.lockDown.Add(gameObject);
         SpeedSelect();
-	}
-	
+        //spawnLocation.lockDown.Add(gameObject);
+	}    
 
-    void SpeedSelect()
+    public void SpeedSelect()
     {
         if (moveType == MoveSpeed.Stationary)
         {
@@ -28,27 +25,86 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (moveType == MoveSpeed.Slow)
         {
-            speed = 2.5f;
+            speed = 2.0f;
         }
         else if (moveType == MoveSpeed.Normal)
         {
-            speed = 5.0f;
+            speed = 4.0f;
         }
         else if (moveType == MoveSpeed.Fast)
         {
-            speed = 7.5f;
+            speed = 6.0f;
         }
+
+        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
     }
 
-
-    public void TakeDamage(int damage)
+    public void TakeDamage(ShotHit shot)
     {
-        health -= damage;
+        if(shot.thisShot == ShotHit.ShotType.Normal)
+        {
+            health -= shot.damage;
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Fire)
+        {
+            StartCoroutine(DoT());
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Poison)
+        {
+            StartCoroutine(DoT());
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Slow)
+        {
+            StartCoroutine(Slowed());
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Fear)
+        {
+            print("fear hit");
+            //enemy runs from player
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Change)
+        {
+            print("change hit");
+            //enemy becomes motionless and can't attack
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Betray)
+        {
+            print("betray hit");
+            //enemy attacks other enemies
+        }
+        else if (shot.thisShot == ShotHit.ShotType.Death)
+        {
+            print("death hit");
+            spawnLocation.lockDown.Remove(gameObject);
+            Destroy(gameObject);
+        }                
 
         if(health <= 0)
         {
-            spawnLocation.lockDown.Remove(gameObject);
+            //spawnLocation.lockDown.Remove(gameObject);
             Destroy(gameObject);
         }
     }
+
+    // Deals damage over time from fire and poison, will pass in diff effects later
+    IEnumerator DoT()
+    {
+        for(int i = 0; i <= 3; i++)
+        {
+            health--;
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    // Halves enemy speed and passes it into the A* system
+    IEnumerator Slowed()        
+    {
+        speed /= 2;
+        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+        yield return new WaitForSeconds(5);
+        speed *= 2;
+        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+    }
+
+
 }

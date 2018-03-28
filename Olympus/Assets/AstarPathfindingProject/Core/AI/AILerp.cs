@@ -51,9 +51,13 @@ namespace Pathfinding
 		/** \copydoc Pathfinding::IAstarAI::canMove */
 		public bool canMove = true;
 
-		/** Speed in world units */
-		public float speed = 3;
-
+        /** Speed in world units */
+        public float speed = 3;
+        public void SettingSpeed(float setSpeed)
+        {
+            print("speed enabled");
+            speed = setSpeed;
+        }
 		/** If true, the AI will rotate to face the movement direction */
 		public bool enableRotation = false;
 
@@ -279,9 +283,9 @@ namespace Pathfinding
 
 		/** Called when the component is enabled */
 		protected virtual void OnEnable ()
-        {
-			// Make sure we receive callbacks when paths complete
-			seeker.pathCallback += OnPathComplete;
+        {            
+            // Make sure we receive callbacks when paths complete
+            seeker.pathCallback += OnPathComplete;
 			Init();
 		}
 
