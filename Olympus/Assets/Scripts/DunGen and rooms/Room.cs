@@ -8,7 +8,8 @@ public class Room : MonoBehaviour
     public GameObject roomObject;
     public ScriptableRoom roomShape;
     //Assigns the location of the room
-    public Vector2 roomPos;    
+    public Vector2 roomPos;
+    public bool isOccupied = false;
 
     // Defines the shape of room and it's contents
     // Can be: start, norm, boss, treasure or shop
@@ -41,30 +42,37 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
+        // Entering another trigger causes this to trigger again
+        // Need a check to see when the player is in this room and when they leave
+        if(other.gameObject.GetComponent<PlayerCharacter>() != null)
+        {
+            if (isOccupied == true || other.gameObject.GetComponent<PlayerCharacter>().respawning == true)
+            {
+                return;
+            }
+            else
+            {
+                isOccupied = true;
+            }
+        }
+
         RoomMoving tempPlay = other.GetComponent<RoomMoving>();
         if(tempPlay == null)
         {
             return;
-        }
-
-        if (other.gameObject.GetComponent<PlayerCharacter>().respawning == true)
+        }     
+        else if (tempPlay.curRoom == null)
         {
+            tempPlay.curRoom = this;
             return;
         }
 
         print("swap");
 
-        if (tempPlay.curRoomPos == null)
-        {
-            tempPlay.curRoomPos = this.transform;
-            return;
-        }
+        Room oldRoom = tempPlay.curRoom;
+        other.gameObject.GetComponent<PlayerCharacter>().lastRoom = oldRoom;        
 
-        Vector2 oldRoomPos = tempPlay.curRoomPos.position;
-        print(oldRoomPos);
-        other.gameObject.GetComponent<PlayerCharacter>().lastRoomPos = oldRoomPos;        
-
-        tempPlay.transform.parent = tempPlay.curRoomPos;
+        tempPlay.transform.parent = tempPlay.curRoom.transform;
         Vector2 offset = other.transform.localPosition;
         tempPlay.transform.parent = null;
 
@@ -85,16 +93,18 @@ public class Room : MonoBehaviour
             }
         }
 
-        tempPlay.curRoomPos = this.transform;
+        tempPlay.curRoom = this;
         tempPlay.transform.parent = this.transform;
         tempPlay.transform.localPosition = offset;
         tempPlay.transform.parent = null;
+
+        // Tell the old room the player is no longer in it so it can be entered properly again
+        other.gameObject.GetComponent<PlayerCharacter>().lastRoom.isOccupied = false;
 
         if (other.tag == "Player")
         {
             if(other.GetComponent<PlayerCharacter>().moly == true)
             {
-                print("Moly buff reactive");
                 other.GetComponent<PlayerCharacter>().molyBuff = true;
             }
             

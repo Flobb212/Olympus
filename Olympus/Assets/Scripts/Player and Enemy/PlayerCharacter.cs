@@ -13,9 +13,8 @@ public class PlayerCharacter : MonoBehaviour
     public int coins = 0;
     public int bombs = 0;
     public int keys = 0;
-
-    public Transform curRoomPos;
-    public Vector2 lastRoomPos;
+    
+    public Room lastRoom;
 
     // Active item related variables
     public GameObject activeItem;
@@ -154,7 +153,7 @@ public class PlayerCharacter : MonoBehaviour
             {
                 if(ambrosia == true)
                 {
-                    print("respawn at " + lastRoomPos);
+                    print("respawn at " + lastRoom);
                     respawning = true;
                     //transform.position = lastRoomPos;
                     transform.position = new Vector3(0,0,0);

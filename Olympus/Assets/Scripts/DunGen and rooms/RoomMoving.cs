@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class RoomMoving : MonoBehaviour
 {
-    public Transform curRoomPos;
+    public Room curRoom;
 }
