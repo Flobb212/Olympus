@@ -6,15 +6,28 @@ public class PickupSpawner : Spawner
 {
     public List<GameObject> spawnObj;
     private GameObject chosen;
+    public PlayerCharacter thePlayer;
+
+    private int coin1Limit = 80;
+    private int coin5Limit = 90;
+    private int coin10Limit = 100;
 
     public override void Spawn(Room parentRoom)
     {
         int rand = Random.Range(0, 100);
+        thePlayer = FindObjectOfType<PlayerCharacter>();
+
+        if(thePlayer.necklaceOfHarmonia == true)
+        {
+            coin1Limit = 70;
+            coin5Limit = 85;
+            coin10Limit = 95;
+        }
 
         if(rand < 20)
         {
-            //Spawn 1 coin
-            chosen = spawnObj[0];
+            //Spawn heart
+            chosen = spawnObj[0];            
         }
         else if(rand > 19 && rand < 40)
         {
@@ -26,22 +39,25 @@ public class PickupSpawner : Spawner
             //Spawn key
             chosen = spawnObj[2];
         }
-        else if (rand > 59 && rand < 80)
+        else if (rand > 59 && rand < coin1Limit)
         {
-            //Spawn heart
+            //Spawn 1 coin
             chosen = spawnObj[3];
         }
-        else if (rand > 79 && rand < 90)
+        else if (rand > 79 && rand < coin5Limit)
         {
             //Spawn 5 coin
             chosen = spawnObj[4];
         }
-        else if (rand > 89 && rand < 100)
+        else if (rand > 89 && rand < coin10Limit)
         {
             //Spawn 10 coin
             chosen = spawnObj[5];
         }
 
-        Instantiate(chosen, this.transform.position, this.transform.rotation);
+        if(chosen != null)
+        {
+            Instantiate(chosen, this.transform.position, this.transform.rotation);
+        }        
     }
 }

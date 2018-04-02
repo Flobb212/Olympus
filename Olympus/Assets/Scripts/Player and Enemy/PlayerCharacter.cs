@@ -30,6 +30,9 @@ public class PlayerCharacter : MonoBehaviour
     public int kills = 0;
     public bool ambrosia = false;
     public bool respawning = false;
+    public bool necklaceOfHarmonia = false;
+    public bool aegis = false;
+    public int blockChance = 0;
     
     public int Coins
     {
@@ -119,6 +122,21 @@ public class PlayerCharacter : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if(aegis == true)
+        {
+            blockChance = Random.Range(0, 10);
+
+            if(blockChance < 3)
+            {
+                print("blocked with a " + blockChance);
+                return;
+            }
+            else
+            {
+                print("hit with a " + blockChance);
+            }
+        }
+
         if (molyBuff == true)
         {
             molyBuff = false;
