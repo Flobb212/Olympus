@@ -24,13 +24,13 @@ public class EnemySpawner : Spawner
         else if (floorNum == 2)
         {
             rand = Random.Range(0, floor2Enemies.Capacity);
-
+            floor2Enemies[rand].GetComponent<EnemyBehaviour>().spawnLocation = parentRoom;
             Instantiate(floor2Enemies[rand], this.transform.position, this.transform.rotation);
         }
         else if (floorNum == 3)
         {
             rand = Random.Range(0, floor3Enemies.Capacity);
-
+            floor3Enemies[rand].GetComponent<EnemyBehaviour>().spawnLocation = parentRoom;
             Instantiate(floor3Enemies[rand], this.transform.position, this.transform.rotation);
         }
     }

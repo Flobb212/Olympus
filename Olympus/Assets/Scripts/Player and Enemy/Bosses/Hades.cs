@@ -5,15 +5,28 @@ using UnityEngine;
 public class Hades : MonoBehaviour
 {
     public int health = 5;
-    public Room spawnLocation;
+    public Room mySpawn;
 
-    void Start ()
+    void Start()
     {
-		
-	}
+        GetRoom();
+    }
+
+    void GetRoom()
+    {
+        do
+        {
+            mySpawn = GetComponent<Boss>().spawnLocation;
+            print("Waiting for room");
+            if (GetComponent<Boss>().spawnLocation != null)
+            {
+                mySpawn.lockDown.Add(gameObject);
+            }
+        }
+        while (GetComponent<Boss>().spawnLocation == null);
+    }
 	
-	
-	void Update ()
+	void Update()
     {
 		
 	}
@@ -24,7 +37,7 @@ public class Hades : MonoBehaviour
 
         if (health <= 0)
         {
-            spawnLocation.lockDown.Remove(gameObject);
+            mySpawn.lockDown.Remove(gameObject);
             Destroy(gameObject);
         }
     }

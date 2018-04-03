@@ -17,7 +17,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Start ()
     {
         SpeedSelect();
-        //spawnLocation.lockDown.Add(gameObject);
+        spawnLocation.lockDown.Add(gameObject);
 	}    
 
     public void SpeedSelect()
@@ -88,7 +88,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         if(health <= 0)
         {
-            //spawnLocation.lockDown.Remove(gameObject);
+            spawnLocation.lockDown.Remove(gameObject);
             FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
             Destroy(gameObject);
         }
