@@ -17,7 +17,10 @@ public class EnemyBehaviour : MonoBehaviour
     void Start ()
     {
         SpeedSelect();
-        spawnLocation.lockDown.Add(gameObject);
+        if(spawnLocation != null)
+        {
+            spawnLocation.lockDown.Add(gameObject);
+        }
 	}    
 
     public void SpeedSelect()
@@ -32,11 +35,11 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (moveType == MoveSpeed.Normal)
         {
-            speed = 4.0f;
+            speed = 3.5f;
         }
         else if (moveType == MoveSpeed.Fast)
         {
-            speed = 6.0f;
+            speed = 5.0f;
         }
 
         AdjustSpeed();

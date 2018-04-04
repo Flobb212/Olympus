@@ -128,7 +128,13 @@ namespace Pathfinding
 		}
 
 		/** \copydoc Pathfinding::IAstarAI::position */
-		public Vector3 position { get { return updatePosition ? tr.position : simulatedPosition; } }
+		public Vector3 position
+        {
+            get
+            {
+                return updatePosition ? tr.position : simulatedPosition;
+            }
+        }
 
 		/** \copydoc Pathfinding::IAstarAI::rotation */
 		public Quaternion rotation { get { return updateRotation ? tr.rotation : simulatedRotation; } }
