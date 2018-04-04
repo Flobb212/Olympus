@@ -14,7 +14,7 @@ public class Gaia : MonoBehaviour
             mySpawn = GetComponent<Boss>().spawnLocation;
             print("Waiting for room");
         }
-        while (GetComponent<Boss>().spawnLocation = null);
+        while (GetComponent<Boss>().spawnLocation == null);
 
         mySpawn.lockDown.Add(gameObject);
     }
