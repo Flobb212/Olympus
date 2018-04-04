@@ -26,7 +26,7 @@ public class ShotHit : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // if we're hitting the room
-        if(collision.CompareTag("Enemy"))
+        if(collision.CompareTag("Enemy") || collision.CompareTag("Boss"))
         {
             collision.SendMessage("TakeDamage", this);
             Destroy(gameObject);
