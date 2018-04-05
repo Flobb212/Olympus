@@ -3,23 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class Boss : MonoBehaviour, IBoss
 {    
     public float health = 5;
     public Room mySpawn;
     public float speed = 0.0f;
+    private GameObject endStuff;
 
-    void Start()
+    private void Start()
     {
-        if (mySpawn != null)
-        {
-            mySpawn.lockDown.Add(gameObject);
-        }
-    }
-
-    void Update()
-    {
-
+        mySpawn.lockDown.Add(gameObject);
     }
 
     public void AdjustSpeed()
@@ -68,12 +61,13 @@ public class Boss : MonoBehaviour
         {
             mySpawn.lockDown.Remove(gameObject);
             FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
+            mySpawn.endStuff.SetActive(true);
+            mySpawn.endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(mySpawn);
             Destroy(gameObject);
         }
     }
 
-    // Deals damage over time from fire and poison, will pass in diff effects later
-    IEnumerator DoT(float damage)
+    public IEnumerator DoT(float damage)
     {
         for (int i = 0; i <= 3; i++)
         {
@@ -82,8 +76,7 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // Halves enemy speed and passes it into the A* system
-    IEnumerator Slowed()
+    public IEnumerator Slowed()
     {
         speed /= 2;
         AdjustSpeed();

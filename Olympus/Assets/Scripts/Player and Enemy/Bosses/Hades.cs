@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hades : MonoBehaviour
+public class Hades : Boss
 {
 	void Update()
     {

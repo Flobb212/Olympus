@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cerberus : MonoBehaviour
+public class Cerberus : Boss
 {
     void Update()
     {

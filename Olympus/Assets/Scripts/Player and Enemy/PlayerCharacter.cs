@@ -35,10 +35,7 @@ public class PlayerCharacter : MonoBehaviour
     
     public int Coins
     {
-        get
-        {
-            return coins;
-        }
+        get{return coins;}
 
         set
         {
@@ -57,10 +54,7 @@ public class PlayerCharacter : MonoBehaviour
 
     public int Bombs
     {
-        get
-        {
-            return bombs;
-        }
+        get{return bombs;}
 
         set
         {
@@ -79,10 +73,7 @@ public class PlayerCharacter : MonoBehaviour
 
     public int Keys
     {
-        get
-        {
-            return keys;
-        }
+        get{return keys;}
 
         set
         {
@@ -100,14 +91,11 @@ public class PlayerCharacter : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void FixedUpdate()
-    {
-        //Gets input from keyboard to move in axis
+    {        
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-
-        //Change the character location based on the speed
+        
         GetComponent<Rigidbody2D>().velocity = new Vector2(x, y) * speed;
         GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
     }
@@ -127,12 +115,7 @@ public class PlayerCharacter : MonoBehaviour
 
             if(blockChance < 3)
             {
-                print("blocked with a " + blockChance);
                 return;
-            }
-            else
-            {
-                print("hit with a " + blockChance);
             }
         }
 
@@ -176,7 +159,6 @@ public class PlayerCharacter : MonoBehaviour
     {
         if(coins == bombs && bombs == keys && scalesBuff == false)
         {
-            //print("balanced");
             scalesBuff = true;
             damage++;
             speed++;
@@ -186,7 +168,6 @@ public class PlayerCharacter : MonoBehaviour
         }
         else if(scalesBuff == true && (coins != bombs || bombs != keys))
         {
-            //print("unbalanced");
             scalesBuff = false;
             damage--;
             speed--;
@@ -208,5 +189,4 @@ public class PlayerCharacter : MonoBehaviour
             }
         }
     }
-
 }

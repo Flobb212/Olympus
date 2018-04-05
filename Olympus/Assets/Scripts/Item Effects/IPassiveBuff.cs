@@ -4,7 +4,5 @@ using UnityEngine;
 
 public interface IPassiveBuff
 {
-    
-
     void Activate(PlayerCharacter playerCharacter);
 }

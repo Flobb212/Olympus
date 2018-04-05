@@ -25,6 +25,7 @@ public class Room : MonoBehaviour
 
     // For boss rooms
     public int bossNum = 0;
+    public GameObject endStuff;
 
     void Update()
     {

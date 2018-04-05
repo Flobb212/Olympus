@@ -295,8 +295,9 @@ public class DungeonGeneration : MonoBehaviour
             for (int y = 0; y < gridY * 2; y++)
             {
                 Destroy(roomsList[x, y]);
-                this.Start();
             }
         }
+
+        this.Start();
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Charon : MonoBehaviour
+public class Charon : Boss
 {
     void Update()
     {
