@@ -14,7 +14,7 @@ public class SelectRoomPrefab : MonoBehaviour
     public List<Room> deadEnd = new List<Room>();
     public DungeonGeneration rebuild;
 
-    public int currFloor = 1;    
+    public int currFloor = 0;    
 
     public void PickRoom(ref Room roomData)
     {        
@@ -189,14 +189,15 @@ public class SelectRoomPrefab : MonoBehaviour
     {
         ScriptableRoom baseShape = bossRoom.roomShape;
         bossRoom.roomShape = boss;
-        bossRoom.roomType = "boss";
-        
+        bossRoom.roomType = "boss";        
 
         int randBoss = Random.Range(1, 4);
         int bossIndex = 0;
 
+        currFloor = FindObjectOfType<DungeonGeneration>().floorNum;
+
         // Since certain bosses need certain rooms, the boss must be chosen before room assignment
-        if(currFloor == 1)
+        if (currFloor == 1)
         {
             bossIndex = randBoss - currFloor;
         }

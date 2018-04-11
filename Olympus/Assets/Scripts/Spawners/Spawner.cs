@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour, ISpawner
 {
-    public virtual void Spawn(Room parentRoom)
+    public virtual void Spawn(GameObject parentRoom)
     {
         throw new System.NotImplementedException();
     }

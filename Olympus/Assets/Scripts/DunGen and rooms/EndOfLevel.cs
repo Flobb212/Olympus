@@ -17,7 +17,5 @@ public class EndOfLevel : MonoBehaviour
                 FindObjectOfType<DungeonGeneration>().Regenerate();
             }
         }
-
-        
     }
 }

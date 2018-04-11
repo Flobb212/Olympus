@@ -12,6 +12,7 @@ public class Bombs : MonoBehaviour
         }
 
         other.transform.GetComponent<PlayerCharacter>().Bombs++;
+        FindObjectOfType<DungeonGeneration>().spawnedThings.Remove(this.gameObject);
         Destroy(this.gameObject);
     }
 }

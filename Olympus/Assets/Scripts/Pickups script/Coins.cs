@@ -14,6 +14,7 @@ public class Coins : MonoBehaviour
         }
 
         other.transform.GetComponent<PlayerCharacter>().Coins += value;
+        FindObjectOfType<DungeonGeneration>().spawnedThings.Remove(this.gameObject);
         Destroy(this.gameObject);
     }
 }

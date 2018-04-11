@@ -11,9 +11,10 @@ public class EnemySpawner : Spawner
     public List<GameObject> floor2Enemies;
     public List<GameObject> floor3Enemies;
 
-    public override void Spawn(Room parentRoom)
+    public override void Spawn(GameObject parentRoom)
     {
-        int rand = 0;
+        floorNum = FindObjectOfType<DungeonGeneration>().floorNum;
+        int rand = 0;        
 
         if (floorNum == 1)
         {

@@ -6,13 +6,13 @@ using UnityEngine;
 public class Boss : MonoBehaviour, IBoss
 {    
     public float health = 5;
-    public Room mySpawn;
+    public GameObject mySpawn;
     public float speed = 0.0f;
     private GameObject endStuff;
 
     private void Start()
     {
-        mySpawn.lockDown.Add(gameObject);
+        mySpawn.GetComponent<Room>().lockDown.Add(gameObject);
     }
 
     public void AdjustSpeed()
@@ -59,10 +59,10 @@ public class Boss : MonoBehaviour, IBoss
 
         if (health <= 0)
         {
-            mySpawn.lockDown.Remove(gameObject);
+            mySpawn.GetComponent<Room>().lockDown.Remove(gameObject);
             FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
-            mySpawn.endStuff.SetActive(true);
-            mySpawn.endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(mySpawn);
+            mySpawn.GetComponent<Room>().endStuff.SetActive(true);
+            mySpawn.GetComponent<Room>().endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(mySpawn);
             Destroy(gameObject);
         }
     }

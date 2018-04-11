@@ -7,7 +7,7 @@ public class BossSpawner : Spawner
     public int boss;
     public List<GameObject> bossList;
 
-    public override void Spawn(Room parentRoom)
+    public override void Spawn(GameObject parentRoom)
     {
         boss = GetComponentInParent<Room>().bossNum;
         bossList[boss].GetComponent<Boss>().mySpawn = parentRoom;

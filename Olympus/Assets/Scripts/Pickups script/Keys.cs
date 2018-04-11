@@ -12,6 +12,7 @@ public class Keys : MonoBehaviour
         }
 
         other.transform.GetComponent<PlayerCharacter>().Keys++;
+        FindObjectOfType<DungeonGeneration>().spawnedThings.Remove(this.gameObject);
         Destroy(this.gameObject);
     }
 }

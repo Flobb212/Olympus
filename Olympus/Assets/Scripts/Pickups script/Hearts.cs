@@ -14,6 +14,7 @@ public class Hearts : MonoBehaviour
         if(other.transform.GetComponent<PlayerCharacter>().currenthealth < other.transform.GetComponent<PlayerCharacter>().maxHealth)
         {
             other.transform.GetComponent<PlayerCharacter>().currenthealth++;
+            FindObjectOfType<DungeonGeneration>().spawnedThings.Remove(this.gameObject);
             Destroy(this.gameObject);
         }        
     }

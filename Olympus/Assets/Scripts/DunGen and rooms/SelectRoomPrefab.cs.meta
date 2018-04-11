@@ -21,6 +21,9 @@ MonoImporter:
   - R: {fileID: 11400000, guid: 795bdc58f515e0a43a3ec709a33f03c0, type: 2}
   - D: {fileID: 11400000, guid: 029c738c94968cd41b694daddc61daea, type: 2}
   - L: {fileID: 11400000, guid: 9b2fc29124a78984ea12b8267488ff98, type: 2}
+  - boss: {fileID: 11400000, guid: 433b2c501fb43744aa5cf93b87d21a09, type: 2}
+  - treasure: {fileID: 11400000, guid: 172919f14a4b9ab41a3898b4ad8ad2eb, type: 2}
+  - shop: {fileID: 11400000, guid: e38fa8911e0c46b4aa35f9c0ab797047, type: 2}
   - rebuild: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}

@@ -18,17 +18,17 @@ public class DungeonGeneration : MonoBehaviour
     Room[,] roomsList;
     List<Vector2> occupiedPos = new List<Vector2>();
 
-    public GameObject player;    
+    public GameObject player;
+    public int floorNum = 1;
     public SelectRoomPrefab roomCreator;
+    public List<GameObject> finalRooms = new List<GameObject>();
+    public List<GameObject> spawnedThings = new List<GameObject>();
 
-    //Testing Scriptable Rooms
-    //public ScriptableRoom newRoom;
-    
-    
     // Public so if certain conditions aren't met, dungeon can be rebuilt
     public void Start()
     {
-        //Random.InitState(5);
+        // Can produce same seed repeatedly for tests 
+        // Random.InitState(5);
 
         GameObject.Instantiate(player);
         if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
@@ -54,7 +54,6 @@ public class DungeonGeneration : MonoBehaviour
         // Mark this position as occupied
         occupiedPos.Insert(0, Vector2.zero);
         Vector2 checkPos;
-
         
         // "Magic numbers"
         float randomCompare = 0.2f, randomCompareStart = 0.2f, randomCompareEnd = 0.01f;
@@ -290,14 +289,17 @@ public class DungeonGeneration : MonoBehaviour
 
     public void Regenerate()
     {
-        for (int x = 0; x < gridX * 2; x++)
+        foreach (GameObject obj in spawnedThings)
         {
-            for (int y = 0; y < gridY * 2; y++)
-            {
-                Destroy(roomsList[x, y]);
-            }
+            Destroy(obj.gameObject);
         }
 
-        this.Start();
+        foreach (GameObject room in finalRooms)
+        {
+            Destroy(room);
+        }
+
+        floorNum++;
+        //this.Start();
     }
 }

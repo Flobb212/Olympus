@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    public Room spawnLocation;
+    public GameObject spawnLocation;
     public Sprite changedSprite;
     public float health = 5.0f;
     public enum MoveSpeed { Stationary, Slow, Normal, Fast };
@@ -19,7 +19,7 @@ public class EnemyBehaviour : MonoBehaviour
         SpeedSelect();
         if(spawnLocation != null)
         {
-            spawnLocation.lockDown.Add(gameObject);
+            spawnLocation.GetComponent<Room>().lockDown.Add(gameObject);
         }
 	}    
 
@@ -84,14 +84,12 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (shot.thisShot == ShotHit.ShotType.Death)
         {
-            spawnLocation.lockDown.Remove(gameObject);
-            FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
-            Destroy(gameObject);
+            health = 0;
         }                
 
         if(health <= 0)
         {
-            spawnLocation.lockDown.Remove(gameObject);
+            spawnLocation.GetComponent<Room>().lockDown.Remove(gameObject);
             FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
             Destroy(gameObject);
         }

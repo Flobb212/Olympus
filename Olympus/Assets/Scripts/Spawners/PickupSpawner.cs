@@ -12,7 +12,7 @@ public class PickupSpawner : Spawner
     private int coin5Limit = 90;
     private int coin10Limit = 100;
 
-    public override void Spawn(Room parentRoom)
+    public override void Spawn(GameObject parentRoom)
     {
         int rand = Random.Range(0, 100);
         thePlayer = FindObjectOfType<PlayerCharacter>();
@@ -57,7 +57,8 @@ public class PickupSpawner : Spawner
 
         if(chosen != null)
         {
-            Instantiate(chosen, this.transform.position, this.transform.rotation);
+            GameObject tObj = Instantiate(chosen, this.transform.position, this.transform.rotation);
+            FindObjectOfType<DungeonGeneration>().spawnedThings.Add(tObj);
         }        
     }
 }

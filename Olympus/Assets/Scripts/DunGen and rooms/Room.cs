@@ -119,7 +119,7 @@ public class Room : MonoBehaviour
                 {
                     foreach (Transform child in spawners.transform)
                     {
-                        child.GetComponent<Spawner>().Spawn(this);
+                        child.GetComponent<Spawner>().Spawn(this.gameObject);
                     }
                 }
 
@@ -138,6 +138,8 @@ public class Room : MonoBehaviour
         Room room = newRoom.GetComponent<Room>();
         room.bossNum = this.bossNum;
         room.roomType = this.roomType;
+
+        FindObjectOfType<DungeonGeneration>().finalRooms.Add(newRoom);
 
         return newRoom;
     }
