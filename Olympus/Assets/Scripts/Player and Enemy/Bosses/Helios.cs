@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Helios : MonoBehaviour
+public class Helios : Boss
 {
     void Update()
     {

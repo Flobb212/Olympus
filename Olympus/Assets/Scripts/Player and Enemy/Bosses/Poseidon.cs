@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poseidon : MonoBehaviour
+public class Poseidon : Boss
 {
     void Update()
     {

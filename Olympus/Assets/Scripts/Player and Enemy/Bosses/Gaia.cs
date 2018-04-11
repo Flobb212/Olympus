@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gaia : MonoBehaviour
+public class Gaia : Boss
 {
     void Update()
     {

@@ -139,7 +139,7 @@ public class SelectRoomPrefab : MonoBehaviour
         // If there isn't 3 dead ends, recreate the dungeon
         if(deadEnd.Count < 3)
         {
-            rebuild.Regenerate();
+            rebuild.Regenerate(false);
         }
         else
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Typhon : MonoBehaviour
+public class Typhon : Boss
 {
     void Update()
     {

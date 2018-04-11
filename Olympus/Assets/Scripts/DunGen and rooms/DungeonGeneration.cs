@@ -30,7 +30,16 @@ public class DungeonGeneration : MonoBehaviour
         // Can produce same seed repeatedly for tests 
         // Random.InitState(5);
 
-        GameObject.Instantiate(player);
+        if(floorNum == 1)
+        {
+            GameObject.Instantiate(player);
+        }
+        else
+        {
+            player.transform.position = new Vector3(0, 0, 0);
+            Camera.main.transform.position = new Vector3(0, 0, -10);
+        }
+        
         if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
         {
             numberOfRooms = Mathf.RoundToInt((floorSize.x * 2) * (floorSize.y * 2));
@@ -287,8 +296,13 @@ public class DungeonGeneration : MonoBehaviour
     }
 
 
-    public void Regenerate()
+    public void Regenerate(bool nextLevel)
     {
+        if(floorNum == 3)
+        {
+            //Finished 3rd floor so add win condition
+        }
+
         foreach (GameObject obj in spawnedThings)
         {
             Destroy(obj.gameObject);
@@ -299,7 +313,21 @@ public class DungeonGeneration : MonoBehaviour
             Destroy(room);
         }
 
-        floorNum++;
-        //this.Start();
+        roomsList = null;
+        occupiedPos = new List<Vector2>();
+        finalRooms = new List<GameObject>();
+        spawnedThings = new List<GameObject>();
+
+        // Needs a bool to check whether the regeneration is because we're going 
+        // To the next level or whether the level didn't have 3 dead ends
+        if (nextLevel)
+        {
+            floorNum++;
+
+            // Would probably be good to have transition screen here
+            // Instead of instant cut to new floor
+        }
+
+        this.Start();
     }
 }

@@ -14,7 +14,7 @@ public class EndOfLevel : MonoBehaviour
             {
                 restarted = true;
                 FindObjectOfType<DungeonGeneration>().player = collision.gameObject;
-                FindObjectOfType<DungeonGeneration>().Regenerate();
+                FindObjectOfType<DungeonGeneration>().Regenerate(true);
             }
         }
     }

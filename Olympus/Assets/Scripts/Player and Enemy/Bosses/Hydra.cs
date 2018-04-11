@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hydra : MonoBehaviour
+public class Hydra : Boss
 {
     void Update()
     {
