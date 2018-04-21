@@ -67,9 +67,7 @@ public class Room : MonoBehaviour
             tempPlay.curRoom = this;
             return;
         }
-
-        print("swap");
-
+        
         Room oldRoom = tempPlay.curRoom;
         other.gameObject.GetComponent<PlayerCharacter>().lastRoom = oldRoom;        
 
