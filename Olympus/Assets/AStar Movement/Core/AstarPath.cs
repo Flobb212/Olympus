@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
@@ -948,7 +948,8 @@ public class AstarPath : VersionedMonoBehaviour
 	 * \see batchGraphUpdates
 	 * \see \ref graph-updates
 	 */
-	public void UpdateGraphs (Bounds bounds) {
+	public void UpdateGraphs (Bounds bounds)
+    {
 		UpdateGraphs(new GraphUpdateObject(bounds));
 	}
 

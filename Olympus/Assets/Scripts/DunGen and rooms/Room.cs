@@ -66,8 +66,8 @@ public class Room : MonoBehaviour
         {
             tempPlay.curRoom = this;
             return;
-        }
-        
+        }        
+
         Room oldRoom = tempPlay.curRoom;
         other.gameObject.GetComponent<PlayerCharacter>().lastRoom = oldRoom;        
 
@@ -122,6 +122,11 @@ public class Room : MonoBehaviour
                 }
 
                 isPopulated = true;
+                               
+                // Recalculate grid to new room position
+                AstarPath obj = FindObjectOfType<AstarPath>();
+                obj.data.gridGraph.center = this.transform.position;
+                obj.Scan();
             }
         }
     }
