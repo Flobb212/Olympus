@@ -12,6 +12,6 @@ public class ObstacleSpawner : Spawner
 
         GameObject tObj = Instantiate(spawnObj[rand], this.transform.position, this.transform.rotation);
 
-        FindObjectOfType<DungeonGeneration>().spawnedThings.Add(tObj);
+        //FindObjectOfType<DungeonGeneration>().spawnedThings.Add(tObj);
     }
 }

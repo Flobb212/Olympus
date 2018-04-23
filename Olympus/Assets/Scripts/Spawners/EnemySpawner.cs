@@ -13,7 +13,7 @@ public class EnemySpawner : Spawner
 
     public override void Spawn(GameObject parentRoom)
     {
-        floorNum = FindObjectOfType<DungeonGeneration>().floorNum;
+        //floorNum = FindObjectOfType<DungeonGeneration>().floorNum;
         int rand = 0;        
 
         if (floorNum == 1)
