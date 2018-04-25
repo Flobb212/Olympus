@@ -47,7 +47,15 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void AdjustSpeed()
     {
-        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+        if(this.gameObject.GetComponent<Pathfinding.AILerp>())
+        {
+            this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+        }
+
+        if(this.gameObject.GetComponent<EnemyFlying>())
+        {
+            this.gameObject.GetComponent<EnemyFlying>().speed = speed;
+        }
     }
 
     public void TakeDamage(ShotHit shot)
