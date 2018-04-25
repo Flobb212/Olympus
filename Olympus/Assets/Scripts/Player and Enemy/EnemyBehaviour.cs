@@ -56,6 +56,19 @@ public class EnemyBehaviour : MonoBehaviour
         {
             this.gameObject.GetComponent<EnemyFlying>().speed = speed;
         }
+
+        if (this.gameObject.GetComponent<EnemyWander>())
+        {
+            this.gameObject.GetComponent<EnemyWander>().speed = speed;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Player"))
+        {
+            collision.SendMessage("TakeDamage", 1);
+        }
     }
 
     public void TakeDamage(ShotHit shot)
