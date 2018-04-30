@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShotHit : MonoBehaviour
 {
     public GameObject player;    
-    public float damage = 1.0f;        
+    public float damage = 1.0f;
     
     public enum ShotType { Normal, Fire, Poison, Slow, Fear, Change, Betray, Death };
     public ShotType thisShot;

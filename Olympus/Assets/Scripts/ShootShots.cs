@@ -22,6 +22,7 @@ public class ShootShots : MonoBehaviour
     void Shoot()
     {
         isShooting = true;
+        shotFired.GetComponent<Shots>().shooter = this.gameObject;
         Instantiate(shotFired, spawn.position, spawn.rotation);
         shotFired.GetComponent<ShotHit>().fire = fire;
         shotFired.GetComponent<ShotHit>().poison = poison;

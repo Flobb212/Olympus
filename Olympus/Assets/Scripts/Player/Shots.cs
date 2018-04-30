@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Shots : MonoBehaviour
 {
-    public GameObject player;
-    public float speed = 0.0f;
-    public float range = 0.0f;
+    public GameObject shooter;
+    public float speed = 5.0f;
+    public float range = 6.0f;
 
     private Vector3 startpos;
 
@@ -14,9 +14,18 @@ public class Shots : MonoBehaviour
     void Start ()
     {        
         startpos = transform.position;
-        range = FindObjectOfType<ShootShots>().range;
-        speed = FindObjectOfType<ShootShots>().shotSpeed;
-        //print("Shot fired. Range: " + range + ". Speed: " + speed);
+
+        if(shooter.tag == "Player")
+        {
+            range = FindObjectOfType<ShootShots>().range;
+            speed = FindObjectOfType<ShootShots>().shotSpeed;
+        }
+        else if (shooter.tag == "Enemy")
+        {
+            range = FindObjectOfType<EnemyShoot>().range;
+            speed = FindObjectOfType<EnemyShoot>().shotSpeed;
+        }
+
     }    
 	
 	// Update is called once per frame
