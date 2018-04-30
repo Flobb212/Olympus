@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCharacter : MonoBehaviour
 {    
@@ -11,14 +11,13 @@ public class PlayerCharacter : MonoBehaviour
     public bool iFrames = false;
 
     public int coins = 0;
+    public Text coinValue;
     public int bombs = 0;
+    public Text bombValue;
     public int keys = 0;
-    
-    public Room lastRoom;
+    public Text keyValue;
 
-    // Active item related variables
-    public GameObject activeItem;
-    public bool hasActive = false;
+    public Room lastRoom;
 
     // Passive item related variables
     public bool scalesOfJustice = false;
@@ -32,7 +31,11 @@ public class PlayerCharacter : MonoBehaviour
     public bool necklaceOfHarmonia = false;
     public bool aegis = false;
     public int blockChance = 0;
-    
+
+    // Active item related variables
+    public GameObject activeItem;
+    public bool hasActive = false;
+
     public int Coins
     {
         get{return coins;}
@@ -44,6 +47,8 @@ public class PlayerCharacter : MonoBehaviour
             {
                 coins = 99;
             }
+            coinValue = GameObject.Find("CoinValue").GetComponent<Text>();
+            coinValue.text = "" + coins;
 
             if(scalesOfJustice == true)
             {
@@ -63,6 +68,8 @@ public class PlayerCharacter : MonoBehaviour
             {
                 bombs = 99;
             }
+            bombValue = GameObject.Find("BombValue").GetComponent<Text>();
+            bombValue.text = "" + bombs;
 
             if (scalesOfJustice == true)
             {
@@ -82,6 +89,8 @@ public class PlayerCharacter : MonoBehaviour
             {
                 keys = 99;
             }
+            keyValue = GameObject.Find("KeyValue").GetComponent<Text>();
+            keyValue.text = "" + keys;
 
             if (scalesOfJustice == true)
             {

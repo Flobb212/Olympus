@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DungeonGeneration : MonoBehaviour
 {
-    //Chooses which pool of enemies and items to pull from
-    //public int floorPool;
+    public LevelTransition screenTransition;
 
     //Dynamically change the size of the floor and how many rooms it has
     public Vector2 floorSize;
@@ -322,6 +321,7 @@ public class DungeonGeneration : MonoBehaviour
         // To the next level or whether the level didn't have 3 dead ends
         if (nextLevel)
         {
+            screenTransition.Setup();
             floorNum++;
 
             // Would probably be good to have transition screen here

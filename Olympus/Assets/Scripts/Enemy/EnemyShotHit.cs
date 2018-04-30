@@ -11,7 +11,7 @@ public class EnemyShotHit : MonoBehaviour
         // if hit player
         if (collision.CompareTag("Player"))
         {
-            collision.SendMessage("TakeDamage", this);
+            collision.SendMessage("TakeDamage", damage);
             Destroy(gameObject);
         }
 
