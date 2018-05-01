@@ -16,7 +16,7 @@ public class EnemyShoot : MonoBehaviour
     void Shoot()
     {
         isShooting = true;
-        shotFired.GetComponent<Shots>().shooter = this.gameObject;
+        shotFired.GetComponent<Shots>().shooter = spawn.gameObject;
         Instantiate(shotFired, spawn.position, spawn.rotation);
         Invoke("StopShoot", fireRate);
     }
@@ -30,14 +30,12 @@ public class EnemyShoot : MonoBehaviour
     {
         target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
         
-        Vector3 lookDir = target.transform.position - this.transform.position;
-        Quaternion childRot = Quaternion.LookRotation(Vector3.zero, -lookDir)
-                    * Quaternion.AngleAxis(0.0f, Vector3.right);
-
-
-        GetComponentInChildren<Transform>().rotation = childRot;
+        Vector3 lookDir = target.transform.position - spawn.transform.position;
         
-        Debug.DrawRay(transform.position, target.position, Color.red);
+        Vector3 rotation = Quaternion.LookRotation(lookDir).eulerAngles;
+        spawn.transform.up = lookDir;
+
+        Debug.DrawRay(transform.position, lookDir, Color.red);
         
 
         if (!isShooting)

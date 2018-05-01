@@ -12,15 +12,17 @@ public class LevelTransition : MonoBehaviour
 
     private void Start()
     {
-        Setup();
-        
+        Setup();        
     }    
 
     public void Setup()
     {
         floor++;
         setup = true;
-        transitionImage = GameObject.Find("Transition");
+        if(transitionImage == null)
+        {
+            transitionImage = GameObject.Find("Transition");
+        }        
 
         // Works on first load but not for second floor
         transitionImage.SetActive(true);
