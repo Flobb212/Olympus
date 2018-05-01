@@ -4,43 +4,48 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelTransition : MonoBehaviour
-{
-    public int floor = 0;
+{    
     public float delay = 3.0f;
-    private GameObject transitionImage;
-    private bool setup;
+    public GameObject transitionImage;
 
     private void Start()
     {
+        transitionImage.SetActive(true);
         Setup();        
     }    
 
     public void Setup()
     {
-        floor++;
-        setup = true;
+        FindObjectOfType<PlayerCharacter>().freeze = true;
+
         if(transitionImage == null)
         {
             transitionImage = GameObject.Find("Transition");
-        }        
-
-        // Works on first load but not for second floor
-        transitionImage.SetActive(true);
+        }
+        
+        StartCoroutine(Fade(1.0f));
         Invoke("TurnOffTransition", delay);
 
     }
 
     private void TurnOffTransition()
     {
-        transitionImage.SetActive(false);
-        setup = false;
+        StartCoroutine(Fade(0.0f));
+        FindObjectOfType<PlayerCharacter>().freeze = false;
     }
 
-    private void Update()
+    IEnumerator Fade(float alphaVal)
     {
-        if(setup == true)
+        float alpha = transitionImage.GetComponent<Image>().color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / 1.0f)
         {
-            // freeze controls
+            Color backColour = transitionImage.GetComponent<Image>().color;
+            Color textColour = transitionImage.GetComponentInChildren<Text>().color;
+            backColour.a = Mathf.Lerp(alpha, alphaVal, t);
+            textColour.a = Mathf.Lerp(alpha, alphaVal, t);
+            transitionImage.GetComponent<Image>().color = backColour;
+            transitionImage.GetComponentInChildren<Text>().color = textColour;
+            yield return null;
         }
     }
 

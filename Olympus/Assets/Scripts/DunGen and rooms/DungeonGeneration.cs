@@ -297,37 +297,50 @@ public class DungeonGeneration : MonoBehaviour
 
     public void Regenerate(bool nextLevel)
     {
-        if(floorNum == 3)
+        if (nextLevel)
+        {
+            floorNum++;
+        }
+
+        if (floorNum == 4)
         {
             //Finished 3rd floor so add win condition
         }
-
-        foreach (GameObject obj in spawnedThings)
+        else
         {
-            Destroy(obj.gameObject);
+            foreach (GameObject obj in spawnedThings)
+            {
+                Destroy(obj.gameObject);
+            }
+
+            foreach (GameObject room in finalRooms)
+            {
+                Destroy(room);
+            }
+
+            roomsList = null;
+            occupiedPos = new List<Vector2>();
+            finalRooms = new List<GameObject>();
+            spawnedThings = new List<GameObject>();
+
+            // Needs a bool to check whether the regeneration is because we're going 
+            // To the next level or whether the level didn't have 3 dead ends
+            if (nextLevel)
+            {
+                screenTransition.Setup();
+
+                AstarPath obj = FindObjectOfType<AstarPath>();
+                obj.data.gridGraph.center = new Vector3(0, 0, 0);
+                obj.Scan();
+            }
+            StartCoroutine("TinyLoadPause");
+            
         }
+    }
 
-        foreach (GameObject room in finalRooms)
-        {
-            Destroy(room);
-        }
-
-        roomsList = null;
-        occupiedPos = new List<Vector2>();
-        finalRooms = new List<GameObject>();
-        spawnedThings = new List<GameObject>();
-
-        // Needs a bool to check whether the regeneration is because we're going 
-        // To the next level or whether the level didn't have 3 dead ends
-        if (nextLevel)
-        {
-            screenTransition.Setup();
-            floorNum++;
-
-            // Would probably be good to have transition screen here
-            // Instead of instant cut to new floor
-        }
-
+    IEnumerator TinyLoadPause()
+    {
+        yield return new WaitForSeconds(1);
         this.Start();
     }
 }

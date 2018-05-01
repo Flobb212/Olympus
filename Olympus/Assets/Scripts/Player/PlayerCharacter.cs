@@ -9,6 +9,7 @@ public class PlayerCharacter : MonoBehaviour
     public float speed = 1.0f;
     public float damage = 1.0f;
     public bool iFrames = false;
+    public bool freeze;
 
     public int coins = 0;
     public Text coinValue;
@@ -101,12 +102,20 @@ public class PlayerCharacter : MonoBehaviour
 
 
     void FixedUpdate()
-    {        
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        
-        GetComponent<Rigidbody2D>().velocity = new Vector2(x, y) * speed;
-        GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
+    {
+        if(freeze == false)
+        {
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
+
+            GetComponent<Rigidbody2D>().velocity = new Vector2(x, y) * speed;
+            GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+            GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
+        }
     }
 
     IEnumerator Invincible()

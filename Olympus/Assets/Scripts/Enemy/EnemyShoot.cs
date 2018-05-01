@@ -13,6 +13,11 @@ public class EnemyShoot : MonoBehaviour
 
     public Transform target;
 
+    private void Start()
+    {
+        target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
+    }
+
     void Shoot()
     {
         isShooting = true;
@@ -28,15 +33,17 @@ public class EnemyShoot : MonoBehaviour
 
     void Update()
     {
-        target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
-        
-        Vector3 lookDir = target.transform.position - spawn.transform.position;
-        
-        Vector3 rotation = Quaternion.LookRotation(lookDir).eulerAngles;
-        spawn.transform.up = lookDir;
+        if(target != null)
+        {
+            target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
 
-        Debug.DrawRay(transform.position, lookDir, Color.red);
-        
+            Vector3 lookDir = target.transform.position - spawn.transform.position;
+
+            Vector3 rotation = Quaternion.LookRotation(lookDir).eulerAngles;
+            spawn.transform.up = lookDir;
+
+            Debug.DrawRay(transform.position, lookDir, Color.red);
+        }
 
         if (!isShooting)
         {
