@@ -27,7 +27,9 @@ public class DungeonGeneration : MonoBehaviour
     public void Start()
     {
         // Can produce same seed repeatedly for tests 
-        // Random.InitState(5);
+        int seed = Random.Range(0, 10000000);
+        Debug.Log(seed);
+        Random.InitState(seed);
 
         if(floorNum == 1)
         {
@@ -63,15 +65,16 @@ public class DungeonGeneration : MonoBehaviour
         occupiedPos.Insert(0, Vector2.zero);
         Vector2 checkPos;
         
-        // "Magic numbers"
+        // Values to reduce branching the more rooms are built, thus adding dead ends
         float randomCompare = 0.2f, randomCompareStart = 0.2f, randomCompareEnd = 0.01f;
 
         // Add rooms
         for(int i = 0; i < numberOfRooms - 1; i++)
         {
-            //Apparently prevents branching as dungeon builds
+            // Prevents branching as dungeon builds
             float randomPerc = ((float)i) / (((float)numberOfRooms - 1));
             randomCompare = Mathf.Lerp(randomCompareStart, randomCompareEnd, randomPerc);
+            //print(randomCompare);
 
             // Grab new position
             checkPos = NewPosition();
@@ -227,49 +230,41 @@ public class DungeonGeneration : MonoBehaviour
     {
         for(int x = 0; x < (gridX * 2); x++)
         {
-            for (int y = 0; y < (gridX * 2); y++)
+            for (int y = 0; y < (gridY * 2); y++)
             {
+                Directions doors = Directions.none;
+
                 // If there's no room at this location, move onto the next
                 if(roomsList[x, y] == null)
                 {
                     continue;
                 }
 
-                if(y - 1 < 0) // Then current room is at top of array
+                // Check if room is above
+                if (y + 1 < gridY * 2 && roomsList[x, y + 1] != null)
                 {
-                    roomsList[x, y].doorBottom = false;
-                }
-                else // There is space above this room, so check if there is actually a room there
-                {
-                    roomsList[x, y].doorBottom = (roomsList[x, y - 1] != null);
+                    doors = doors | Directions.up;
                 }
 
-                if (y + 1 >= gridY * 2) // Then current room is at bottom of array
+                // Check if room is right
+                if (x + 1 < gridX * 2 && roomsList[x + 1, y] != null)
                 {
-                    roomsList[x, y].doorTop = false;
-                }
-                else // There is space below this room, so check if there is actually a room there
-                {
-                    roomsList[x, y].doorTop = (roomsList[x, y + 1] != null);
+                    doors = doors | Directions.right;
                 }
 
-                if (x - 1 < 0) // Then current room is at left of array
+                // Check if room is below
+                if (y - 1 >= 0 && roomsList[x, y - 1] != null)
                 {
-                    roomsList[x, y].doorLeft = false;
-                }
-                else // There is space left of this room, so check if there is actually a room there
-                {
-                    roomsList[x, y].doorLeft = (roomsList[x - 1, y] != null);
+                    doors = doors | Directions.down;
                 }
 
-                if (x + 1 >= gridX * 2) // Then current room is at right of array
+                // Check if room is left
+                if (x - 1 >= 0 && roomsList[x - 1, y] != null)
                 {
-                    roomsList[x, y].doorRight = false;
+                    doors = doors | Directions.left;
                 }
-                else // There is space right of this room, so check if there is actually a room there
-                {
-                    roomsList[x, y].doorRight = (roomsList[x + 1, y] != null);
-                }
+
+                roomsList[x, y].doors = doors;
             }
         }
     }

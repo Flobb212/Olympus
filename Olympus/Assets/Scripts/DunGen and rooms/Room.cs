@@ -15,8 +15,7 @@ public class Room : MonoBehaviour
     // Can be: start, norm, boss, treasure or shop
     public string roomType = "norm";
 
-    //Where the doors are in the room shape
-    public bool doorTop, doorBottom, doorLeft, doorRight;
+    public Directions doors = Directions.none;
 
     private bool isPopulated = false;
     public GameObject spawners;
