@@ -95,80 +95,25 @@ public class SelectRoomPrefab : MonoBehaviour
     // May shift into Boss spawner script if possible
     private void HandleBossRoom(Room bossRoom)
     {
-        ScriptableRoom baseShape = bossRoom.roomShape;
         bossRoom.roomShape = boss;
         bossRoom.roomType = "boss";        
 
-        int randBoss = Random.Range(1, 4);
+        int randBoss = Random.Range(0, 3);
         int bossIndex = 0;
 
         currFloor = FindObjectOfType<DungeonGeneration>().floorNum;
 
         // Since certain bosses need certain rooms, the boss must be chosen before room assignment
-        if (currFloor == 1)
-        {
-            bossIndex = randBoss - currFloor;
-        }
-        else if(currFloor == 2)
-        {
-            bossIndex = randBoss + currFloor;
-        }
-        else
-        {
-            if(randBoss == 1)
-            {
-                bossIndex = 6;
-            }
-            else if(randBoss == 2)
-            {
-                bossIndex = 7;
-            }
-            else
-            {
-                bossIndex = 8;
-            }
-        }
-        
-        int randRoom;
+        bossIndex = randBoss + (3 * (currFloor - 1));
 
         // Now we have a boss reference, assign the correct shape room
         if (bossIndex == 1) // Charon has been picked
         {
-            if(bossRoom.doors == Directions.up)
-            {
-                bossRoom.roomObject = boss.roomPrefabs[0];
-            }
-            else if(bossRoom.doors == Directions.right)
-            {
-                bossRoom.roomObject = boss.roomPrefabs[1];
-            }
-            else if (bossRoom.doors == Directions.down)
-            {
-                bossRoom.roomObject = boss.roomPrefabs[2];
-            }
-            else
-            {
-                bossRoom.roomObject = boss.roomPrefabs[3];
-            }
+            bossRoom.roomObject = boss.roomPrefabs[(int)Mathf.Log((float)(int)bossRoom.doors, 2)];
         }
         else if(bossIndex == 3) // Posiedon has been picked
         {
-            if (bossRoom.doors == Directions.up)
-            {
-                bossRoom.roomObject = boss.roomPrefabs[4];
-            }
-            else if (bossRoom.doors == Directions.right)
-            {
-                bossRoom.roomObject = boss.roomPrefabs[5];
-            }
-            else if (bossRoom.doors == Directions.down)
-            {
-                bossRoom.roomObject = boss.roomPrefabs[6];
-            }
-            else
-            {
-                bossRoom.roomObject = boss.roomPrefabs[7];
-            }
+            bossRoom.roomObject = boss.roomPrefabs[(int)Mathf.Log((float)(int)bossRoom.doors, 2) + 4];            
         }
         else // Doesn't need a special room
         {
@@ -186,8 +131,7 @@ public class SelectRoomPrefab : MonoBehaviour
 
 
     private void HandleTreasureRoom(Room treasureRoom)
-    {
-        ScriptableRoom baseShape = treasureRoom.roomShape;
+    {        
         treasureRoom.roomShape = treasure;
         treasureRoom.roomType = "treasure";
 
@@ -201,7 +145,6 @@ public class SelectRoomPrefab : MonoBehaviour
 
     private void HandleShopRoom(Room shopRoom)
     {
-        ScriptableRoom baseShape = shopRoom.roomShape;
         shopRoom.roomShape = shop;
         shopRoom.roomType = "shop";
         
