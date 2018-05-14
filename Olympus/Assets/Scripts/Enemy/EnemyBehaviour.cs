@@ -155,6 +155,4 @@ public class EnemyBehaviour : MonoBehaviour
             isChanged = false;
         }
     }
-
-
 }
