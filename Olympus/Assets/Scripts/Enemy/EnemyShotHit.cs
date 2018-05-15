@@ -11,6 +11,12 @@ public class EnemyShotHit : MonoBehaviour
         // if hit player
         if (collision.CompareTag("Player"))
         {
+            // Check if the gorgon shot the player
+            if (GetComponent<Shots>().shooter.name == "Gorgon")
+            {
+                collision.GetComponent<PlayerCharacter>().TriggerSlow();                
+            }
+
             collision.SendMessage("TakeDamage", damage);
             Destroy(gameObject);
         }

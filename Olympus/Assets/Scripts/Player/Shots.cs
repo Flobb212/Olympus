@@ -20,7 +20,7 @@ public class Shots : MonoBehaviour
             range = FindObjectOfType<ShootShots>().range;
             speed = FindObjectOfType<ShootShots>().shotSpeed;
         }
-        else if (shooter.transform.parent.tag == "Enemy")
+        else if (shooter.transform.tag == "Enemy")
         {
             range = FindObjectOfType<EnemyShoot>().range;
             speed = FindObjectOfType<EnemyShoot>().shotSpeed;

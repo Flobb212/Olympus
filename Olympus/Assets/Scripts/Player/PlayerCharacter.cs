@@ -10,6 +10,7 @@ public class PlayerCharacter : MonoBehaviour
     public float damage = 1.0f;
     public bool iFrames = false;
     public bool freeze;
+    public bool isSlowed = false;
 
     public int coins = 0;
     public Text coinValue;
@@ -31,7 +32,6 @@ public class PlayerCharacter : MonoBehaviour
     public bool respawning = false;
     public bool necklaceOfHarmonia = false;
     public bool aegis = false;
-    public int blockChance = 0;
 
     // Active item related variables
     public GameObject activeItem;
@@ -117,21 +117,31 @@ public class PlayerCharacter : MonoBehaviour
             GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
         }
     }
+    
 
-    IEnumerator Invincible()
+    public void TriggerSlow()
     {
-        yield return new WaitForSeconds(2);
-        iFrames = false;
+        StartCoroutine(Slowed());
+    }
+
+    IEnumerator Slowed()
+    {
+        if (isSlowed == false)
+        {
+            isSlowed = true;
+            speed /= 2;
+            yield return new WaitForSeconds(3.0f);
+            speed *= 2;                
+            isSlowed = false;
+        }
     }
 
 
     public void TakeDamage(int damage)
     {
-        if(aegis == true)
+        if(aegis)
         {
-            blockChance = Random.Range(0, 10);
-
-            if(blockChance < 3)
+            if(Random.Range(0, 10) < 3)
             {
                 return;
             }
@@ -172,6 +182,11 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
+    IEnumerator Invincible()
+    {
+        yield return new WaitForSeconds(2);
+        iFrames = false;
+    }
 
     public void ScalesEffect()
     {

@@ -11,6 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
     public float speed = 0.0f;
 
     private bool isChanged = false;
+    public bool isImmune = false;
 
     // Use this for initialization
     void Start ()
@@ -72,47 +73,55 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void TakeDamage(ShotHit shot)
     {
-        if(shot.thisShot == ShotHit.ShotType.Normal)
+        if (!isImmune)
         {
-            health -= shot.damage;
+            if (shot.thisShot == ShotHit.ShotType.Normal)
+            {
+                health -= shot.damage;
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Fire)
+            {
+                StartCoroutine(DoT(shot.damage));
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Poison)
+            {
+                StartCoroutine(DoT(shot.damage));
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Slow)
+            {
+                StartCoroutine(Slowed());
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Fear)
+            {
+                print("fear hit");
+                //enemy runs from player
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Change)
+            {
+                StartCoroutine(Changed());
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Betray)
+            {
+                print("betray hit");
+                //enemy attacks other enemies
+            }
+            else if (shot.thisShot == ShotHit.ShotType.Death)
+            {
+                health = 0;
+            }
         }
-        else if (shot.thisShot == ShotHit.ShotType.Fire)
-        {
-            StartCoroutine(DoT(shot.damage));
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Poison)
-        {
-            StartCoroutine(DoT(shot.damage));
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Slow)
-        {
-            StartCoroutine(Slowed());
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Fear)
-        {
-            print("fear hit");
-            //enemy runs from player
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Change)
-        {
-            StartCoroutine(Changed());
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Betray)
-        {
-            print("betray hit");
-            //enemy attacks other enemies
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Death)
-        {
-            health = 0;
-        }                
 
         if(health <= 0)
         {
-            spawnLocation.GetComponent<Room>().lockDown.Remove(gameObject);
-            FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public virtual void Die()
+    {
+        spawnLocation.GetComponent<Room>().lockDown.Remove(gameObject);
+        FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
+        Destroy(gameObject);
     }
 
     // Deals damage over time from fire and poison, will pass in diff effects later

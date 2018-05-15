@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyShoot : MonoBehaviour
 {
+    public bool canShoot = true;
+
     public GameObject shotFired;
     public Transform spawn;
     public float fireRate = 0.7f;
@@ -20,10 +22,13 @@ public class EnemyShoot : MonoBehaviour
 
     void Shoot()
     {
-        isShooting = true;
-        shotFired.GetComponent<Shots>().shooter = spawn.gameObject;
-        Instantiate(shotFired, spawn.position, spawn.rotation);
-        Invoke("StopShoot", fireRate);
+        if(canShoot)
+        {
+            isShooting = true;
+            shotFired.GetComponent<Shots>().shooter = spawn.parent.gameObject;
+            Instantiate(shotFired, spawn.position, spawn.rotation);
+            Invoke("StopShoot", fireRate);
+        }
     }
 
     void StopShoot()
