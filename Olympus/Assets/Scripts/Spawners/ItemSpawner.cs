@@ -17,7 +17,7 @@ public class ItemSpawner : Spawner
         rand = Random.Range(0, items.itemList.Capacity);
         spawnedItem = items.itemList[rand].itemObject;
         spawnedItem = Instantiate(spawnedItem, this.transform.position + new Vector3(0, 1, 0), this.transform.rotation);
-        //FindObjectOfType<DungeonGeneration>().spawnedThings.Add(spawnedItem);
+        FindObjectOfType<DungeonGeneration>().spawnedThings.Add(spawnedItem);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

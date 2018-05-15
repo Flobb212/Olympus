@@ -46,6 +46,8 @@ public class Room : MonoBehaviour
         // Need a check to see when the player is in this room and when they leave
         if(other.gameObject.GetComponent<PlayerCharacter>() != null)
         {
+            other.gameObject.GetComponent<PlayerCharacter>().currentRoom = this;
+
             if (isOccupied == true || other.gameObject.GetComponent<PlayerCharacter>().respawning == true)
             {
                 return;

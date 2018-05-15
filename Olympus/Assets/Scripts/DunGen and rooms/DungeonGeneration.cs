@@ -5,6 +5,7 @@ using UnityEngine;
 public class DungeonGeneration : MonoBehaviour
 {
     public LevelTransition screenTransition;
+    public bool buildDungeon = true;
 
     //Dynamically change the size of the floor and how many rooms it has
     public Vector2 floorSize;
@@ -26,30 +27,35 @@ public class DungeonGeneration : MonoBehaviour
     // Public so if certain conditions aren't met, dungeon can be rebuilt
     public void Start()
     {
-        // Can produce same seed repeatedly for tests 
-        int seed = Random.Range(0, 10000000);
-        Debug.Log(seed);
-        Random.InitState(seed);
+        if (buildDungeon)
+        {
+            // Can produce same seed repeatedly for tests 
+            int seed = Random.Range(0, 10000000);
+            Debug.Log(seed);
+            Random.InitState(seed);
 
-        if(floorNum == 1)
-        {
-            GameObject.Instantiate(player);
-        }
-        else
-        {
-            player.transform.position = new Vector3(0, 0, 0);
-            Camera.main.transform.position = new Vector3(0, 0, -10);
-        }
-        
-        if(numberOfRooms >= (floorSize.x * 2) * (floorSize.y *2))
-        {
-            numberOfRooms = Mathf.RoundToInt((floorSize.x * 2) * (floorSize.y * 2));
-        }
-        gridX = Mathf.RoundToInt(floorSize.x);
-        gridY = Mathf.RoundToInt(floorSize.y);
-        Generate();
-        AttachDoors();
-        DrawDungeon();
+            if (floorNum == 1)
+            {
+                GameObject.Instantiate(player);
+            }
+            else
+            {
+                player.transform.position = new Vector3(0, 0, 0);
+                Camera.main.transform.position = new Vector3(0, 0, -10);
+            }
+
+            if (numberOfRooms >= (floorSize.x * 2) * (floorSize.y * 2))
+            {
+                numberOfRooms = Mathf.RoundToInt((floorSize.x * 2) * (floorSize.y * 2));
+            }
+            gridX = Mathf.RoundToInt(floorSize.x);
+            gridY = Mathf.RoundToInt(floorSize.y);
+
+
+            Generate();
+            AttachDoors();
+            DrawDungeon();
+        }       
     }
 
 

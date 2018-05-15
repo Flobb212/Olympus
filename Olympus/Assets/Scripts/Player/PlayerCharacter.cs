@@ -20,6 +20,7 @@ public class PlayerCharacter : MonoBehaviour
     public Text keyValue;
 
     public Room lastRoom;
+    public Room currentRoom;
 
     // Passive item related variables
     public bool scalesOfJustice = false;
@@ -166,8 +167,9 @@ public class PlayerCharacter : MonoBehaviour
                 {
                     print("respawn at " + lastRoom);
                     respawning = true;
-                    //transform.position = lastRoomPos;
-                    transform.position = new Vector3(0,0,0);
+                    transform.position = currentRoom.roomPos;
+                    transform.position = lastRoom.roomPos;
+                    //transform.position = new Vector3(0,0,0);
                     Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);                    
                     respawning = false;
                 }
