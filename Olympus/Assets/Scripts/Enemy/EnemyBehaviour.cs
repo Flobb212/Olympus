@@ -21,7 +21,8 @@ public class EnemyBehaviour : MonoBehaviour
         {
             spawnLocation.GetComponent<Room>().lockDown.Add(gameObject);
         }
-	}    
+	}   
+
 
     public void SpeedSelect()
     {

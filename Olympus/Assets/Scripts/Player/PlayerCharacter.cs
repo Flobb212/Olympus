@@ -6,6 +6,10 @@ public class PlayerCharacter : MonoBehaviour
 {    
     public int maxHealth = 6;
     public int currenthealth = 4;
+    public Image[] heartArray;
+    public Sprite heart;
+    public Sprite emptyHeart;
+
     public float speed = 1.0f;
     public float damage = 1.0f;
     public bool iFrames = false;
@@ -101,6 +105,61 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
+    public int CurrentHealth
+    {
+        get {return currenthealth;}
+
+        set
+        {
+            currenthealth = value;
+
+            if(currenthealth > maxHealth)
+            {
+                currenthealth = maxHealth;
+            }
+
+            for(int i = 0; i < heartArray.Length; i++)
+            {
+                if(i < currenthealth)
+                {
+                    heartArray[i].sprite = heart;
+                }
+                else
+                {
+                    heartArray[i].sprite = emptyHeart;
+                }
+
+                if (i < maxHealth)
+                {
+                    heartArray[i].enabled = true;
+                }
+                else
+                {
+                    heartArray[i].enabled = false;
+                }
+            }
+        }
+    }
+
+    public int MaxHealth
+    {
+        get { return maxHealth; }
+
+        set
+        {
+            maxHealth = value;
+            if(maxHealth > 12)
+            {
+                maxHealth = 12;
+            }
+        }
+    }
+
+    private void Start()
+    {
+        // Trigger heart UI to draw
+        CurrentHealth = currenthealth;
+    }
 
     void FixedUpdate()
     {
@@ -159,7 +218,7 @@ public class PlayerCharacter : MonoBehaviour
         if (iFrames == false)
         {
             iFrames = true;
-            currenthealth -= damage;
+            CurrentHealth -= damage;
 
             if (currenthealth <= 0)
             {

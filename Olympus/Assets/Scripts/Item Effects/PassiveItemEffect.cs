@@ -5,12 +5,12 @@ using UnityEngine.Events;
 
 public class PassiveItemEffect : MonoBehaviour, IPassiveBuff
 {
-    public int Health;
-    public float Damage;
-    public float Speed;
-    public float Range;
-    public float ShotSpeed;
-    public float FireRate;
+    public int health;
+    public float damage;
+    public float speed;
+    public float range;
+    public float shotSpeed;
+    public float fireRate;
 
     public virtual void Activate(PlayerCharacter player)
     {
@@ -19,12 +19,12 @@ public class PassiveItemEffect : MonoBehaviour, IPassiveBuff
             return;
         }
 
-        player.maxHealth += Health;
-        player.currenthealth += Health;
-        player.damage += Damage;
-        player.speed += Speed;
-        player.GetComponent<ShootShots>().range += Range;
-        player.GetComponent<ShootShots>().shotSpeed += ShotSpeed;
-        player.GetComponent<ShootShots>().fireRate += FireRate;
+        player.MaxHealth += health;
+        player.CurrentHealth += health;
+        player.damage += damage;
+        player.speed += speed;
+        player.GetComponent<ShootShots>().range += range;
+        player.GetComponent<ShootShots>().shotSpeed += shotSpeed;
+        player.GetComponent<ShootShots>().fireRate += fireRate;
     }
 }
