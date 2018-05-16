@@ -42,8 +42,6 @@ public class Room : MonoBehaviour
     // Check if player enters the room
     void OnTriggerEnter2D(Collider2D other)
     {
-        
-
         // Entering another trigger causes this to trigger again
         // Need a check to see when the player is in this room and when they leave
         if (other.gameObject.GetComponent<PlayerCharacter>() != null)

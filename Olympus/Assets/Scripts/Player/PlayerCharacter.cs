@@ -160,7 +160,7 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         gameOverImage = GameObject.Find("Game Over");
-        gameOverImage.SetActive(false);
+        //gameOverImage.SetActive(false);
 
         Image[] heartList = GameObject.FindGameObjectsWithTag("UIHeart").Select((heart) => heart.GetComponent<Image>()).ToArray();
         for(int i = 0; i < heartList.Length; i++)

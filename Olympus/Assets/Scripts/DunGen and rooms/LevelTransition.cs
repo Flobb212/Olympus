@@ -10,7 +10,6 @@ public class LevelTransition : MonoBehaviour
 
     private void Start()
     {
-        transitionImage.SetActive(true);
         Setup();        
     }    
 
