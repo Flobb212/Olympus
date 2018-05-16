@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class PlayerCharacter : MonoBehaviour
 {    
@@ -9,10 +10,11 @@ public class PlayerCharacter : MonoBehaviour
     public Image[] heartArray;
     public Sprite heart;
     public Sprite emptyHeart;
+    private GameObject gameOverImage;
 
     public float speed = 1.0f;
     public float damage = 1.0f;
-    public bool iFrames = false;
+    private bool iFrames = false;
     public bool freeze;
     public bool isSlowed = false;
 
@@ -28,7 +30,7 @@ public class PlayerCharacter : MonoBehaviour
 
     // Passive item related variables
     public bool scalesOfJustice = false;
-    private bool scalesBuff = false;
+    public bool scalesBuff = false;
     public bool moly = false;
     public bool molyBuff = false;
     public bool rodOfAsclepius = false;
@@ -157,6 +159,15 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
+        gameOverImage = GameObject.Find("Game Over");
+        gameOverImage.SetActive(false);
+
+        Image[] heartList = GameObject.FindGameObjectsWithTag("UIHeart").Select((heart) => heart.GetComponent<Image>()).ToArray();
+        for(int i = 0; i < heartList.Length; i++)
+        {
+            heartArray[i] = heartList[i];
+        }
+
         // Trigger heart UI to draw
         CurrentHealth = currenthealth;
     }
@@ -235,6 +246,8 @@ public class PlayerCharacter : MonoBehaviour
                 else
                 {
                     // Also needs Game Over scenario
+                    gameOverImage.SetActive(true);
+
                     Destroy(this.gameObject);
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DungeonGeneration : MonoBehaviour
 {
@@ -305,7 +306,9 @@ public class DungeonGeneration : MonoBehaviour
 
         if (floorNum == 4)
         {
-            //Finished 3rd floor so add win condition
+            // Win Condition, can be changed in future iterations
+            // Could do things like play a cutscene
+            SceneManager.LoadSceneAsync("Victory");
         }
         else
         {

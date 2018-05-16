@@ -55,12 +55,5 @@ public class LevelTransition : MonoBehaviour
         Color textColourFinal = transitionImage.GetComponentInChildren<Text>().color;
         finalColor = new Color(textColourFinal.r, textColourFinal.g, textColourFinal.b, alphaVal);
         transitionImage.GetComponentInChildren<Text>().color = finalColor;
-
-    }
-
-    private void GameOver()
-    {
-        // freeze controls and display game over menu
-        // Can restart or exit to main menu
-    }
+    }    
 }

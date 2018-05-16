@@ -16,21 +16,24 @@ public class Charge : EnemyBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
-        Vector3 playerColliderPosition = new Vector3(target.transform.position.x, target.transform.position.y - 0.4f, target.transform.position.z);
-        lookDir = playerColliderPosition - this.transform.position;
-        
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, lookDir, Vector3.Distance(playerColliderPosition, transform.position));
-
-        timer += Time.deltaTime;
-
-        if (hit.transform != null)
+        if(FindObjectOfType<PlayerCharacter>() != null)
         {
-            if (hit.transform.tag == "Player" && !isCharging && timer >= 5)
+            target = FindObjectOfType<PlayerCharacter>().gameObject.transform;
+            Vector3 playerColliderPosition = new Vector3(target.transform.position.x, target.transform.position.y - 0.4f, target.transform.position.z);
+            lookDir = playerColliderPosition - this.transform.position;
+
+            RaycastHit2D hit = Physics2D.Raycast(this.transform.position, lookDir, Vector3.Distance(playerColliderPosition, transform.position));
+
+            timer += Time.deltaTime;
+
+            if (hit.transform != null)
             {
-                print("Locked on Target");
-                destination = target.position;
-                StartCoroutine(EnemyCharge());
+                if (hit.transform.tag == "Player" && !isCharging && timer >= 5)
+                {
+                    print("Locked on Target");
+                    destination = target.position;
+                    StartCoroutine(EnemyCharge());
+                }
             }
         }
     }
