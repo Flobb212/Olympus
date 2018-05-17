@@ -25,7 +25,6 @@ public class Shots : MonoBehaviour
             range = FindObjectOfType<EnemyShoot>().range;
             speed = FindObjectOfType<EnemyShoot>().shotSpeed;
         }
-
     }    
 	
 	// Update is called once per frame

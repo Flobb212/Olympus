@@ -10,6 +10,7 @@ public class Room : MonoBehaviour
     //Assigns the location of the room
     public Vector2 roomPos;
     public bool isOccupied = false;
+    public bool isClear = false;
     public bool diedHere = false;
 
     // Defines the shape of room and it's contents
@@ -32,10 +33,15 @@ public class Room : MonoBehaviour
         if (lockDown.Count != 0)
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            isClear = false;
         }
         else
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            if(diedHere == false)
+            {
+                isClear = true;
+            }
         }
     }
 
@@ -127,7 +133,7 @@ public class Room : MonoBehaviour
 
                 isPopulated = true;
             }
-            else if(isPopulated == true && diedHere == true)
+            else if(isPopulated == true && diedHere == true && isClear == false)
             {
                 diedHere = false;
                 

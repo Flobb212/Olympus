@@ -12,7 +12,7 @@ public class EnemyShotHit : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // Check if the gorgon shot the player
-            if (GetComponent<Shots>().shooter != null && GetComponent<Shots>().shooter.name == "Gorgon")
+            if (GetComponent<Shots>().shooter != null && GetComponent<Shots>().shooter.name == "Gorgon(Clone)")
             {
                 collision.GetComponent<PlayerCharacter>().TriggerSlow();                
             }

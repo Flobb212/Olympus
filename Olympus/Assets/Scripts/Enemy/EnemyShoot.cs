@@ -26,7 +26,7 @@ public class EnemyShoot : MonoBehaviour
         {
             isShooting = true;
             shotFired.GetComponent<Shots>().shooter = spawn.parent.gameObject;
-            Instantiate(shotFired, spawn.position, spawn.rotation);
+            Instantiate(shotFired, spawn.position, spawn.rotation);            
             Invoke("StopShoot", fireRate);
         }
     }
