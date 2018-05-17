@@ -84,4 +84,9 @@ public class Boss : MonoBehaviour, IBoss
         speed *= 2;
         AdjustSpeed();
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }

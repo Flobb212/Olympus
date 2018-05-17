@@ -221,7 +221,7 @@ public class PlayerCharacter : MonoBehaviour
         if (molyBuff == true)
         {
             molyBuff = false;
-            StartCoroutine("Invincible");
+            StartCoroutine(Invincible());
             iFrames = true;
             return;
         }
@@ -235,25 +235,45 @@ public class PlayerCharacter : MonoBehaviour
             {
                 if(ambrosia == true)
                 {
-                    print("respawn at " + lastRoom);
-                    respawning = true;
-                    transform.position = currentRoom.roomPos;
-                    transform.position = lastRoom.roomPos;
-                    //transform.position = new Vector3(0,0,0);
-                    Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);                    
-                    respawning = false;
+                    StartCoroutine(Respawning());
                 }
                 else
                 {
-                    // Also needs Game Over scenario
                     gameOverImage.SetActive(true);
 
+                    StopAllCoroutines();
                     Destroy(this.gameObject);
                 }
             }
 
-            StartCoroutine("Invincible");
+            StartCoroutine(Invincible());
         }
+    }
+
+    IEnumerator Respawning()
+    {
+        currentRoom.diedHere = true;
+        currentRoom.isOccupied = false;
+
+        for (int i = 0; i < currentRoom.lockDown.Count; i++)
+        {            
+            Destroy(currentRoom.lockDown[i]);
+        }
+        currentRoom.lockDown.Clear();
+
+
+        ambrosia = false;
+        respawning = true;
+        transform.position = lastRoom.roomPos;
+        
+        Camera.main.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -10);
+        yield return null;
+        respawning = false;
+
+        CurrentHealth = maxHealth;
+        currentRoom = lastRoom;
+        GetComponent<RoomMoving>().curRoom = currentRoom;
+        
     }
 
     IEnumerator Invincible()
@@ -295,5 +315,47 @@ public class PlayerCharacter : MonoBehaviour
                 kills = 0;
             }
         }
+    }
+
+    public void HelmOfDarkness()
+    {
+        StartCoroutine(Invisibility());
+    }
+
+    IEnumerator Invisibility()
+    {
+        int rand = Random.Range(20, 40);
+        yield return new WaitForSeconds(rand);
+
+        // Be invisible
+        foreach(GameObject enemy in currentRoom.lockDown)
+        {
+            MonoBehaviour[] scripts = enemy.GetComponents<MonoBehaviour>();
+
+            foreach(MonoBehaviour script in scripts)
+            {
+                script.enabled = false;
+            }
+        }
+
+        yield return new WaitForSeconds(5);
+
+        // Be visible
+        foreach (GameObject enemy in currentRoom.lockDown)
+        {
+            MonoBehaviour[] scripts = enemy.GetComponents<MonoBehaviour>();
+
+            foreach (MonoBehaviour script in scripts)
+            {
+                script.enabled = true;
+            }
+        }
+
+        StartCoroutine(Invisibility());
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }

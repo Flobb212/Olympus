@@ -165,4 +165,9 @@ public class EnemyBehaviour : MonoBehaviour
             isChanged = false;
         }
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }

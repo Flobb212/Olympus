@@ -10,6 +10,7 @@ public class Room : MonoBehaviour
     //Assigns the location of the room
     public Vector2 roomPos;
     public bool isOccupied = false;
+    public bool diedHere = false;
 
     // Defines the shape of room and it's contents
     // Can be: start, norm, boss, treasure or shop
@@ -125,12 +126,28 @@ public class Room : MonoBehaviour
                 }
 
                 isPopulated = true;
-                               
-                // Recalculate grid to new room position
-                AstarPath obj = FindObjectOfType<AstarPath>();
-                obj.data.gridGraph.center = this.transform.position;
-                obj.Scan();
             }
+            else if(isPopulated == true && diedHere == true)
+            {
+                diedHere = false;
+                
+                // Respawn any enemies and bosses
+                if (spawners != null)
+                {
+                    foreach (Transform child in spawners.transform)
+                    {
+                        if(child.tag == "EnemySpawn" || child.tag == "BossSpawn")
+                        {
+                            child.GetComponent<Spawner>().Spawn(this.gameObject);
+                        }
+                    }
+                }                
+            }
+
+            // Recalculate grid to new room position
+            AstarPath obj = FindObjectOfType<AstarPath>();
+            obj.data.gridGraph.center = this.transform.position;
+            obj.Scan();
         }
     }
 
