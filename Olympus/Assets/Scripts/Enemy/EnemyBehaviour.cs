@@ -118,6 +118,16 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    public void BombDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
     public virtual void Die()
     {
         spawnLocation.GetComponent<Room>().lockDown.Remove(gameObject);

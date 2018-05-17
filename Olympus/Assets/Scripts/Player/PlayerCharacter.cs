@@ -19,10 +19,12 @@ public class PlayerCharacter : MonoBehaviour
     public bool freeze;
     public bool isSlowed = false;
 
+    // Pick up values
     public int coins = 0;
     public Text coinValue;
     public int bombs = 0;
     public Text bombValue;
+    public GameObject bombPrefab;
     public int keys = 0;
     public Text keyValue;
 
@@ -40,10 +42,7 @@ public class PlayerCharacter : MonoBehaviour
     public bool respawning = false;
     public bool necklaceOfHarmonia = false;
     public bool aegis = false;
-
-    // Active item related variables
-    public GameObject activeItem;
-    public bool hasActive = false;
+    
 
     public int Coins
     {
@@ -187,6 +186,23 @@ public class PlayerCharacter : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
             GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
+        }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            DropBomb();
+        }
+    }
+
+    private void DropBomb()
+    {
+        if (bombs != 0)
+        {
+            Bombs--;
+            GameObject newBomb = Instantiate(bombPrefab, this.transform.position, Quaternion.identity);
+            Bombs bombsBehaviour = newBomb.GetComponent<Bombs>();
+            bombsBehaviour.detonating = true;
+            bombsBehaviour.StartCoroutine(bombsBehaviour.Explode());
         }
     }
     

@@ -59,12 +59,27 @@ public class Boss : MonoBehaviour, IBoss
 
         if (health <= 0)
         {
-            mySpawn.GetComponent<Room>().lockDown.Remove(gameObject);
-            FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
-            mySpawn.GetComponent<Room>().endStuff.SetActive(true);
-            mySpawn.GetComponent<Room>().endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(mySpawn);
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void BombDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public virtual void Die()
+    {
+        mySpawn.GetComponent<Room>().lockDown.Remove(gameObject);
+        FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
+        mySpawn.GetComponent<Room>().endStuff.SetActive(true);
+        mySpawn.GetComponent<Room>().endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(mySpawn);
+        Destroy(gameObject);
     }
 
     public IEnumerator DoT(float damage)
