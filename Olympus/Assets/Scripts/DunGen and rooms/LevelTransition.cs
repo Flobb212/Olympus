@@ -54,5 +54,11 @@ public class LevelTransition : MonoBehaviour
         Color textColourFinal = transitionImage.GetComponentInChildren<Text>().color;
         finalColor = new Color(textColourFinal.r, textColourFinal.g, textColourFinal.b, alphaVal);
         transitionImage.GetComponentInChildren<Text>().color = finalColor;
+
+        if(alphaVal == 0)
+        {
+            // Show floor name
+            print("Floor Name");
+        }
     }    
 }

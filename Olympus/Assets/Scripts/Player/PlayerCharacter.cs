@@ -2,12 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System.Collections.Generic;
 
 public class PlayerCharacter : MonoBehaviour
 {    
     public int maxHealth = 6;
     public int currenthealth = 4;
-    public Image[] heartArray;
+    public List<Image> heartArray = new List<Image>();
     public Sprite heart;
     public Sprite emptyHeart;
     private GameObject gameOverImage;
@@ -120,7 +121,7 @@ public class PlayerCharacter : MonoBehaviour
                 currenthealth = maxHealth;
             }
 
-            for(int i = 0; i < heartArray.Length; i++)
+            for(int i = 0; i < heartArray.Count; i++)
             {
                 if(i < currenthealth)
                 {
@@ -160,13 +161,13 @@ public class PlayerCharacter : MonoBehaviour
     private void Start()
     {
         gameOverImage = GameObject.Find("Game Over");
-        //gameOverImage.SetActive(false);
-
-        Image[] heartList = GameObject.FindGameObjectsWithTag("UIHeart").Select((heart) => heart.GetComponent<Image>()).ToArray();
-        for(int i = 0; i < heartList.Length; i++)
+        if(gameOverImage != null)
         {
-            heartArray[i] = heartList[i];
-        }
+            gameOverImage.SetActive(false);
+        }        
+
+        heartArray = GameObject.FindGameObjectsWithTag("UIHeart").Select((heart) => heart.GetComponent<Image>()).ToList<Image>();
+        heartArray = heartArray.OrderBy((x) => x.name).ToList();
 
         // Trigger heart UI to draw
         CurrentHealth = currenthealth;
