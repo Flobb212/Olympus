@@ -256,7 +256,6 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 else
                 {
-                    gameOverImage = GameObject.Find("Game Over");
                     if (gameOverImage != null)
                     {
                         gameOverImage.SetActive(true);

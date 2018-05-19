@@ -14,7 +14,10 @@ public class LevelTransition : MonoBehaviour
 
     public void Setup()
     {
-        FindObjectOfType<PlayerCharacter>().freeze = true;
+        if(FindObjectOfType<PlayerCharacter>() != null)
+        {
+            FindObjectOfType<PlayerCharacter>().freeze = true;
+        }
 
         if(transitionImage == null)
         {

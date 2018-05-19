@@ -11,18 +11,7 @@ public class WingedSandals : PassiveItemEffect
     {        
         base.Activate(player);
 
-        Collider2D playerCollider = player.GetComponent<Collider2D>();
-        int obstacleLayer = LayerMask.NameToLayer(this.obstacleLayer);
-
-        GameObject[] goArray = FindObjectsOfType<GameObject>();
-        
-        for (var i = 0; i < goArray.Length; i++)
-        {
-            if (goArray[i].layer == obstacleLayer)
-            {
-                Collider2D objectCollider = goArray[i].GetComponent<Collider2D>();
-                Physics2D.IgnoreCollision(playerCollider, objectCollider);
-            }
-        }
+        Physics2D.IgnoreLayerCollision(8, 10, true);
+        Physics2D.IgnoreLayerCollision(10, 11, true);
     }
 }

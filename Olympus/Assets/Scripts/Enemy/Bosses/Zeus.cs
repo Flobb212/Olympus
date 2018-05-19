@@ -28,7 +28,6 @@ public class Zeus : MonoBehaviour
         // Lightning strike speed dependant on health
         currentHealth = GetComponent<Boss>().health;
         lightningSpeed = 2 * (currentHealth / maxHealth);
-        print(lightningSpeed);
 
         if(lightningSpeed < 0.4)
         {

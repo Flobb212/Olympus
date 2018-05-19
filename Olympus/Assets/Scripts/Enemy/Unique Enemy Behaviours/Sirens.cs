@@ -10,6 +10,7 @@ public class Sirens : EnemyBehaviour
 
     public override void Start()
     {
+        base.Start();
         StartCoroutine(Dive());
     }
 

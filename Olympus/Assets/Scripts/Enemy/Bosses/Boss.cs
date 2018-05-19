@@ -7,7 +7,6 @@ public class Boss : EnemyBehaviour
     public override void Start()
     {
         base.Start();
-
         StartCoroutine(DisplayName());
     }
 

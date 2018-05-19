@@ -54,8 +54,14 @@ public class Room : MonoBehaviour
         if (other.gameObject.GetComponent<PlayerCharacter>() != null)
         {
             other.gameObject.GetComponent<PlayerCharacter>().currentRoom = this;
-            this.transform.Find("Floor").gameObject.layer = 9;
-            this.transform.Find("Walls").gameObject.layer = 9;
+            GameObject roomParts = this.transform.Find("Room Bits").gameObject; //.layer = 9;
+            Transform[] childParts = roomParts.GetComponentsInChildren<Transform>();
+
+            foreach(Transform child in childParts)
+            {
+                child.gameObject.layer = 9;
+            }
+            
 
             if (isOccupied == true || other.gameObject.GetComponent<PlayerCharacter>().respawning == true)
             {
