@@ -1,107 +1,36 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Boss : MonoBehaviour, IBoss
-{    
-    public float health = 5;
-    public GameObject mySpawn;
-    public float speed = 0.0f;
-    private GameObject endStuff;
-
-    private void Start()
+public class Boss : EnemyBehaviour
+{
+    public override void Start()
     {
-        mySpawn.GetComponent<Room>().lockDown.Add(gameObject);
+        base.Start();
+
+        StartCoroutine(DisplayName());
     }
 
-    public void AdjustSpeed()
+    IEnumerator DisplayName()
     {
-        this.gameObject.GetComponent<Pathfinding.AILerp>().SettingSpeed(speed);
+        GameObject displayText = GameObject.Find("Name Display");
+        string bossName = this.name.ToString();
+        bossName = bossName.Remove(0, 3);
+        bossName = bossName.Replace("(Clone)", "");
+
+        displayText.GetComponent<Text>().text = bossName;
+
+        yield return new WaitForSeconds(2);
+
+        displayText.GetComponent<Text>().text = "";
     }
 
-    public void TakeDamage(ShotHit shot)
+    public override void Die()
     {
-        if (shot.thisShot == ShotHit.ShotType.Normal)
-        {
-            health -= shot.damage;
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Fire)
-        {
-            StartCoroutine(DoT(shot.damage));
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Poison)
-        {
-            StartCoroutine(DoT(shot.damage));
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Slow)
-        {
-            StartCoroutine(Slowed());
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Fear)
-        {
-            print("fear hit");
-            //enemy runs from player
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Change)
-        {
-            health -= shot.damage;
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Betray)
-        {
-            print("betray hit");
-            //enemy attacks other enemies
-        }
-        else if (shot.thisShot == ShotHit.ShotType.Death)
-        {
-            health = 0;
-        }
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void BombDamage(int damage)
-    {
-        health -= damage;
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    public virtual void Die()
-    {
-        mySpawn.GetComponent<Room>().lockDown.Remove(gameObject);
+        spawnLocation.GetComponent<Room>().lockDown.Remove(gameObject);
         FindObjectOfType<PlayerCharacter>().AsclepiusEffect();
-        mySpawn.GetComponent<Room>().endStuff.SetActive(true);
-        mySpawn.GetComponent<Room>().endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(mySpawn);
+        spawnLocation.GetComponent<Room>().endStuff.SetActive(true);
+        spawnLocation.GetComponent<Room>().endStuff.transform.GetChild(0).GetComponent<ItemSpawner>().Spawn(spawnLocation);
         Destroy(gameObject);
-    }
-
-    public IEnumerator DoT(float damage)
-    {
-        for (int i = 0; i <= 3; i++)
-        {
-            health -= damage;
-            yield return new WaitForSeconds(1);
-        }
-    }
-
-    public IEnumerator Slowed()
-    {
-        speed /= 2;
-        AdjustSpeed();
-        yield return new WaitForSeconds(5);
-        speed *= 2;
-        AdjustSpeed();
-    }
-
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
     }
 }

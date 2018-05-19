@@ -46,9 +46,9 @@ public class DungeonGeneration : MonoBehaviour
             }
 
             // Need a minimum size to prevent ridiculous dungeons
-            if (numberOfRooms < 10)
+            if (numberOfRooms < 15)
             {
-                numberOfRooms = 10;
+                numberOfRooms = 15;
             }
 
             // Need to prevent more rooms than available in given grid size

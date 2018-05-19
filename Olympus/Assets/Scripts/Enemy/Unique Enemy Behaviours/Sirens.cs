@@ -8,7 +8,7 @@ public class Sirens : EnemyBehaviour
     public Sprite siren;
     public Sprite underwater;
 
-    private void Start()
+    public override void Start()
     {
         StartCoroutine(Dive());
     }

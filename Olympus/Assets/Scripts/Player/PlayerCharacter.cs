@@ -256,7 +256,11 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 else
                 {
-                    gameOverImage.SetActive(true);
+                    gameOverImage = GameObject.Find("Game Over");
+                    if (gameOverImage != null)
+                    {
+                        gameOverImage.SetActive(true);
+                    }
 
                     StopAllCoroutines();
                     Destroy(this.gameObject);

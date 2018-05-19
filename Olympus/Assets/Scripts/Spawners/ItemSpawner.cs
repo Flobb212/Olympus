@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemSpawner : Spawner
 {
@@ -24,11 +26,25 @@ public class ItemSpawner : Spawner
     {
         if(!itemCollected)
         {
+            StartCoroutine(DisplayName());
             itemCollected = true;
 
             FindObjectOfType<DungeonGeneration>().spawnedThings.Remove(spawnedItem);
             spawnedItem.GetComponent<PassiveItemEffect>().Activate(collision.gameObject.GetComponent<PlayerCharacter>());
             Destroy(spawnedItem);
         }
+    }
+
+    IEnumerator DisplayName()
+    {
+        GameObject displayText = GameObject.Find("Name Display");
+        string itemName = spawnedItem.name.ToString();
+        itemName = itemName.Replace("(Clone)", "");
+
+        displayText.GetComponent<Text>().text = itemName;
+
+        yield return new WaitForSeconds(2);
+
+        displayText.GetComponent<Text>().text = "";
     }
 }

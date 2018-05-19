@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
     public bool isImmune = false;
 
     // Use this for initialization
-    void Start ()
+    public virtual void Start ()
     {
         SpeedSelect();
         if(spawnLocation != null)
@@ -36,11 +36,11 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (moveType == MoveSpeed.Normal)
         {
-            speed = 3.5f;
+            speed = 3.0f;
         }
         else if (moveType == MoveSpeed.Fast)
         {
-            speed = 5.0f;
+            speed = 4.0f;
         }
 
         AdjustSpeed();
@@ -99,7 +99,10 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else if (shot.thisShot == ShotHit.ShotType.Change)
             {
-                StartCoroutine(Changed());
+                if(this.gameObject.tag != "Boss")
+                {
+                    StartCoroutine(Changed());
+                }
             }
             else if (shot.thisShot == ShotHit.ShotType.Betray)
             {
@@ -108,7 +111,10 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else if (shot.thisShot == ShotHit.ShotType.Death)
             {
-                health = 0;
+                if (this.gameObject.tag != "Boss")
+                {
+                    health = 0;
+                }
             }
         }
 

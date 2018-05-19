@@ -10,7 +10,7 @@ public class BossSpawner : Spawner
     public override void Spawn(GameObject parentRoom)
     {
         boss = GetComponentInParent<Room>().bossNum;
-        bossList[boss].GetComponent<Boss>().mySpawn = parentRoom;
+        bossList[boss].GetComponent<Boss>().spawnLocation = parentRoom;
         Instantiate(bossList[boss], this.transform.position, this.transform.rotation);
     }
 }

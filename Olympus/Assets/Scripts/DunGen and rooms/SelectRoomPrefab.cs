@@ -6,11 +6,8 @@ using System.Linq;
 public class SelectRoomPrefab : MonoBehaviour
 {
     public ScriptableRoom[] roomPrefabs;
-
     public ScriptableRoom boss, treasure, shop;
-   
-
-    public bool up, right, down, left;
+    
     public List<Room> deadEnd = new List<Room>();
     public DungeonGeneration rebuild;
 
@@ -44,9 +41,8 @@ public class SelectRoomPrefab : MonoBehaviour
     // Uses a list of dead ends to assign the 'Special' rooms
     public void AssignSpecialRooms()
     {
-        // If there isn't 4 dead ends, recreate the dungeon
-        // Used to be 3 but if centre room is dead end, there may be problems
-        if(deadEnd.Count < 4)
+        // If there isn't 3 dead ends, recreate the dungeon
+        if(deadEnd.Count < 3)
         {
             rebuild.Regenerate(false);
         }
@@ -97,15 +93,28 @@ public class SelectRoomPrefab : MonoBehaviour
     private void HandleBossRoom(Room bossRoom)
     {
         bossRoom.roomShape = boss;
-        bossRoom.roomType = "boss";        
-
-        int randBoss = Random.Range(0, 3);
+        bossRoom.roomType = "boss";
         int bossIndex = 0;
 
         currFloor = FindObjectOfType<DungeonGeneration>().floorNum;
 
-        // Since certain bosses need certain rooms, the boss must be chosen before room assignment
-        bossIndex = randBoss + (3 * (currFloor - 1));
+        // Need to use this boss index assigner due to reduced boss count in game
+        if(currFloor == 1)
+        {
+            bossIndex = 2;
+        }
+        else if (currFloor == 2)
+        {
+            bossIndex = 5;
+        }
+        else if (currFloor == 3)
+        {
+            bossIndex = 6;
+        }
+
+        // boss choice that works for multiple bosses
+        // int randBoss = Random.Range(0, 3);
+        // bossIndex = randBoss + (3 * (currFloor - 1));
 
         // Now we have a boss reference, assign the correct shape room
         if (bossIndex == 1) // Charon has been picked
@@ -138,7 +147,7 @@ public class SelectRoomPrefab : MonoBehaviour
 
         //Need to make and add door locks on floors >1
 
-        treasureRoom.roomObject = shop.roomPrefabs[(int)Mathf.Log((float)(int)treasureRoom.doors, 2)];
+        treasureRoom.roomObject = treasure.roomPrefabs[(int)Mathf.Log((float)(int)treasureRoom.doors, 2)];
 
         treasureRoom.BuildRoom();
     }

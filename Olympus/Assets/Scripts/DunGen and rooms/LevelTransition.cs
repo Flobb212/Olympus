@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,8 +56,30 @@ public class LevelTransition : MonoBehaviour
 
         if(alphaVal == 0)
         {
-            // Show floor name
-            print("Floor Name");
+            StartCoroutine(DisplayName());
         }
-    }    
+    }
+
+    IEnumerator DisplayName()
+    {
+        GameObject displayText = GameObject.Find("Name Display");
+        int floorNum = FindObjectOfType<DungeonGeneration>().floorNum;
+
+        if(floorNum == 1)
+        {
+            displayText.GetComponent<Text>().text = "Hades";
+        }
+        else if (floorNum == 1)
+        {
+            displayText.GetComponent<Text>().text = "Earth";
+        }
+        else if (floorNum == 1)
+        {
+            displayText.GetComponent<Text>().text = "Olympus";
+        }
+
+        yield return new WaitForSeconds(2);
+
+        displayText.GetComponent<Text>().text = "";
+    }
 }
