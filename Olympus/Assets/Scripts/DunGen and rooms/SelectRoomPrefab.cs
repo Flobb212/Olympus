@@ -44,8 +44,9 @@ public class SelectRoomPrefab : MonoBehaviour
     // Uses a list of dead ends to assign the 'Special' rooms
     public void AssignSpecialRooms()
     {
-        // If there isn't 3 dead ends, recreate the dungeon
-        if(deadEnd.Count < 3)
+        // If there isn't 4 dead ends, recreate the dungeon
+        // Used to be 3 but if centre room is dead end, there may be problems
+        if(deadEnd.Count < 4)
         {
             rebuild.Regenerate(false);
         }

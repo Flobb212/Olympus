@@ -45,24 +45,31 @@ public class DungeonGeneration : MonoBehaviour
                 Camera.main.transform.position = new Vector3(0, 0, -10);
             }
 
+            // Need a minimum size to prevent ridiculous dungeons
+            if (numberOfRooms < 10)
+            {
+                numberOfRooms = 10;
+            }
+
+            // Need to prevent more rooms than available in given grid size
             if (numberOfRooms >= (floorSize.x * 2) * (floorSize.y * 2))
             {
                 numberOfRooms = Mathf.RoundToInt((floorSize.x * 2) * (floorSize.y * 2));
-            }
+            }            
+
             gridX = Mathf.RoundToInt(floorSize.x);
             gridY = Mathf.RoundToInt(floorSize.y);
 
-
             Generate();
             AttachDoors();
-            DrawDungeon();
+            BuildDungeon();
         }       
     }
 
 
     void Generate()
     {
-        // Double grid size, may change to half bigger value here later
+        // Double grid size to easily keep centre of grid 
         roomsList = new Room[gridX * 2, gridY * 2];
         roomsList[gridX, gridY] = Instantiate(newRoom, newRoom.transform.position, newRoom.transform.rotation);
         roomsList[gridX, gridY].roomPos = Vector2.zero;
@@ -70,49 +77,51 @@ public class DungeonGeneration : MonoBehaviour
 
         // Mark this position as occupied
         occupiedPos.Insert(0, Vector2.zero);
-        Vector2 checkPos;
-        
-        // Values to reduce branching the more rooms are built, thus adding dead ends
-        float randomCompare = 0.2f, randomCompareStart = 0.2f, randomCompareEnd = 0.01f;
+        Vector2 chosenPos;
+
+        // Branching limiters
+        float limiter = 0.0f;
+        float upperBound = 0.2f;
+        float lowerBound = 0.01f;
 
         // Add rooms
         for(int i = 0; i < numberOfRooms - 1; i++)
         {
             // Prevents branching as dungeon builds
-            float randomPerc = ((float)i) / (((float)numberOfRooms - 1));
-            randomCompare = Mathf.Lerp(randomCompareStart, randomCompareEnd, randomPerc);
-            //print(randomCompare);
+            float LerpVal = ((float)i) / (((float)numberOfRooms - 1));
+            limiter = Mathf.Lerp(upperBound, lowerBound, LerpVal);           
 
             // Grab new position
-            checkPos = NewPosition();
+            chosenPos = NewPos();
 
             // Helps control branching as dungeon grows
-            if (NumberOfNeighbours(checkPos, occupiedPos) > 1 && Random.value > randomCompare)
+            if (SurroundingRooms(chosenPos, occupiedPos) > 1 && Random.value > limiter)
             {
-                int iterations = 0;
+                int j = 0;
                 do
                 {
-                    checkPos = SelectiveNewPosition();
-                    iterations++;
+                    chosenPos = BranchReductionPos();
+                    j++;
                 }
-                while (NumberOfNeighbours(checkPos, occupiedPos) > 1 && iterations < 100);
+                while (SurroundingRooms(chosenPos, occupiedPos) > 1 && j < numberOfRooms * 3);
             }
 
             // Finalise position            
-            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY] = Instantiate(newRoom, newRoom.transform.position, newRoom.transform.rotation);
-            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomPos = checkPos;
-            roomsList[(int)checkPos.x + gridX, (int)checkPos.y + gridY].roomType = "norm";
-            occupiedPos.Insert(0, checkPos);
+            roomsList[(int)chosenPos.x + gridX, (int)chosenPos.y + gridY] = Instantiate(newRoom, newRoom.transform.position, newRoom.transform.rotation);
+            roomsList[(int)chosenPos.x + gridX, (int)chosenPos.y + gridY].roomPos = chosenPos;
+            roomsList[(int)chosenPos.x + gridX, (int)chosenPos.y + gridY].roomType = "norm";
+            occupiedPos.Insert(0, chosenPos);
         }
     }
 
 
-    // Takes a random placed room, randomly decides which side 
-    // to place a new one on, then checks if that's available
-    Vector2 NewPosition()
+    // Takes a random room, randomly decides which side to
+    // place a new one on, then checks if that's available
+    Vector2 NewPos()
     {
-        Vector2 checkingPos = Vector2.zero;
-        int x, y =  0;
+        Vector2 checkPos = Vector2.zero;
+        int x = 0;
+        int y = 0;
 
         do
         {
@@ -124,40 +133,29 @@ public class DungeonGeneration : MonoBehaviour
 
             if (UpDown)
             {
-                if (positive)
-                {
-                    y += 1;
-                }
-                else
-                {
-                    y -= 1;
-                }
+                y += ((positive) ? 1 : -1);
             }
             else
             {
-                if (positive)
-                {
-                    x += 1;
-                }
-                else
-                {
-                    x -= 1;
-                }
+                x += ((positive) ? 1 : -1);
             }
 
-            checkingPos = new Vector2(x, y);
+            checkPos = new Vector2(x, y);
         }
-        while (occupiedPos.Contains(checkingPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
+        while (occupiedPos.Contains(checkPos) || x >= gridX || x < -gridX || y >= gridY || y < -gridY);
 
-        return checkingPos;
+        return checkPos;
     }
 
 
     // Finds room with only one neighbour, to helps restrict branching
-    Vector2 SelectiveNewPosition()
+    Vector2 BranchReductionPos()
     {
         Vector2 checkingPos = Vector2.zero;
-        int x = 0, y = 0, index = 0, inc = 0;
+        int x = 0;
+        int y = 0;
+        int index = 0;
+        int inc = 0;
 
         do
         {
@@ -167,7 +165,7 @@ public class DungeonGeneration : MonoBehaviour
                 index = Mathf.RoundToInt(Random.value * (occupiedPos.Count - 1));
                 inc++;
             }
-            while (NumberOfNeighbours(occupiedPos[index], occupiedPos) > 1 && inc < 100);
+            while (SurroundingRooms(occupiedPos[index], occupiedPos) > 1 && inc < 100);
             
             x = (int)occupiedPos[index].x;
             y = (int)occupiedPos[index].y;
@@ -176,25 +174,11 @@ public class DungeonGeneration : MonoBehaviour
 
             if (UpDown)
             {
-                if (positive)
-                {
-                    y += 1;
-                }
-                else
-                {
-                    y -= 1;
-                }
+                y += ((positive) ? 1 : -1);
             }
             else
             {
-                if (positive)
-                {
-                    x += 1;
-                }
-                else
-                {
-                    x -= 1;
-                }
+                x += ((positive) ? 1 : -1);
             }
 
             checkingPos = new Vector2(x, y);
@@ -206,7 +190,7 @@ public class DungeonGeneration : MonoBehaviour
 
 
     // Used to restrict branching when a room has more than one neighbour
-    int NumberOfNeighbours(Vector2 checkingPos, List<Vector2> usedPositions)
+    int SurroundingRooms(Vector2 checkingPos, List<Vector2> usedPositions)
     {
         int ret = 0;
 
@@ -214,14 +198,17 @@ public class DungeonGeneration : MonoBehaviour
         {
             ret++;
         }
+
         if (usedPositions.Contains(checkingPos + Vector2.down))
         {
             ret++;
         }
+
         if (usedPositions.Contains(checkingPos + Vector2.left))
         {
             ret++;
         }
+
         if (usedPositions.Contains(checkingPos + Vector2.right))
         {
             ret++;
@@ -277,7 +264,7 @@ public class DungeonGeneration : MonoBehaviour
     }
     
 
-    void DrawDungeon()
+    void BuildDungeon()
     {
         for (int x = 0; x < gridX * 2; x++)
         {

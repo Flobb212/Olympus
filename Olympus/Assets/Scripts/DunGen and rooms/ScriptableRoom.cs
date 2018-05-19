@@ -8,5 +8,4 @@ public class ScriptableRoom : ScriptableObject
     public List<GameObject> roomPrefabs;
     public Vector2 roomPos;
     public string roomType = "norm";
-    public bool doorTop, doorBottom, doorLeft, doorRight;
 }
