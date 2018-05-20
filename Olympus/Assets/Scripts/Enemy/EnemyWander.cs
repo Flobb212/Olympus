@@ -5,9 +5,8 @@ using UnityEngine;
 public class EnemyWander : MonoBehaviour
 {
     public float speed = 0.0f;
-    private Vector3 destination;
+    public Vector3 destination;
     private Room parentRoom;
-    
 
     // Use this for initialization
     void Start ()
@@ -23,11 +22,11 @@ public class EnemyWander : MonoBehaviour
         
         PickDestination();
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
-        transform.position = Vector3.MoveTowards(transform.position, destination, speed * 0.01f);
+        //transform.position = Vector3.MoveTowards(transform.position, destination, speed * 0.01f);
 
         if((transform.position - destination).magnitude < 1.5)
         {

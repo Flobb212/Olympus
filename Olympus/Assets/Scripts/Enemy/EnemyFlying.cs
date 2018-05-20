@@ -19,7 +19,7 @@ public class EnemyFlying : MonoBehaviour
     {
         if(player != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.position, speed * 0.01f);
+            transform.position = Vector3.MoveTowards(transform.position, player.position, speed * 0.001f);
         }
     }
 }

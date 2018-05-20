@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class DungeonGeneration : MonoBehaviour
 {
@@ -20,10 +21,14 @@ public class DungeonGeneration : MonoBehaviour
     List<Vector2> occupiedPos = new List<Vector2>();
 
     public GameObject player;
+    private bool playerSpawned = false;
     public int floorNum = 1;
     public SelectRoomPrefab roomCreator;
     public List<GameObject> finalRooms = new List<GameObject>();
     public List<GameObject> spawnedThings = new List<GameObject>();
+
+    int rememberedSeed;
+    bool alreadyGenerated = false;
 
     // Public so if certain conditions aren't met, dungeon can be rebuilt
     public void Start()
@@ -32,12 +37,28 @@ public class DungeonGeneration : MonoBehaviour
         {
             // Can produce same seed repeatedly for tests 
             int seed = Random.Range(0, 10000000);
+
+            if (!alreadyGenerated)
+            {
+                rememberedSeed = seed;
+                alreadyGenerated = true;
+            }
+            else
+            {
+                rememberedSeed++;
+                seed = rememberedSeed;
+            }
+
             Debug.Log(seed);
             Random.InitState(seed);
 
             if (floorNum == 1)
             {
-                GameObject.Instantiate(player);
+                if(!playerSpawned)
+                {
+                    playerSpawned = true;
+                    GameObject.Instantiate(player);
+                }
             }
             else
             {
@@ -304,11 +325,14 @@ public class DungeonGeneration : MonoBehaviour
                 Destroy(obj.gameObject);
             }
 
-            foreach (GameObject room in finalRooms)
+            Room[] rooms = FindObjectsOfType<Room>();
+
+            foreach (Room room in rooms)
             {
-                Destroy(room);
+                DestroyImmediate(room.gameObject);
             }
 
+            GetComponent<SelectRoomPrefab>().deadEnd = new List<Room>();
             roomsList = null;
             occupiedPos = new List<Vector2>();
             finalRooms = new List<GameObject>();

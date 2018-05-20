@@ -13,6 +13,7 @@ namespace Pathfinding
     {
 		/** The object that the AI should move to */
 		public Transform target;
+        public bool wander = false;
 		IAstarAI ai;
 
 		void OnEnable ()
@@ -34,7 +35,18 @@ namespace Pathfinding
 		/** Updates the AI's destination every frame */
 		void Update ()
         {
-			if (target != null && ai != null) ai.destination = target.position;
+            if(!wander)
+            {
+                if (target != null && ai != null)
+                {
+                    ai.destination = target.position;
+                }
+            }	
+            else
+            {
+                ai.destination = GetComponent<EnemyWander>().destination;
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
 		}
 	}
 }
