@@ -10,7 +10,7 @@ public class EnemyBehaviour : MonoBehaviour
     public MoveSpeed moveType;
     public float speed = 0.0f;
 
-    private bool isChanged = false;
+    public bool isChanged = false;
     public bool isImmune = false;
 
     // Use this for initialization
@@ -173,12 +173,22 @@ public class EnemyBehaviour : MonoBehaviour
             speed = 0;
             AdjustSpeed();
 
-            // Stop attack when attack is programmed
+            // Stop from shooting
+            if(GetComponent<EnemyShoot>() != null)
+            {
+                GetComponent<EnemyShoot>().canShoot = false;
+            }            
 
             yield return new WaitForSeconds(5);
             gameObject.GetComponent<SpriteRenderer>().sprite = OG;
             speed = tempSpeed;
             isChanged = false;
+
+            // Resume shooting
+            if (GetComponent<EnemyShoot>() != null)
+            {
+                GetComponent<EnemyShoot>().canShoot = true;
+            }
         }
     }
 

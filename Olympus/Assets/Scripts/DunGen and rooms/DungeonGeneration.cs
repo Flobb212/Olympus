@@ -53,8 +53,9 @@ public class DungeonGeneration : MonoBehaviour
             Random.InitState(seed);
 
             if (floorNum == 1)
-            {                
+            {
                 GameObject.Instantiate(player);
+                playerSpawned = true;
             }
             else
             {

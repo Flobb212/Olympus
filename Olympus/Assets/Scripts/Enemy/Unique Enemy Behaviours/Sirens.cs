@@ -19,6 +19,12 @@ public class Sirens : EnemyBehaviour
         timer = Random.Range(5, 10);
         yield return new WaitForSeconds(timer);
 
+        if(GetComponent<EnemyBehaviour>().isChanged == true)
+        {
+            StartCoroutine(Dive());
+            yield return null;
+        }
+
         isImmune = true;
         gameObject.GetComponent<SpriteRenderer>().sprite = underwater;        
         GetComponent<EnemyShoot>().canShoot = false;
