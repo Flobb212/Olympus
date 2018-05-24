@@ -13,8 +13,15 @@ public class ThreadOfAriadne : PassiveItemEffect
             if(rooms[i].roomType == "boss")
             {
                 bossRoom = rooms[i];
-                bossRoom.transform.Find("Floor").gameObject.layer = 9;
-                bossRoom.transform.Find("Walls").gameObject.layer = 9;
+
+                GameObject roomParts = bossRoom.transform.Find("Room Bits").gameObject;
+                Transform[] childParts = roomParts.GetComponentsInChildren<Transform>();
+
+                foreach (Transform child in childParts)
+                {
+                    child.gameObject.layer = 9;
+                }
+
                 return;
             }
         }

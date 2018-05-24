@@ -53,15 +53,17 @@ public class DungeonGeneration : MonoBehaviour
             Random.InitState(seed);
 
             if (floorNum == 1)
+            {                
+                GameObject.Instantiate(player);
+            }
+            else
             {
-                if(!playerSpawned)
+                if (!playerSpawned)
                 {
                     playerSpawned = true;
                     GameObject.Instantiate(player);
                 }
-            }
-            else
-            {
+
                 player.transform.position = new Vector3(0, 0, 0);
                 Camera.main.transform.position = new Vector3(0, 0, -10);
             }
@@ -309,6 +311,7 @@ public class DungeonGeneration : MonoBehaviour
     {
         if (nextLevel)
         {
+            alreadyGenerated = false;
             floorNum++;
         }
 
@@ -329,7 +332,7 @@ public class DungeonGeneration : MonoBehaviour
 
             foreach (Room room in rooms)
             {
-                DestroyImmediate(room.gameObject);
+                Destroy(room.gameObject);
             }
 
             GetComponent<SelectRoomPrefab>().deadEnd = new List<Room>();

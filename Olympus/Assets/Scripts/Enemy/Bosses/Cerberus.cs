@@ -6,6 +6,7 @@ using UnityEngine;
 public class Cerberus : MonoBehaviour
 {
     public GameObject fireBreath;
+    private GameObject flames;
     private int timer;
 
     private void Start()
@@ -39,7 +40,7 @@ public class Cerberus : MonoBehaviour
 
         // Breath fire in players direction
         fireBreath.transform.up = GetComponent<EnemyShoot>().lookDir;
-        GameObject flames = Instantiate(fireBreath, transform.position, fireBreath.transform.rotation);
+        flames = Instantiate(fireBreath, transform.position, fireBreath.transform.rotation);
 
         // Breath fire for 3 seconds
         yield return new WaitForSeconds(3);
@@ -61,5 +62,13 @@ public class Cerberus : MonoBehaviour
 
         // Start again
         StartCoroutine(FireBreath());
+    }
+
+    private void OnDestroy()
+    {
+        if(flames != null)
+        {
+            Destroy(flames);
+        }
     }
 }

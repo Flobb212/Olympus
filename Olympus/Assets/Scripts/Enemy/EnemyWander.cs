@@ -15,10 +15,6 @@ public class EnemyWander : MonoBehaviour
         {
             parentRoom = GetComponent<EnemyBehaviour>().spawnLocation.GetComponent<Room>();
         }
-        else
-        {
-            print("timing issues");
-        }
         
         PickDestination();
 	}
@@ -26,7 +22,7 @@ public class EnemyWander : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        //transform.position = Vector3.MoveTowards(transform.position, destination, speed * 0.01f);
+        transform.position = Vector3.MoveTowards(transform.position, destination, speed * 0.01f);
 
         if((transform.position - destination).magnitude < 1.5)
         {

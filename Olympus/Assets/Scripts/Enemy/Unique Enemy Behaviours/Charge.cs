@@ -30,7 +30,6 @@ public class Charge : EnemyBehaviour
             {
                 if (hit.transform.tag == "Player" && !isCharging && timer >= 5)
                 {
-                    print("Locked on Target");
                     destination = target.position;
                     StartCoroutine(EnemyCharge());
                 }
